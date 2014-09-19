@@ -21,6 +21,8 @@ public class Datos {
     
     public Datos(int numDatos, ArrayList<TiposDeAtributos> tipos) 
     {
+        tipoAtributos = new ArrayList<>();
+        tipoAtributos = tipos;
         
     }
     public Datos extraeDatosTrain(Particion idx) 
@@ -40,10 +42,19 @@ public class Datos {
             
             Scanner sc = new Scanner(new File(nombreDeFichero));
            
-            while(sc.hasNextLine())
+            if(sc.hasNextLine())
             {
                 linecounter++;
                 String data [] = sc.nextLine().split(", ");
+                for (String dataElement : data) 
+                {
+                    
+                }
+                
+            }
+            
+            while(sc.hasNextLine())
+            {
                 
             }
             
