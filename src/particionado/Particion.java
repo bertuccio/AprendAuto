@@ -15,6 +15,14 @@ public class Particion
 {
     private ArrayList<Integer> indicesTrain;
     private ArrayList<Integer> indicesTest;
+    
+    
     public Particion(ArrayList<Integer> indTrain, ArrayList<Integer> indTest) 
-    {}
+    {
+        indicesTrain = new ArrayList<Integer>();
+        indicesTest = new ArrayList<Integer>();
+        indicesTrain = indTrain;
+        indicesTest = indTest;
+        
+    }
 }
