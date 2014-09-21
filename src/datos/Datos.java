@@ -23,6 +23,7 @@ public class Datos {
     public Datos(int numDatos, ArrayList<TiposDeAtributos> tipos) 
     {
         tipoAtributos = tipos;
+        datos = new double[numDatos][tipos.size()];
         
     }
     public Datos extraeDatosTrain(Particion idx) 
@@ -35,7 +36,7 @@ public class Datos {
     }
     public static Datos cargaDeFichero(String nombreDeFichero) {
         
-        Datos dato = null;
+        Datos datos = null;
 
         try {
             
@@ -61,21 +62,36 @@ public class Datos {
                     tipoAtributos.add(TiposDeAtributos.Nominal);
             }   
             
+            datos = new Datos(numDatos,tipoAtributos);
+            
             /*Resto de filas, conjunto de datos separados por comas*/
             for(int i=0; (i<numDatos && sc.hasNextLine()); i++) {
             
+                String inputData [] = sc.nextLine().split(",");
                 
+                /* control de errores */
+                if(inputData.length == tipoAtributos.size()) {
+                    
+                    for(int j=0; j<inputData.length; j++) {
+                        
+                        /* ¿QUE HACEMOS CON LOS NOMINALES? */
+                        if(tipoAtributos.get(j).equals(
+                                TiposDeAtributos.Nominal))
+                            inputData[j] = "0";
+                        
+                        datos.datos[i][j] = Double.parseDouble(inputData[j]);
+                    }
+
+                }
                 
             }
-            
-            dato = new Datos(numDatos,tipoAtributos);
-            
-            return dato;
+  
+            return datos;
             
         } catch (Exception ex) {
             
             Logger.getLogger(Datos.class.getName()).log(Level.SEVERE, null, ex);
-            return dato;
+            return datos;
         }
         
     }
