@@ -38,6 +38,7 @@ public class DivisionPorcentual implements EstrategiaParticionado{
     public ArrayList<Particion> crearParticiones(int numDatos, int numParticiones) {
     
         ArrayList<Particion> particiones = new ArrayList<>();
+        
         ArrayList<Integer> indicesTest = new ArrayList<>();
         ArrayList<Integer> indicesTrain = new ArrayList<>();
         
@@ -51,6 +52,8 @@ public class DivisionPorcentual implements EstrategiaParticionado{
         
         /*Con este metodo siempre van a ser los primeros datos train
         y los restantes test, PUEDEN EXISTIR SESGOS */
+        
+        /*INDICES VAN DE 0 a numDatos-1!!*/
         for(int i=0; i<tamanioParticion; i++)
             indicesTrain.add(i);
         

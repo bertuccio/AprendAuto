@@ -44,13 +44,13 @@ public class Datos {
             Scanner sc = new Scanner(new File(nombreDeFichero));
             
             /*Primera linea del fichero, numero de datos*/
-            int numDatos = Integer.getInteger(sc.nextLine());
+            int numDatos = Integer.parseInt(sc.nextLine());
             
             /*Segunda linea, nombre de los campos*/
             sc.nextLine();
             
             /*Tercera linea, tipos de atributos: Nominal o Continuo*/
-            String data [] = sc.nextLine().split(", ");
+            String data [] = sc.nextLine().split(",");
             
             for(String tipoAtrib : data) {
             
@@ -62,7 +62,9 @@ public class Datos {
             }   
             
             /*Resto de filas, conjunto de datos separados por comas*/
-            while(sc.hasNextLine()){
+            for(int i=0; (i<numDatos && sc.hasNextLine()); i++) {
+            
+                
                 
             }
             

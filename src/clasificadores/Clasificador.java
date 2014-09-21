@@ -3,6 +3,7 @@ package clasificadores;
 
 import datos.Datos;
 import java.util.ArrayList;
+import particionado.DivisionPorcentual;
 import particionado.EstrategiaParticionado;
 import particionado.ValidacionCruzada;
 
@@ -37,9 +38,10 @@ abstract public class Clasificador {
     public static void main(String []args) {
         
         Datos d = Datos.cargaDeFichero(args[0]);
-        EstrategiaParticionado part = new ValidacionCruzada ();
-        Clasificador c = new ClasificadorAPriori();
-        ArrayList<Double> errores = Clasificador.validacion(part, d, c);
+        EstrategiaParticionado part = new DivisionPorcentual ();
+        part.crearParticiones(150, 70);
+        //Clasificador c = new ClasificadorAPriori();
+        //ArrayList<Double> errores = Clasificador.validacion(part, d, c);
         // Se imprimen
     } 
 }
