@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- *
+ * s
  * @author pinwi
  */
 public class DivisionPorcentual implements EstrategiaParticionado{
@@ -35,7 +35,8 @@ public class DivisionPorcentual implements EstrategiaParticionado{
      * @return 
      */
     @Override
-    public ArrayList<Particion> crearParticiones(int numDatos, int numParticiones) {
+    public ArrayList<Particion> crearParticiones(int numDatos, 
+            int numParticiones) {
     
         ArrayList<Particion> particiones = new ArrayList<>();
         
@@ -44,7 +45,8 @@ public class DivisionPorcentual implements EstrategiaParticionado{
         
         int tamanioParticion = numDatos*numParticiones/100;
         
-        /* Opticional?: Obtiene los índices de cada partición de forma aleatoria para eliminar
+        /* Opticional?: Obtiene los índices de cada partición de forma aleatoria
+        para eliminar
             posibles sesgos.
           Generación de numeros aleatorios con rango [0:numDatos-1]. */
         //int randomNum = rand.nextInt(((numDatos-1) - 0) + 1) + 0;

@@ -28,16 +28,33 @@ public class Datos {
     }
     public Datos extraeDatosTrain(Particion idx) 
     {
-        return null;
+        Datos datosTrain = new Datos(idx.getIndicesTrain().size(),this.tipoAtributos);
+        int i = 0;
+        for(Integer j : idx.getIndicesTrain()) {
+            for(int z=0; z<this.tipoAtributos.size(); z++)
+                datosTrain.datos[i][z] = this.datos[j][z];
+            i++;
+        }
+          
+        return datosTrain;
     }
     public Datos extraeDatosTest(Particion idx) 
     {
-        return null;
+        Datos datosTest = new Datos(idx.getIndicesTest().size(),this.tipoAtributos);
+        int i = 0;
+        for(Integer j : idx.getIndicesTest()) {
+            for(int z=0; z<this.tipoAtributos.size(); z++)
+                datosTest.datos[i][z] = this.datos[j][z];
+            i++;
+        }
+          
+        return datosTest;
     }
     public static Datos cargaDeFichero(String nombreDeFichero) {
         
         Datos datos = null;
-
+        Diccionario diccionario = new Diccionario();
+        int contadorNominales = 0;
         try {
             
             ArrayList <TiposDeAtributos> tipoAtributos = new ArrayList<>();
@@ -55,7 +72,8 @@ public class Datos {
             
             for(String tipoAtrib : data) {
             
-                if(tipoAtrib.compareTo("C") == 0)
+                if(tipoAtrib.compareTo(TiposDeAtributos.Continuo.toString()) 
+                        == 0)
                     tipoAtributos.add(TiposDeAtributos.Continuo);
                 
                 else
@@ -76,10 +94,18 @@ public class Datos {
                         
                         /* ¿QUE HACEMOS CON LOS NOMINALES? */
                         if(tipoAtributos.get(j).equals(
-                                TiposDeAtributos.Nominal))
-                            inputData[j] = "0";
-                        
-                        datos.datos[i][j] = Double.parseDouble(inputData[j]);
+                                TiposDeAtributos.Nominal)) {
+                            
+                            if(!diccionario.asd.containsKey(inputData[j]))
+                                
+                                diccionario.asd.put(inputData[j], 
+                                        contadorNominales);
+                            
+                            datos.datos[i][j] = diccionario.asd.get(inputData[j]);
+                            
+                        }
+                        else
+                            datos.datos[i][j] = Double.parseDouble(inputData[j]);
                     }
 
                 }

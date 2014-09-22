@@ -23,4 +23,14 @@ public class Particion
         indicesTest = indTest;
         
     }
+
+    public ArrayList<Integer> getIndicesTrain() {
+        return indicesTrain;
+    }
+
+    public ArrayList<Integer> getIndicesTest() {
+        return indicesTest;
+    }
+    
+    
 }
