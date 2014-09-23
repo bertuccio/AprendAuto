@@ -8,6 +8,8 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import particionado.Particion;
+
+
 /**
  * 
  * @author eps
@@ -20,12 +22,15 @@ public class Datos {
     ArrayList<TiposDeAtributos> tipoAtributos;
     double [][]datos;
     
+    
     public Datos(int numDatos, ArrayList<TiposDeAtributos> tipos) 
     {
         tipoAtributos = tipos;
         datos = new double[numDatos][tipos.size()];
         
     }
+    
+    
     public Datos extraeDatosTrain(Particion idx) 
     {
         Datos datosTrain = new Datos(idx.getIndicesTrain().size(),this.tipoAtributos);
@@ -38,6 +43,8 @@ public class Datos {
           
         return datosTrain;
     }
+    
+    
     public Datos extraeDatosTest(Particion idx) 
     {
         Datos datosTest = new Datos(idx.getIndicesTest().size(),this.tipoAtributos);
@@ -50,10 +57,12 @@ public class Datos {
           
         return datosTest;
     }
+    
+    
     public static Datos cargaDeFichero(String nombreDeFichero) {
         
         Datos datos = null;
-        Diccionario diccionario = new Diccionario();
+        Diccionario diccionario = Diccionario.getInstance();
         int contadorNominales = 0;
         try {
             
@@ -96,12 +105,14 @@ public class Datos {
                         if(tipoAtributos.get(j).equals(
                                 TiposDeAtributos.Nominal)) {
                             
-                            if(!diccionario.asd.containsKey(inputData[j]))
+                            if(!diccionario.getDiccionario().
+                                    containsKey(inputData[j]))
                                 
-                                diccionario.asd.put(inputData[j], 
-                                        contadorNominales);
+                                diccionario.getDiccionario().put(inputData[j], 
+                                        contadorNominales++);
                             
-                            datos.datos[i][j] = diccionario.asd.get(inputData[j]);
+                            datos.datos[i][j] = diccionario.getDiccionario()
+                                    .get(inputData[j]);
                             
                         }
                         else

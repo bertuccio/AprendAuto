@@ -19,6 +19,27 @@ import java.util.HashSet;
  */
 public class Diccionario {
     
-    public  HashMap<String,Integer> asd = new HashMap<>();
+    private static Diccionario miDiccionario;
+    private  HashMap<String,Integer> diccionario;
      
+    
+    private Diccionario() { 
+    
+            diccionario = new HashMap<>();
+    }
+    
+    public static Diccionario getInstance(){
+        
+        if(miDiccionario == null)
+            miDiccionario = new Diccionario();
+        
+        return miDiccionario;
+        
+    }
+
+    public  HashMap<String, Integer> getDiccionario() {
+        return diccionario;
+    }
+    
+    
 }
