@@ -43,7 +43,7 @@ public class DivisionPorcentual implements EstrategiaParticionado{
         ArrayList<Integer> indicesTest = new ArrayList<>();
         ArrayList<Integer> indicesTrain = new ArrayList<>();
         
-        int tamanioParticion = numDatos*numParticiones/100;
+        int tamanioParticion = (int) (numDatos*numParticiones*0.01);
         
         /* Opticional?: Obtiene los índices de cada partición de forma aleatoria
         para eliminar
