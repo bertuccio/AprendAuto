@@ -38,8 +38,8 @@ abstract public class Clasificador {
     public static void main(String []args) {
         
         Datos d = Datos.cargaDeFichero(args[0]);
-        EstrategiaParticionado part = new DivisionPorcentual ();
-        part.crearParticiones(150, 70);
+        EstrategiaParticionado part = new ValidacionCruzada ();
+        part.crearParticiones(150, 4);
         //Clasificador c = new ClasificadorAPriori();
         //ArrayList<Double> errores = Clasificador.validacion(part, d, c);
         // Se imprimen

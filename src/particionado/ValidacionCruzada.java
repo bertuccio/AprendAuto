@@ -1,7 +1,7 @@
 package particionado;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
 public class ValidacionCruzada implements EstrategiaParticionado {
 
@@ -32,37 +32,38 @@ public class ValidacionCruzada implements EstrategiaParticionado {
 
         int tamanioParticion = numDatos / numParticiones;
 
-        for (int i = 0; i < numDatos; i++)
+        for (int i = 0; i < numDatos; i++) {
             listDatos.add(i);
-        
+        }
 
-      //  int fromIndex = 0;
-       // int toIndex = tamanioParticion;
+        //  int fromIndex = 0;
+        int toIndex = tamanioParticion;
 
         for (int i = 0; i < numParticiones; i++) {
 
-            ArrayList<Integer> indicesTest =
-                     (ArrayList<Integer>) listDatos.subList(i*tamanioParticion,
-                            (tamanioParticion-1)*(i+1));
+            List<Integer> sublist = listDatos.subList(i * tamanioParticion,
+                    (toIndex));
+            //System.out.println(i + " "+ "[" + (i*tamanioParticion) +":" + (toIndex-1) +"]");
+            ArrayList<Integer> indicesTest = new ArrayList<>(sublist);
 
+            toIndex += tamanioParticion;
             /*for (Integer indx : listDatos) {
 
-                if (!indicesTest.contains(indx)) 
-                    indicesTrain.add(indx);
+             if (!indicesTest.contains(indx)) 
+             indicesTrain.add(indx);
                 
 
-            }*/
-            
+             }*/
+
             ArrayList<Integer> indicesTrain = new ArrayList<>(listDatos);
-            
+
             indicesTrain.removeAll(indicesTest);
 
             Particion particion = new Particion(indicesTrain, indicesTest);
             particiones.add(particion);
 
           //  fromIndex += tamanioParticion;
-          //  toIndex += tamanioParticion;
-
+            //  toIndex += tamanioParticion;
         }
 
         return particiones;
