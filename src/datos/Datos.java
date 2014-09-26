@@ -119,13 +119,17 @@ public class Datos {
                         if(tipoAtributos.get(j).equals(
                                 TiposDeAtributos.Nominal)) {
                             
-                            if(!diccionario.getDiccionario().
-                                    containsKey(inputData[j]))
+                            if(!diccionario.getDiccionario().containsValue(inputData[j])) {
                                 
-                                diccionario.getDiccionario().put(contadorNominales, 
+                                .put(contadorNominales, 
                                         inputData[j]);
                             
-                            datos.datos[i][j] = contadorNominales++;
+                                datos.datos[i][j] = contadorNominales++;
+                               
+                            }                              
+                                
+                            else
+                                datos.datos[i][j] = diccionario.getDiccionario().g
                             
                             
                         }
@@ -139,6 +143,12 @@ public class Datos {
         
         Datos.shuffleArray(datos.datos);
         
+        for (int i = 0; i< numDatos;i++){
+            System.out.println();
+            for (int j = 0; j< datos.datos[0].length ; j++)
+                System.out.print(datos.datos[i][j]+" ");
+        }
+      
         return datos;
             
         } catch (FileNotFoundException ex) {
