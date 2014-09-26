@@ -4,6 +4,7 @@ package datos;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,12 +59,25 @@ public class Datos {
         return datosTest;
     }
     
+    static public void shuffleArray(double[][] ar)
+    {
+        Random rnd = new Random();
+        for (int i = ar.length - 1; i > 0; i--)
+        {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            double a[] = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
+        }
+    }
+    
     
     public static Datos cargaDeFichero(String nombreDeFichero) {
         
         Datos datos = null;
         Diccionario diccionario = Diccionario.getInstance();
-        int contadorNominales = 0;
+        Integer contadorNominales = 0;
         try {
             
             ArrayList <TiposDeAtributos> tipoAtributos = new ArrayList<>();
@@ -108,11 +122,11 @@ public class Datos {
                             if(!diccionario.getDiccionario().
                                     containsKey(inputData[j]))
                                 
-                                diccionario.getDiccionario().put(inputData[j], 
-                                        contadorNominales++);
+                                diccionario.getDiccionario().put(contadorNominales, 
+                                        inputData[j]);
                             
-                            datos.datos[i][j] = diccionario.getDiccionario()
-                                    .get(inputData[j]);
+                            datos.datos[i][j] = contadorNominales++;
+                            
                             
                         }
                         else
@@ -122,14 +136,17 @@ public class Datos {
                 }
                 
             }
-  
+        
+        Datos.shuffleArray(datos.datos);
+        
+        return datos;
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Datos.class.getName()).log(Level.SEVERE, null, ex);
             return datos;
-            
-        } catch (Exception ex) {
-            
+        } catch (NumberFormatException ex) {
             Logger.getLogger(Datos.class.getName()).log(Level.SEVERE, null, ex);
             return datos;
         }
-        
     }
 }

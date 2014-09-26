@@ -20,7 +20,7 @@ import java.util.HashSet;
 public class Diccionario {
     
     private static Diccionario miDiccionario;
-    private  HashMap<String,Integer> diccionario;
+    private  HashMap<Integer,String> diccionario;
      
     
     private Diccionario() { 
@@ -37,7 +37,7 @@ public class Diccionario {
         
     }
 
-    public  HashMap<String, Integer> getDiccionario() {
+    public  HashMap<Integer,String> getDiccionario() {
         return diccionario;
     }
     

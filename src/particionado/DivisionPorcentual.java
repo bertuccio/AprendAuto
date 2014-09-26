@@ -31,29 +31,19 @@ public class DivisionPorcentual implements EstrategiaParticionado{
      *  el restante.
      * 
      * @param numDatos
-     * @param numParticiones
+     * @param porcentaje
      * @return 
      */
     @Override
-    public ArrayList<Particion> crearParticiones(int numDatos, 
-            int numParticiones) {
-    
+    public ArrayList<Particion> crearParticiones(int numDatos,
+                int porcentaje) {
+        
         ArrayList<Particion> particiones = new ArrayList<>();
         
         ArrayList<Integer> indicesTest = new ArrayList<>();
         ArrayList<Integer> indicesTrain = new ArrayList<>();
         
-        int tamanioParticion = (int) (numDatos*numParticiones*0.01);
-        
-        /* Opticional?: Obtiene los índices de cada partición de forma aleatoria
-        para eliminar
-            posibles sesgos.
-          Generación de numeros aleatorios con rango [0:numDatos-1]. */
-        //int randomNum = rand.nextInt(((numDatos-1) - 0) + 1) + 0;
-        
-        
-        /*Con este metodo siempre van a ser los primeros datos train
-        y los restantes test, PUEDEN EXISTIR SESGOS */
+        int tamanioParticion = (int) (numDatos*porcentaje*0.01);
         
         /*INDICES VAN DE 0 a numDatos-1!!*/
         for(int i=0; i<tamanioParticion; i++)

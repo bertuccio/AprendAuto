@@ -17,6 +17,8 @@ public class Particion
     private ArrayList<Integer> indicesTest;
     
     
+    
+    
     public Particion(ArrayList<Integer> indTrain, ArrayList<Integer> indTest) 
     {
         indicesTrain = indTrain;

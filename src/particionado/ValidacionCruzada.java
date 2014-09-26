@@ -43,17 +43,9 @@ public class ValidacionCruzada implements EstrategiaParticionado {
 
             List<Integer> sublist = listDatos.subList(i * tamanioParticion,
                     (toIndex));
-            //System.out.println(i + " "+ "[" + (i*tamanioParticion) +":" + (toIndex-1) +"]");
             ArrayList<Integer> indicesTest = new ArrayList<>(sublist);
 
             toIndex += tamanioParticion;
-            /*for (Integer indx : listDatos) {
-
-             if (!indicesTest.contains(indx)) 
-             indicesTrain.add(indx);
-                
-
-             }*/
 
             ArrayList<Integer> indicesTrain = new ArrayList<>(listDatos);
 
@@ -61,9 +53,6 @@ public class ValidacionCruzada implements EstrategiaParticionado {
 
             Particion particion = new Particion(indicesTrain, indicesTest);
             particiones.add(particion);
-
-          //  fromIndex += tamanioParticion;
-            //  toIndex += tamanioParticion;
         }
 
         return particiones;
