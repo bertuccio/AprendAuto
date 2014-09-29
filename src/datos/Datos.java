@@ -4,6 +4,8 @@ package datos;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -20,16 +22,31 @@ public class Datos {
     public enum TiposDeAtributos {Continuo, Nominal};
 
     /* Tantos elementos en el array como columnas tenga el dataset*/
-    ArrayList<TiposDeAtributos> tipoAtributos;
-    double [][]datos;
+    private ArrayList<TiposDeAtributos> tipoAtributos;
+    private double [][]datos;
+    private ArrayList<String> categorias;
     
     
     public Datos(int numDatos, ArrayList<TiposDeAtributos> tipos) 
     {
         tipoAtributos = tipos;
         datos = new double[numDatos][tipos.size()];
+        categorias = new ArrayList<>();
         
     }
+
+    public ArrayList<TiposDeAtributos> getTipoAtributos() {
+        return tipoAtributos;
+    }
+
+    public double[][] getDatos() {
+        return datos;
+    }
+
+    public ArrayList<String> getCategorias() {
+        return categorias;
+    }
+    
     
     
     public Datos extraeDatosTrain(Particion idx) 
@@ -87,9 +104,12 @@ public class Datos {
             /*Primera linea del fichero, numero de datos*/
             int numDatos = Integer.parseInt(sc.nextLine());
             
-            /*Segunda linea, nombre de los campos*/
-            sc.nextLine();
             
+            /*Segunda linea, nombre de los campos*/
+            String[] categorias = sc.nextLine().split(",");
+            datos.categorias = new ArrayList<>(Arrays.asList(categorias));
+            
+                        
             /*Tercera linea, tipos de atributos: Nominal o Continuo*/
             String data [] = sc.nextLine().split(",");
             
@@ -119,17 +139,16 @@ public class Datos {
                         if(tipoAtributos.get(j).equals(
                                 TiposDeAtributos.Nominal)) {
                             
-                            if(!diccionario.getDiccionario().containsValue(inputData[j])) {
+                            if(!diccionario.getDiccionario().containsKey(inputData[j])) {
                                 
-                                .put(contadorNominales, 
-                                        inputData[j]);
+                                diccionario.getDiccionario().put(inputData[j], contadorNominales);
                             
                                 datos.datos[i][j] = contadorNominales++;
                                
                             }                              
                                 
                             else
-                                datos.datos[i][j] = diccionario.getDiccionario().g
+                                datos.datos[i][j] = diccionario.getDiccionario().get(inputData[j]);
                             
                             
                         }
