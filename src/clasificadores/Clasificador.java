@@ -5,6 +5,7 @@ import datos.Datos;
 import java.util.ArrayList;
 import particionado.DivisionPorcentual;
 import particionado.EstrategiaParticionado;
+import particionado.Particion;
 import particionado.ValidacionCruzada;
 
 abstract public class Clasificador {
@@ -38,10 +39,11 @@ abstract public class Clasificador {
     public static void main(String []args) {
         
         Datos d = Datos.cargaDeFichero(args[0]);
-        EstrategiaParticionado part = new ValidacionCruzada ();
-        part.crearParticiones(150, 4);
+        EstrategiaParticionado part = new DivisionPorcentual();
+        ArrayList<Particion> particion = part.crearParticiones(150, 50);
+        Datos train = d.extraeDatosTrain(particion.get(0));
         Clasificador c = new ClasificadorNaiveBayes();
-        c.entrenamiento(d);
+        c.entrenamiento(train);
         //c.clasifica(d);
         //ArrayList<Double> errores = Clasificador.validacion(part, d, c);
         // Se imprimen

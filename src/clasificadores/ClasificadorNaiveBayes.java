@@ -30,6 +30,7 @@ public class ClasificadorNaiveBayes extends Clasificador{
         
         int numCategorias = Diccionario.getInstance().getDiccionario().size();
         int numTuplas = datosTrain.getDatos().length;
+        
         /*obtiene el indice de la clase dentro de la matriz de datos*/
         int indexClass = datosTrain.getCategorias().indexOf("Class");
                 

@@ -27,11 +27,11 @@ public class Datos {
     private ArrayList<String> categorias;
     
     
-    public Datos(int numDatos, ArrayList<TiposDeAtributos> tipos) 
+    public Datos(int numDatos, ArrayList<TiposDeAtributos> tipos, List<String> categorias) 
     {
         tipoAtributos = tipos;
         datos = new double[numDatos][tipos.size()];
-        categorias = new ArrayList<>();
+        this.categorias = new ArrayList<>(categorias);
         
     }
 
@@ -51,7 +51,8 @@ public class Datos {
     
     public Datos extraeDatosTrain(Particion idx) 
     {
-        Datos datosTrain = new Datos(idx.getIndicesTrain().size(),this.tipoAtributos);
+        Datos datosTrain = new Datos(idx.getIndicesTrain().size(),this.tipoAtributos,
+            this.categorias);
         int i = 0;
         for(Integer j : idx.getIndicesTrain()) {
             for(int z=0; z<this.tipoAtributos.size(); z++)
@@ -65,7 +66,8 @@ public class Datos {
     
     public Datos extraeDatosTest(Particion idx) 
     {
-        Datos datosTest = new Datos(idx.getIndicesTest().size(),this.tipoAtributos);
+        Datos datosTest = new Datos(idx.getIndicesTest().size(),this.tipoAtributos,
+            this.categorias);
         int i = 0;
         for(Integer j : idx.getIndicesTest()) {
             for(int z=0; z<this.tipoAtributos.size(); z++)
@@ -121,9 +123,9 @@ public class Datos {
                     tipoAtributos.add(TiposDeAtributos.Nominal);
             }   
             
-            datos = new Datos(numDatos,tipoAtributos);
+            datos = new Datos(numDatos,tipoAtributos,Arrays.asList(categorias));
             
-            datos.categorias.addAll(Arrays.asList(categorias));
+            
             
             /*Resto de filas, conjunto de datos separados por comas*/
             for(int i=0; (i<numDatos && sc.hasNextLine()); i++) {
