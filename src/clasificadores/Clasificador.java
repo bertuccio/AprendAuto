@@ -39,9 +39,14 @@ abstract public class Clasificador {
     public static void main(String []args) {
         
         Datos d = Datos.cargaDeFichero(args[0]);
+        System.out.print(d.toString());
+        System.out.print("\n\n");
         EstrategiaParticionado part = new DivisionPorcentual();
         ArrayList<Particion> particion = part.crearParticiones(150, 50);
         Datos train = d.extraeDatosTrain(particion.get(0));
+        Datos test = d.extraeDatosTest(particion.get(0));
+        System.out.print(train.toString());
+        System.out.print("\n\n" + test.toString());
         Clasificador c = new ClasificadorNaiveBayes();
         c.entrenamiento(train);
         //c.clasifica(d);

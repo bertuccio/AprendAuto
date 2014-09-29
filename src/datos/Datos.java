@@ -163,21 +163,30 @@ public class Datos {
             }
         
         Datos.shuffleArray(datos.datos);
-        
-        for (int i = 0; i< numDatos;i++){
-            System.out.println();
-            for (int j = 0; j< datos.datos[0].length ; j++)
-                System.out.print(datos.datos[i][j]+" ");
-        }
+      
       
         return datos;
             
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Datos.class.getName()).log(Level.SEVERE, null, ex);
-            return datos;
-        } catch (NumberFormatException ex) {
+        } catch (FileNotFoundException | NumberFormatException ex) {
             Logger.getLogger(Datos.class.getName()).log(Level.SEVERE, null, ex);
             return datos;
         }
     }
+
+    @Override
+    public String toString() {
+        
+        String s = "";
+        
+        for (double[] dato : datos) {
+            for (int j = 0; j < dato.length; j++) {
+                s = s + dato[j] + ",";
+            }
+            s = s + "\n";
+        }
+
+        return s;
+    }
+    
+    
 }
