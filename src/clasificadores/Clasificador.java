@@ -40,7 +40,9 @@ abstract public class Clasificador {
         Datos d = Datos.cargaDeFichero(args[0]);
         EstrategiaParticionado part = new ValidacionCruzada ();
         part.crearParticiones(150, 4);
-        //Clasificador c = new ClasificadorAPriori();
+        Clasificador c = new ClasificadorNaiveBayes();
+        c.entrenamiento(d);
+        //c.clasifica(d);
         //ArrayList<Double> errores = Clasificador.validacion(part, d, c);
         // Se imprimen
     } 

@@ -107,9 +107,7 @@ public class Datos {
             
             /*Segunda linea, nombre de los campos*/
             String[] categorias = sc.nextLine().split(",");
-            datos.categorias = new ArrayList<>(Arrays.asList(categorias));
-            
-                        
+             
             /*Tercera linea, tipos de atributos: Nominal o Continuo*/
             String data [] = sc.nextLine().split(",");
             
@@ -124,6 +122,8 @@ public class Datos {
             }   
             
             datos = new Datos(numDatos,tipoAtributos);
+            
+            datos.categorias.addAll(Arrays.asList(categorias));
             
             /*Resto de filas, conjunto de datos separados por comas*/
             for(int i=0; (i<numDatos && sc.hasNextLine()); i++) {
