@@ -39,16 +39,26 @@ abstract public class Clasificador {
     public static void main(String []args) {
         
         Datos d = Datos.cargaDeFichero(args[0]);
+        
         System.out.print(d.toString());
         System.out.print("\n\n");
-        EstrategiaParticionado part = new DivisionPorcentual();
-        ArrayList<Particion> particion = part.crearParticiones(150, 50);
-        Datos train = d.extraeDatosTrain(particion.get(0));
-        Datos test = d.extraeDatosTest(particion.get(0));
-        System.out.print(train.toString());
-        System.out.print("\n\n" + test.toString());
-        Clasificador c = new ClasificadorNaiveBayes();
-        c.entrenamiento(train);
+        
+        EstrategiaParticionado part = new ValidacionCruzada();
+        
+        for(Particion idx : part.crearParticiones(150, 4)){
+            
+            Datos train = d.extraeDatosTrain(idx);
+            Datos test = d.extraeDatosTest(idx);
+            System.out.println("TRAIN\n");
+            System.out.print(train.toString());
+            System.out.print("\n\nTEST\n" + test.toString());
+            Clasificador c = new ClasificadorNaiveBayes();
+            c.entrenamiento(train);
+        }
+        
+        
+        
+        
         //c.clasifica(d);
         //ArrayList<Double> errores = Clasificador.validacion(part, d, c);
         // Se imprimen
