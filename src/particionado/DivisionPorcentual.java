@@ -2,7 +2,6 @@
 package particionado;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * s
