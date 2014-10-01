@@ -8,6 +8,7 @@ package clasificadores;
 import datos.Datos;
 import datos.Diccionario;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Clasificador mediante el método de Naive Bayes (Bayes ingenuo).
@@ -16,8 +17,8 @@ import java.util.ArrayList;
  */
 public class ClasificadorNaiveBayes extends Clasificador {
 
-    private ArrayList<Double> apriori = new ArrayList<>();
-    private double aposteriori[][];
+    private ArrayList<Double> probApriori = new ArrayList<>();
+    private double probCond[][];
 
     @Override
     public void entrenamiento(Datos datosTrain) {
@@ -64,7 +65,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
 
             aprioriCounter = aprioriCounter / numTuplas;
 
-            apriori.add(aprioriCounter);
+            probApriori.add(aprioriCounter);
 
         }
     }
@@ -75,22 +76,40 @@ public class ClasificadorNaiveBayes extends Clasificador {
      */
     private void getProbCondicionada(Datos datosTrain) {
 
-        int numCategorias = Diccionario.getInstance().getDiccionario().size();
-        int numInstancias = datosTrain.getDatos().length;
-
-        aposteriori = new double[numCategorias][datosTrain.getCategorias().size()];
-
+        int numClases = Diccionario.getInstance().getDiccionario().size();
+        int numCategorias = datosTrain.getCategorias().size()-1;
+        probCond = new double[numClases][numCategorias];
+        
         /*obtiene el indice de la clase dentro de la matriz de datos*/
         int indexClass = datosTrain.getCategorias().indexOf("Class");
-
+        
+        
+        /**esqueleto bien, contenido mal**/
         for (Integer clase : Diccionario.getInstance().getDiccionario().values()) {
 
+            int counterNumClase = 0;
+            
             for (double[] dato : datosTrain.getDatos()) {
 
                 if (dato[indexClass] == clase) {
-                    double[] rowData = dato;
+                    
+                    counterNumClase++;
+                    for(int i=0; i<numCategorias; i++){
+                        
+                        probCond[clase][i] += dato[i];
+                    }
+                    
                 }
             }
+            if(counterNumClase != 0){
+                
+                for(int i=0; i<numCategorias; i++){
+                        
+                        probCond[clase][i] /= counterNumClase;
+                }
+                
+            }
+            
 
         }
 
