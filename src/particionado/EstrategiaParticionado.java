@@ -6,7 +6,10 @@ import java.util.ArrayList;
 
 /**
  * 
- * @author pinwi
+ * A través de esta interfaz se permite separar la estrategia 
+ * de  particionado  del  particionado  en  sí  mismo.
+ * 
+ * @author Adrián Lorenzo Mateo
  */
 public interface EstrategiaParticionado {
     

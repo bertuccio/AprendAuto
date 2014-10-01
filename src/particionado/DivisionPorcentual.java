@@ -4,14 +4,15 @@ package particionado;
 import java.util.ArrayList;
 
 /**
- * s
- * @author pinwi
+ * 
+ * Estrategia de particionado de tipo División Porcentual.
+ * 
+ * 
+ * @author Adrián Lorenzo Mateo
  */
 public class DivisionPorcentual implements EstrategiaParticionado{
     
-    
-    //private static final Random rand = new Random();
-    
+        
     /**
      * Devuelve el nombre de la estrategia de particionado 
      * (División Porcentual).

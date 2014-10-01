@@ -3,6 +3,12 @@ package particionado;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * Estrategia de particionado de tipo Validación Cruzada.
+ * 
+ * @author Adrián Lorenzo Mateo
+ */
 public class ValidacionCruzada implements EstrategiaParticionado {
 
     /**

@@ -15,7 +15,9 @@ import particionado.Particion;
 
 /**
  * 
- * @author eps
+ * Almacena los conjuntos de datos.
+ * 
+ * @author Adrián Lorenzo Mateo
  */
 public class Datos {
     
@@ -48,7 +50,13 @@ public class Datos {
     }
     
     
-    
+    /**
+     * 
+     * Obtiene el conjunto de entrenamiento de una partición.
+     * 
+     * @param idx Particion.
+     * @return 
+     */
     public Datos extraeDatosTrain(Particion idx) 
     {
         Datos datosTrain = new Datos(idx.getIndicesTrain().size(),this.tipoAtributos,
@@ -63,7 +71,13 @@ public class Datos {
         return datosTrain;
     }
     
-    
+    /**
+     * 
+     * Obtiene el conjunto de test de una partición.
+     * 
+     * @param idx Particion.
+     * @return 
+     */
     public Datos extraeDatosTest(Particion idx) 
     {
         Datos datosTest = new Datos(idx.getIndicesTest().size(),this.tipoAtributos,
@@ -78,6 +92,12 @@ public class Datos {
         return datosTest;
     }
     
+    /**
+     * 
+     * Mezcla de forma aleatoria las filas de una matriz.
+     * 
+     * @param ar matriz
+     */
     static public void shuffleArray(double[][] ar)
     {
         Random rnd = new Random();
@@ -91,12 +111,19 @@ public class Datos {
         }
     }
     
-    
+    /**
+     * 
+     *  Obtiene el conjunto de datos de un fichero.
+     * 
+     * @param nombreDeFichero
+     * @return 
+     */
     public static Datos cargaDeFichero(String nombreDeFichero) {
         
         Datos datos = null;
         Diccionario diccionario = Diccionario.getInstance();
         Integer contadorNominales = 0;
+        
         try {
             
             ArrayList <TiposDeAtributos> tipoAtributos = new ArrayList<>();
@@ -161,7 +188,7 @@ public class Datos {
                 }
                 
             }
-        
+        // desordena las filas de la matriz para evitar posibles sesgos
         Datos.shuffleArray(datos.datos);
       
       

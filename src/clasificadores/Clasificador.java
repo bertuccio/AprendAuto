@@ -8,13 +8,29 @@ import particionado.EstrategiaParticionado;
 import particionado.Particion;
 import particionado.ValidacionCruzada;
 
+/**
+ * 
+ * Utiliza  una  estrategia  de  particionado  determinada para  llevar  a 
+ * cabo  su  algoritmo  de  clasificación,  empleando  el  conjunto  de  
+ * entrenamiento  para construir  el  modelo  y  el  conjunto  de  prueba  
+ * para  evaluarlo.
+ * 
+ * @author Adrián Lorenzo Mateo
+ */
 abstract public class Clasificador {
     
     //Métodos abstractos que se implementan en cada clasificador concreto
     abstract public void entrenamiento (Datos datosTrain);
     abstract public ArrayList<Integer> clasifica (Datos datosTest);
 
-    // Obtiene el numero de aciertos y errores para calcular la tasa de fallo
+    /**
+     * 
+     * Obtiene el numero de aciertos y errores para calcular la tasa de fallo.
+     * 
+     * @param datos
+     * @param clas
+     * @return 
+     */
     public double error (Datos datos, Clasificador clas) 
     {
        ArrayList<Integer> clases = this.clasifica(datos);
@@ -22,7 +38,15 @@ abstract public class Clasificador {
        return 1;
     }
 
-    // Realiza una clasificacion utilizando una estrategia de particionado determinada
+    /**
+     * 
+     * Realiza una clasificacion utilizando una estrategia de particionado determinada.
+     * 
+     * @param part
+     * @param datos
+     * @param clas
+     * @return 
+     */
     public static ArrayList<Double> validacion(EstrategiaParticionado part, Datos datos, 
         Clasificador clas) {
 
