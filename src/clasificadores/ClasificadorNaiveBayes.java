@@ -9,6 +9,7 @@ import datos.Datos;
 import datos.Diccionario;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Clasificador mediante el método de Naive Bayes (Bayes ingenuo).
@@ -18,7 +19,7 @@ import java.util.Arrays;
 public class ClasificadorNaiveBayes extends Clasificador {
 
     private ArrayList<Double> probApriori = new ArrayList<>();
-    private double probCond[][];
+    private ArrayList<ArrayList<HashMap<Double,Double>>> probCond = new ArrayList<>();
 
     @Override
     public void entrenamiento(Datos datosTrain) {
@@ -78,47 +79,66 @@ public class ClasificadorNaiveBayes extends Clasificador {
 
         int numClases = Diccionario.getInstance().getDiccionario().size();
         int numCategorias = datosTrain.getCategorias().size()-1;
-        probCond = new double[numClases][numCategorias];
         
         /*obtiene el indice de la clase dentro de la matriz de datos*/
         int indexClass = datosTrain.getCategorias().indexOf("Class");
         
-        
-        /**esqueleto bien, contenido mal**/
-        for (Integer clase : Diccionario.getInstance().getDiccionario().values()) {
+        for (int clase=0; clase<numClases; clase++) {
 
             int counterNumClase = 0;
             
-            for (double[] dato : datosTrain.getDatos()) {
-
-                if (dato[indexClass] == clase) {
-                    
-                    counterNumClase++;
-                    for(int i=0; i<numCategorias; i++){
-                        
-                        probCond[clase][i] += dato[i];
-                    }
-                    
-                }
-            }
-            if(counterNumClase != 0){
-                
-                for(int i=0; i<numCategorias; i++){
-                        
-                        probCond[clase][i] /= counterNumClase;
-                }
-                
-            }
+            ArrayList<HashMap<Double,Double>> prob = new ArrayList<>();
             
+            for(int i=0; i<numCategorias; i++){
+                
+                HashMap<Double,Double> map = new HashMap<>();
+                
+                for (double[] dato : datosTrain.getDatos()) {
+                    
+                    if (dato[indexClass] == clase) {
+                        
+                        
+                        if(!map.containsKey(dato[i]))
 
+                                map.put(dato[i], 1.0);
+                        else{
+
+                            Double actualizacion = map.get(dato[i]);
+                            map.put(dato[i], actualizacion+1);
+
+
+                        }
+                    }
+                }    
+                
+                double numElementClase = 0;
+                
+                for(Double value : map.values())
+                    numElementClase +=value;
+                    
+                for(Double key : map.keySet())
+                    map.put(key, map.get(key)/numElementClase);
+                
+                prob.add(map);
+                
+            }
+            probCond.add(prob);
         }
-
     }
 
     @Override
     public ArrayList<Integer> clasifica(Datos datosTest) {
-
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 }
+//            if(counterNumClase != 0){
+//                
+//                for(int i=0; i<numCategorias; i++){
+//                        
+//                        probCond[clase][i] /= counterNumClase;
+//                }
+//                
+//            }
+          
+
+ 
