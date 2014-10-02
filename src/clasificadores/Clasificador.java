@@ -31,11 +31,23 @@ abstract public class Clasificador {
      * @param clas
      * @return 
      */
-    public double error (Datos datos, Clasificador clas) 
-    {
-       ArrayList<Integer> clases = this.clasifica(datos);
-       //Aqui se compara con clases reales y se calcula el error
-       return 1;
+    public double error (Datos datos, Clasificador clas) {
+        ArrayList<Integer> prediccion = clas.clasifica(datos);
+        ArrayList<Integer> real = new ArrayList<>();
+       
+        int count = 0;
+       
+        for(double[] sample : datos.getDatos()){
+           real.add(Double.valueOf(sample[datos.getCategorias().indexOf("Class")]).intValue());
+        }
+        System.out.println(prediccion);
+        System.out.println(real);
+        for (int i = 0; i < prediccion.size(); i++){
+           if (prediccion.get(i).equals(real.get(i)))
+               count++;
+        }
+        /*Aciertos / totales*/
+        return ((double)count/(double)prediccion.size())*100;
     }
 
     /**
@@ -62,7 +74,9 @@ abstract public class Clasificador {
 
     public static void main(String []args) {
         
-        Datos d = Datos.cargaDeFichero(args[0]);
+        //Datos d = Datos.cargaDeFichero(args[0]);
+        /*Para no tener que configurar el netBeans BORRRAR!!!!!*/
+        Datos d = Datos.cargaDeFichero("iris.data");
         
         System.out.print(d.toString());
         System.out.print("\n\n");
@@ -70,21 +84,15 @@ abstract public class Clasificador {
         EstrategiaParticionado part = new DivisionPorcentual();
         
         for(Particion idx : part.crearParticiones(150, 30)){
-            
             Datos train = d.extraeDatosTrain(idx);
             Datos test = d.extraeDatosTest(idx);
-            System.out.println("TRAIN\n");
-            System.out.print(train.toString());
-            System.out.print("\n\nTEST\n" + test.toString());
+            //System.out.println("TRAIN\n");
+            //System.out.print(train.toString());
+            //System.out.print("\n\nTEST\n" + test.toString());
             Clasificador c = new ClasificadorNaiveBayes();
             c.entrenamiento(train);
+            //System.out.print(c.clasifica(test));
+            System.out.print(c.error(test, c));
         }
-        
-        
-        
-        
-        //c.clasifica(d);
-        //ArrayList<Double> errores = Clasificador.validacion(part, d, c);
-        // Se imprimen
     } 
 }
