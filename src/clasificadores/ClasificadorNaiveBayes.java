@@ -9,6 +9,7 @@ import datos.Datos;
 import datos.Diccionario;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  * Clasificador mediante el método de Naive Bayes (Bayes ingenuo).
@@ -18,7 +19,7 @@ import java.util.HashMap;
 public class ClasificadorNaiveBayes extends Clasificador {
 
     private ArrayList<Double> probApriori = new ArrayList<>();
-    private ArrayList<ArrayList<HashMap<Double,Double>>> probCond = new ArrayList<>();
+    private ArrayList<ArrayList<Object>> probCond = new ArrayList<>();
 
     @Override
     public void entrenamiento(Datos datosTrain) {
@@ -34,26 +35,27 @@ public class ClasificadorNaiveBayes extends Clasificador {
      * @param datosTrain
      */
     private void getProbAPriori(Datos datosTrain) {
-        int numCategorias = Diccionario.getInstance().getDiccionario().size();
+        
+        int totalClases = Diccionario.getInstance().getDiccionarioClases().size();
         int numTuplas = datosTrain.getDatos().length;
+        
         /*obtiene el indice de la clase dentro de la matriz de datos*/
         int indexClass = datosTrain.getCategorias().indexOf("Class");
+        
         /*Itera sobre las clases del conjunto de datos*/
-        for (int numClass = 0; numClass < numCategorias; numClass++) {
+        for (int numClass = 0; numClass < totalClases; numClass++) {
+            
             double aprioriCounter = 0;
+            
             /*Itera sobre cada una de las filas del conjunto de datos*/
             for (int indexTuplas = 0; indexTuplas < numTuplas; indexTuplas++) {
+                
                 double classElement = datosTrain.getDatos()[indexTuplas][indexClass];
+                
                 if (numClass == classElement)
                     aprioriCounter++;
             }
             
-            /* La correccion de Laplace no va aki :P
-            //Corrección de Laplace
-            if (aprioriCounter == 0) {
-                aprioriCounter++;
-            }
-            */
             
             /*Se obtinen todas las probabilidades de clase*/
             aprioriCounter = aprioriCounter / numTuplas;
@@ -69,42 +71,82 @@ public class ClasificadorNaiveBayes extends Clasificador {
      * @param datosTrain 
      */
     private void getProbCondicionada(Datos datosTrain) {
-        int numClases = Diccionario.getInstance().getDiccionario().size();
-        int numCategorias = datosTrain.getCategorias().size()-1;    
+        
+        
+        int numClases = Diccionario.getInstance().getDiccionarioClases().size();
+        int numCategorias = datosTrain.getCategorias().size()-1;
+        
+        /*Variables temporales*/
+        double varianza_media[] = null;
+        double contMedia = 0;
+        double acumMedia = 0;
+        double contVarianza = 0;
         
         /*obtiene el indice de la clase dentro de la matriz de datos*/
         int indexClass = datosTrain.getCategorias().indexOf("Class");
         
         /*Por cada clase*/
         for (int clase=0; clase<numClases; clase++) {
-            ArrayList<HashMap<Double,Double>> prob = new ArrayList<>();
+            
+            ArrayList<Object> prob = new ArrayList<>();
+            
             /*Por cada atributo*/
             for(int i=0; i<numCategorias; i++){
-                HashMap<Double,Double> map = new HashMap<>();
-                /*Por cada muestra*/
-                for (double[] dato : datosTrain.getDatos()) {                    
-                    if (dato[indexClass] == clase) {                                                
-                        if(!map.containsKey(dato[i]))
-                                map.put(dato[i], 1.0);
-                        else{
-                            Double actualizacion = map.get(dato[i]);
-                            map.put(dato[i], actualizacion+1);
+                
+                if(datosTrain.getTipoAtributos().get(i).name().equals("Nominal")){
+                    
+                    HashMap<Double,Double> map = new HashMap<>();
+                    /*Por cada muestra*/
+                    for (double[] dato : datosTrain.getDatos()) {                    
+                        if (dato[indexClass] == clase) {                                                
+                            if(!map.containsKey(dato[i]))
+                                    map.put(dato[i], 1.0);
+                            else{
+                                Double actualizacion = map.get(dato[i]);
+                                map.put(dato[i], actualizacion+1);
+                            }
+                        }
+                    }                   
+
+                    double numElementClase = 0;                
+                    for(Double value : map.values())
+                        numElementClase +=value;                   
+
+                    /*Aqui aplicamos correcion de Laplace antes de normalizar*/
+                    for(Double key : map.keySet())
+                        map.put(key, map.get(key)+1/(numElementClase+map.keySet().size()));                
+
+                    prob.add(map);  
+                    
+                }
+                else{
+                    varianza_media = new double[2];
+                    /*Por cada muestra*/
+                    contMedia = 0;
+                    acumMedia = 0;
+                    contVarianza = 0;
+                    for (double[] dato : datosTrain.getDatos()) {                    
+                        if (dato[indexClass] == clase) {   
+                            contMedia ++; 
+                            acumMedia += dato[i];
                         }
                     }
-                }                   
-                
-                double numElementClase = 0;                
-                for(Double value : map.values())
-                    numElementClase +=value;                   
-                
-                /*Aqui aplicamos correcion de Laplace antes de normalizar*/
-                for(Double key : map.keySet())
-                    map.put(key, map.get(key)+1/numElementClase);                
-                
-                prob.add(map);                
+                    varianza_media[1] = acumMedia/(double)contMedia;
+                    for (double[] dato : datosTrain.getDatos()) {                    
+                        if (dato[indexClass] == clase) {   
+                            contVarianza += (- varianza_media[1] + dato[i]) * (- varianza_media[1] + dato[i]);  
+                        }
+                    }
+                    varianza_media[0] = contVarianza/(double)contMedia;
+                    prob.add(varianza_media);
+                }
             }
             probCond.add(prob);
         }
+    }
+    
+    private double calculaGaussian(double valor, double media,double varianza){
+        return ((1.0/(Math.sqrt(varianza)*Math.sqrt(2*Math.PI)))*Math.pow(Math.E,(-((valor-media)*(valor-media)/(2*varianza)))));
     }
 
     @Override
@@ -114,8 +156,8 @@ public class ClasificadorNaiveBayes extends Clasificador {
         
         /*Una instancia por sample <Clase,Probabilidad>*/
         HashMap<Integer,Double> sampleProbs;
-        
-        int numClases = Diccionario.getInstance().getDiccionario().size();
+        double bayes;
+        int numClases = Diccionario.getInstance().getDiccionarioClases().size();
         /*numero de categorias, sin contar con la clase*/
         int numCategorias = datosTest.getCategorias().size()-1;
     
@@ -136,18 +178,20 @@ public class ClasificadorNaiveBayes extends Clasificador {
                 for (int i = 0;i < numCategorias;i++){
                     
                     
-                    if(probCond.get(j).get(i).get(sample[i]) != null)
+                    if(datosTest.getTipoAtributos().get(i).name().equals("Nominal"))
                     {
                         /**
                          * bayes = p(Clase)*p(Categoria nº 1 | Clase)*p(Categoria nº 2 | Clase)*
                          *  *p(Categoria nº i | Clase)
                          */
-                        double bayes = sampleProbs.get(j)*probCond.get(j).get(i).get(sample[i]);
-                        sampleProbs.put(j, bayes);
-                    }
+                        bayes = sampleProbs.get(j)*((HashMap<Double,Double>)probCond.get(j).get(i)).get(sample[i]);
                         
-                    else
-                        sampleProbs.put(j,sampleProbs.get(j)*0.001);  ///AQUI ES LO QUE DIGO ... Meto un alfa pequeño pero esto no es Laplace
+                    } 
+                    else{
+                        double gaussian = this.calculaGaussian(sample[i], ((double[])probCond.get(j).get(i))[1], ((double[])probCond.get(j).get(i))[0]);
+                        bayes = sampleProbs.get(j)*gaussian;
+                    }
+                    sampleProbs.put(j, bayes);
                 }
             }
             
@@ -158,7 +202,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
             Integer maxKey = null; 
             Double maxValue = Double.MIN_VALUE; 
             
-            for(HashMap.Entry<Integer,Double> entry : sampleProbs.entrySet()) { 
+            for(Entry<Integer,Double> entry : sampleProbs.entrySet()) { 
                 
                 if(entry.getValue() > maxValue) { 
                     

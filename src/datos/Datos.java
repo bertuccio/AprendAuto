@@ -122,7 +122,8 @@ public class Datos {
         
         Datos datos = null;
         Diccionario diccionario = Diccionario.getInstance();
-        Integer contadorNominales = 0;
+        Integer contadorAtributosNominales = 0;
+        Integer contadorClases = 0;
         
         try {
             
@@ -164,22 +165,34 @@ public class Datos {
                     
                     for(int j=0; j<inputData.length; j++) {
                         
-                        /* ¿QUE HACEMOS CON LOS NOMINALES? */
+                 
                         if(tipoAtributos.get(j).equals(
-                                TiposDeAtributos.Nominal)) {
+                                TiposDeAtributos.Nominal) && !datos.getCategorias().get(j).equals("Class")) {
                             
-                            if(!diccionario.getDiccionario().containsKey(inputData[j])) {
+                            if(!diccionario.getDiccionarioAtributos().containsKey(inputData[j])) {
                                 
-                                diccionario.getDiccionario().put(inputData[j], contadorNominales);
+                                diccionario.getDiccionarioAtributos().put(inputData[j], contadorAtributosNominales);
                             
-                                datos.datos[i][j] = contadorNominales++;
+                                datos.datos[i][j] = contadorAtributosNominales++;
                                
                             }                              
                                 
                             else
-                                datos.datos[i][j] = diccionario.getDiccionario().get(inputData[j]);
+                                datos.datos[i][j] = diccionario.getDiccionarioAtributos().get(inputData[j]);
                             
+                        }
+                        else if(datos.getCategorias().get(j).equals("Class")){
                             
+                            if(!diccionario.getDiccionarioClases().containsKey(inputData[j])) {
+                                
+                                diccionario.getDiccionarioClases().put(inputData[j], contadorClases);
+                            
+                                datos.datos[i][j] = contadorClases++;
+                               
+                            }                              
+                                
+                            else
+                                datos.datos[i][j] = diccionario.getDiccionarioClases().get(inputData[j]);
                         }
                         else
                             datos.datos[i][j] = Double.parseDouble(inputData[j]);

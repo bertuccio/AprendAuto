@@ -15,12 +15,13 @@ import java.util.HashSet;
 public class Diccionario {
     
     private static Diccionario miDiccionario;
-    private  HashMap<String,Integer> diccionario;
-     
+    private  HashMap<String,Integer> clases;
+    private  HashMap<String,Integer> atributos; 
     
     private Diccionario() { 
     
-            diccionario = new HashMap<>();
+            clases = new HashMap<>();
+            atributos = new HashMap<>();
     }
     
     public static Diccionario getInstance(){
@@ -32,8 +33,12 @@ public class Diccionario {
         
     }
 
-    public  HashMap<String,Integer> getDiccionario() {
-        return diccionario;
+    public  HashMap<String,Integer> getDiccionarioClases() {
+        return clases;
+    }
+    
+    public  HashMap<String,Integer> getDiccionarioAtributos() {
+        return atributos;
     }
     
     
