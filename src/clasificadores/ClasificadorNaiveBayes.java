@@ -191,7 +191,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
                 for (int i = 0;i < numCategorias;i++){
                     
                     
-                    if(datosTest.getTipoAtributos().get(i).name().equals("Nominal"))
+                    if(((HashMap<Double,Double>)probCond.get(j).get(i)).get(sample[i]) != null && datosTest.getTipoAtributos().get(i).name().equals("Nominal"))
                     {
                         /**
                          * bayes = p(Clase)*p(Categoria nº 1 | Clase)*p(Categoria nº 2 | Clase)*
@@ -200,6 +200,9 @@ public class ClasificadorNaiveBayes extends Clasificador {
                         bayes = sampleProbs.get(j)*((HashMap<Double,Double>)probCond.get(j).get(i)).get(sample[i]);
                         
                     } 
+                    else if (((HashMap<Double,Double>)probCond.get(j).get(i)).get(sample[i]) == null){
+                        bayes = sampleProbs.get(j)*0.001;
+                    }
                     else{
                         double gaussian = this.calculaGaussian(sample[i], ((double[])probCond.get(j).get(i))[1], ((double[])probCond.get(j).get(i))[0]);
                         bayes = sampleProbs.get(j)*gaussian;

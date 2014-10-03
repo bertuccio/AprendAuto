@@ -76,7 +76,7 @@ abstract public class Clasificador {
         
         //Datos d = Datos.cargaDeFichero(args[0]);
         /*Para no tener que configurar el netBeans BORRRAR!!!!!*/
-        Datos d = Datos.cargaDeFichero("iris.data");
+        Datos d = Datos.cargaDeFichero("car.data");
         
         System.out.print(d.toString());
         System.out.print("\n\n");
