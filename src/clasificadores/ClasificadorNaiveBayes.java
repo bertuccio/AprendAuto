@@ -17,6 +17,15 @@ import java.util.Map.Entry;
  * @author Adrián Lorenzo Mateo
  */
 public class ClasificadorNaiveBayes extends Clasificador {
+    private boolean LAPLACE_FLAG = true;
+
+    public boolean isLAPLACE_FLAG() {
+        return LAPLACE_FLAG;
+    }
+
+    public void setLAPLACE_FLAG(boolean LAPLACE_FLAG) {
+        this.LAPLACE_FLAG = LAPLACE_FLAG;
+    }
 
     private ArrayList<Double> probApriori = new ArrayList<>();
     private ArrayList<ArrayList<Object>> probCond = new ArrayList<>();
@@ -113,9 +122,13 @@ public class ClasificadorNaiveBayes extends Clasificador {
                         numElementClase +=value;                   
 
                     /*Aqui aplicamos correcion de Laplace antes de normalizar*/
-                    for(Double key : map.keySet())
-                        map.put(key, map.get(key)+1/(numElementClase+map.keySet().size()));                
-
+                    if(this.LAPLACE_FLAG){
+                        for(Double key : map.keySet())
+                            map.put(key, map.get(key)+1/(numElementClase+map.keySet().size()));                
+                    }else{
+                        for(Double key : map.keySet())
+                            map.put(key, map.get(key)/(numElementClase));                
+                    }
                     prob.add(map);  
                     
                 }
