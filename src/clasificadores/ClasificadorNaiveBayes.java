@@ -201,7 +201,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
                         
                     } 
                     else if (((HashMap<Double,Double>)probCond.get(j).get(i)).get(sample[i]) == null){
-                        bayes = sampleProbs.get(j)*0.001;
+                        bayes = sampleProbs.get(j)*0;
                     }
                     else{
                         double gaussian = this.calculaGaussian(sample[i], ((double[])probCond.get(j).get(i))[1], ((double[])probCond.get(j).get(i))[0]);

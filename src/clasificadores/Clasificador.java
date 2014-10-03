@@ -83,7 +83,7 @@ abstract public class Clasificador {
         
         EstrategiaParticionado part = new ValidacionCruzada();
         
-        for(Particion idx : part.crearParticiones(150, 5)){
+        for(Particion idx : part.crearParticiones(1728, 3)){
             Datos train = d.extraeDatosTrain(idx);
             Datos test = d.extraeDatosTest(idx);
             //System.out.println("TRAIN\n");
