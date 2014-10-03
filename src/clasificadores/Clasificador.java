@@ -81,9 +81,9 @@ abstract public class Clasificador {
         System.out.print(d.toString());
         System.out.print("\n\n");
         
-        EstrategiaParticionado part = new DivisionPorcentual();
+        EstrategiaParticionado part = new ValidacionCruzada();
         
-        for(Particion idx : part.crearParticiones(150, 30)){
+        for(Particion idx : part.crearParticiones(150, 5)){
             Datos train = d.extraeDatosTrain(idx);
             Datos test = d.extraeDatosTest(idx);
             //System.out.println("TRAIN\n");

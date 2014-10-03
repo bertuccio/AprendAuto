@@ -109,35 +109,59 @@ public class ClasificadorNaiveBayes extends Clasificador {
 
     @Override
     public ArrayList<Integer> clasifica(Datos datosTest) {
-        double counter;
+        //double counter;
         ArrayList<Integer> res = new ArrayList<>();
         
         /*Una instancia por sample <Clase,Probabilidad>*/
         HashMap<Integer,Double> sampleProbs;
+        
         int numClases = Diccionario.getInstance().getDiccionario().size();
+        /*numero de categorias, sin contar con la clase*/
         int numCategorias = datosTest.getCategorias().size()-1;
     
         double matrizSamples[][] = datosTest.getDatos();
         
+        /*itera sobre el conjunto de test*/
         for (double[] sample : matrizSamples){
             
             sampleProbs = new HashMap<>();
-
+            
+            /*itera sobre el numero de clases*/
             for (int j = 0;j < numClases;j++){
+                
                 sampleProbs.put(j,this.probApriori.get(j));
+                
+                /*itera sobre las categorias de cada elemento del conjunto
+                    de test*/
                 for (int i = 0;i < numCategorias;i++){
-                    counter = sampleProbs.get(j);
+                    
+                    
                     if(probCond.get(j).get(i).get(sample[i]) != null)
-                        sampleProbs.put(j, counter*probCond.get(j).get(i).get(sample[i]));
+                    {
+                        /**
+                         * bayes = p(Clase)*p(Categoria nº 1 | Clase)*p(Categoria nº 2 | Clase)*
+                         *  *p(Categoria nº i | Clase)
+                         */
+                        double bayes = sampleProbs.get(j)*probCond.get(j).get(i).get(sample[i]);
+                        sampleProbs.put(j, bayes);
+                    }
+                        
                     else
-                        sampleProbs.put(j, counter*0.001);  ///AQUI ES LO QUE DIGO ... Meto un alfa pequeño pero esto no es Laplace
+                        sampleProbs.put(j,sampleProbs.get(j)*0.001);  ///AQUI ES LO QUE DIGO ... Meto un alfa pequeño pero esto no es Laplace
                 }
             }
             
+            /**
+             * obtiene la mayor probabilidad de todas. Devuelve la key
+             * que corresponde al identificador de la clase con mayor prob.
+             */
             Integer maxKey = null; 
             Double maxValue = Double.MIN_VALUE; 
+            
             for(HashMap.Entry<Integer,Double> entry : sampleProbs.entrySet()) { 
+                
                 if(entry.getValue() > maxValue) { 
+                    
                     maxValue = entry.getValue(); 
                     maxKey = entry.getKey(); 
                 } 
