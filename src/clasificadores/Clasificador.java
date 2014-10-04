@@ -16,6 +16,7 @@ import particionado.ValidacionCruzada;
  * para  evaluarlo.
  * 
  * @author Adrián Lorenzo Mateo
+ * @author Andres Ruiz Carraco
  */
 abstract public class Clasificador {
     
@@ -43,7 +44,7 @@ abstract public class Clasificador {
         //System.out.println(prediccion);
         //System.out.println(real);
         for (int i = 0; i < prediccion.size(); i++){
-            if(prediccion.get(i)!= null && prediccion.get(i).equals(real.get(i)))
+            if(/*prediccion.get(i)!= null &&*/ prediccion.get(i).equals(real.get(i)))
                count++;
         }
         /*Aciertos / totales*/
@@ -72,42 +73,102 @@ abstract public class Clasificador {
         return null;
     }
 
-    public static void main(String []args) {
+//    public static void main(String []args) {
+//          TU MAIN !!! QUE PONGO EL MIO PRARA PROBAR TODO DE GOLPE
+//        //Datos d = Datos.cargaDeFichero("car.data");
+////        
+//        ////System.out.print(d.toString());
+//        ////System.out.print("\n\n");
+////        
+//        //EstrategiaParticionado part = new ValidacionCruzada();
+////        
+////        
+//        //double totalError = 0;
+//        //ArrayList<Particion> particiones =
+//         //part.crearParticiones(d.getDatos().length, 3);        
+//        //for(int i=0; i<100; i++){            
+//            //double error=0;
+//            //for(Particion idx : particiones){                
+//                //Datos train = d.extraeDatosTrain(idx);
+//                //Datos test = d.extraeDatosTest(idx);
+//                ////System.out.println("TRAIN\n");
+//                ////System.out.print(train.toString());
+//                ////System.out.print("\n\nTEST\n" + test.toString());
+//                //Clasificador c = new ClasificadorNaiveBayes();
+//                //c.entrenamiento(train);
+//                ////System.out.print(c.clasifica(test));
+//                ////System.out.println(c.error(test, c));
+//                //error += c.error(test, c);
+//            //}
+//            //error /= particiones.size();
+//            //totalError += error;
+//        //}
+//        //totalError /= 100;
+////        
+//        //System.out.println(totalError);
+//    //} 
+        public static void main(String []args) {
+
+        //Datos a = Datos.cargaDeFichero("iris.data");
+        //Datos b = Datos.cargaDeFichero("car.data");
+        //Datos c = Datos.cargaDeFichero("lenses.data");
+        Datos d = Datos.cargaDeFichero("spambase.data");
         
-        //Datos d = Datos.cargaDeFichero(args[0]);
-        /*Para no tener que configurar el netBeans BORRRAR!!!!!*/
-        Datos d = Datos.cargaDeFichero("car.data");
         
-        //System.out.print(d.toString());
-        //System.out.print("\n\n");
-        
-        EstrategiaParticionado part = new ValidacionCruzada();
-        
-        
-        double totalError = 0;
-        ArrayList<Particion> particiones = part.crearParticiones(d.getDatos().length, 3);
-        
-        for(int i=0; i<100; i++){
-            
-            double error=0;
-            for(Particion idx : particiones){
-                
-                Datos train = d.extraeDatosTrain(idx);
-                Datos test = d.extraeDatosTest(idx);
-                //System.out.println("TRAIN\n");
-                //System.out.print(train.toString());
-                //System.out.print("\n\nTEST\n" + test.toString());
-                Clasificador c = new ClasificadorNaiveBayes();
-                c.entrenamiento(train);
-                //System.out.print(c.clasifica(test));
-                //System.out.println(c.error(test, c));
-                error += c.error(test, c);
-            }
-            error /= particiones.size();
-            totalError += error;
+        /*
+        //"Base de datos iris"
+        System.out.println("Base de datos iris");
+        //System.out.println(a.toString()); No vale de nada imprimir esto
+        EstrategiaParticionado partA = new DivisionPorcentual();
+        for(Particion idx : partA.crearParticiones(150, 30)){
+            Datos train = a.extraeDatosTrain(idx);
+            Datos test = a.extraeDatosTest(idx);
+            Clasificador clasi = new ClasificadorNaiveBayes();
+            clasi.entrenamiento(train);
+            System.out.println(clasi.error(test, clasi));
         }
-        totalError /= 100;
         
-        System.out.println(totalError);
+        
+        
+        //"Base de datos car"
+        System.out.println("Base de datos Car");
+        //System.out.println(b.toString());
+        EstrategiaParticionado partB = new DivisionPorcentual();
+        for(Particion idx : partB.crearParticiones(1728, 30)){
+            Datos train = b.extraeDatosTrain(idx);
+            Datos test = b.extraeDatosTest(idx);
+            Clasificador clasi = new ClasificadorNaiveBayes();
+            clasi.entrenamiento(train);
+            Double res = clasi.error(test, clasi);
+            System.out.println(clasi.error(test, clasi));
+        }
+        
+        
+        
+        //"Base de datos lenses"
+        System.out.println("Base de datos lenses");
+        //System.out.println(b.toString());
+        EstrategiaParticionado partC = new DivisionPorcentual();
+        for(Particion idx : partC.crearParticiones(24, 30)){
+            Datos train = c.extraeDatosTrain(idx);
+            Datos test = c.extraeDatosTest(idx);
+            Clasificador clasi = new ClasificadorNaiveBayes();
+            clasi.entrenamiento(train);
+            System.out.println(clasi.error(test, clasi));
+        }
+        
+        */
+        //"Base de datos spam"
+        System.out.println("Base de datos spambase");
+        //System.out.println(d.toString());
+        EstrategiaParticionado partD = new DivisionPorcentual();
+        for(Particion idx : partD.crearParticiones(4601, 30)){
+            Datos train = d.extraeDatosTrain(idx);
+            Datos test = d.extraeDatosTest(idx);
+            Clasificador clasi = new ClasificadorNaiveBayes();
+            clasi.entrenamiento(train);
+            
+            System.out.println(clasi.error(test, clasi));
+        }
     } 
 }

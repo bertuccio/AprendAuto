@@ -217,17 +217,27 @@ public class ClasificadorNaiveBayes extends Clasificador {
              * que corresponde al identificador de la clase con mayor prob.
              */
             Integer maxKey = null; 
-            Double maxValue = Double.MIN_VALUE; 
-            
-            for(Entry<Integer,Double> entry : sampleProbs.entrySet()) { 
-                
-                if(entry.getValue() > maxValue) { 
-                    
-                    maxValue = entry.getValue(); 
-                    maxKey = entry.getKey(); 
-                } 
+            Double maxValue = -1.0; 
+            if(!sampleProbs.entrySet().isEmpty()){
+                for(Entry<Integer,Double> entry : sampleProbs.entrySet()) { 
+                    if(entry.getValue().isNaN())
+                        entry. setValue(0.0);
+                    /*if(entry.getValue() < Double.MIN_VALUE)
+                        System.out.println(Double.MIN_VALUE); /// JAJAJAJAJAJAJAJAJAJAJAJJJAJAJA WTF!! MIN_VALUE SE LLAMA MIN_VALUE*/
+                        /*Tio lo de java es acojonante te lo juro.... pongo -1 que como son probabilidades como poco tiene 0 ...*/
+                    if(entry.getValue().isInfinite())
+                        entry.setValue(Double.MAX_VALUE);
+                    if(entry.getValue() >= maxValue) { 
+                        maxValue = entry.getValue(); 
+                        maxKey = entry.getKey(); 
+                    } 
+                }
+                res.add(maxKey);  
+            }else{
+                System.out.println("RaroRaro1"); //No entra nunca .. como es normal ... entonces que cojones.... Double.Min_Value no sera >
             }
-            res.add(maxKey);  
+            if (maxKey == null)
+                System.out.println("RaroRaro2");    
         }
         /*El retorno es una lista de Clases de las muestras de test en orden*/
         return res;

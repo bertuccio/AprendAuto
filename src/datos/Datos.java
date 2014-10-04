@@ -18,6 +18,7 @@ import particionado.Particion;
  * Almacena los conjuntos de datos.
  * 
  * @author Adrián Lorenzo Mateo
+ * @author Andres Ruiz Carrasco
  */
 public class Datos {
     
@@ -63,8 +64,7 @@ public class Datos {
             this.categorias);
         int i = 0;
         for(Integer j : idx.getIndicesTrain()) {
-            for(int z=0; z<this.tipoAtributos.size(); z++)
-                datosTrain.datos[i][z] = this.datos[j][z];
+            System.arraycopy(this.datos[j], 0, datosTrain.datos[i], 0, this.tipoAtributos.size());
             i++;
         }
           
@@ -84,8 +84,7 @@ public class Datos {
             this.categorias);
         int i = 0;
         for(Integer j : idx.getIndicesTest()) {
-            for(int z=0; z<this.tipoAtributos.size(); z++)
-                datosTest.datos[i][z] = this.datos[j][z];
+            System.arraycopy(this.datos[j], 0, datosTest.datos[i], 0, this.tipoAtributos.size());
             i++;
         }
           
