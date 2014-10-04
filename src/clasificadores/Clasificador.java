@@ -38,12 +38,12 @@ abstract public class Clasificador {
         int count = 0;
        
         for(double[] sample : datos.getDatos()){
-           real.add(Double.valueOf(sample[datos.getCategorias().indexOf("Class")]).intValue());
+           real.add(Double.valueOf(sample[datos.getCategorias().indexOf("class")]).intValue());
         }
-        System.out.println(prediccion);
-        System.out.println(real);
+        //System.out.println(prediccion);
+        //System.out.println(real);
         for (int i = 0; i < prediccion.size(); i++){
-           if (prediccion.get(i).equals(real.get(i)))
+            if(prediccion.get(i)!= null && prediccion.get(i).equals(real.get(i)))
                count++;
         }
         /*Aciertos / totales*/
@@ -78,21 +78,36 @@ abstract public class Clasificador {
         /*Para no tener que configurar el netBeans BORRRAR!!!!!*/
         Datos d = Datos.cargaDeFichero("car.data");
         
-        System.out.print(d.toString());
-        System.out.print("\n\n");
+        //System.out.print(d.toString());
+        //System.out.print("\n\n");
         
         EstrategiaParticionado part = new ValidacionCruzada();
         
-        for(Particion idx : part.crearParticiones(1728, 3)){
-            Datos train = d.extraeDatosTrain(idx);
-            Datos test = d.extraeDatosTest(idx);
-            //System.out.println("TRAIN\n");
-            //System.out.print(train.toString());
-            //System.out.print("\n\nTEST\n" + test.toString());
-            Clasificador c = new ClasificadorNaiveBayes();
-            c.entrenamiento(train);
-            //System.out.print(c.clasifica(test));
-            System.out.print(c.error(test, c));
+        
+        double totalError = 0;
+        ArrayList<Particion> particiones = part.crearParticiones(d.getDatos().length, 3);
+        
+        for(int i=0; i<100; i++){
+            
+            double error=0;
+            for(Particion idx : particiones){
+                
+                Datos train = d.extraeDatosTrain(idx);
+                Datos test = d.extraeDatosTest(idx);
+                //System.out.println("TRAIN\n");
+                //System.out.print(train.toString());
+                //System.out.print("\n\nTEST\n" + test.toString());
+                Clasificador c = new ClasificadorNaiveBayes();
+                c.entrenamiento(train);
+                //System.out.print(c.clasifica(test));
+                //System.out.println(c.error(test, c));
+                error += c.error(test, c);
+            }
+            error /= particiones.size();
+            totalError += error;
         }
+        totalError /= 100;
+        
+        System.out.println(totalError);
     } 
 }

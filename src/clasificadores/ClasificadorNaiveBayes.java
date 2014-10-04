@@ -49,7 +49,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
         int numTuplas = datosTrain.getDatos().length;
         
         /*obtiene el indice de la clase dentro de la matriz de datos*/
-        int indexClass = datosTrain.getCategorias().indexOf("Class");
+        int indexClass = datosTrain.getCategorias().indexOf("class");
         
         /*Itera sobre las clases del conjunto de datos*/
         for (int numClass = 0; numClass < totalClases; numClass++) {
@@ -92,7 +92,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
         double contVarianza = 0;
         
         /*obtiene el indice de la clase dentro de la matriz de datos*/
-        int indexClass = datosTrain.getCategorias().indexOf("Class");
+        int indexClass = datosTrain.getCategorias().indexOf("class");
         
         /*Por cada clase*/
         for (int clase=0; clase<numClases; clase++) {
@@ -191,18 +191,19 @@ public class ClasificadorNaiveBayes extends Clasificador {
                 for (int i = 0;i < numCategorias;i++){
                     
                     
-                    if(((HashMap<Double,Double>)probCond.get(j).get(i)).get(sample[i]) != null && datosTest.getTipoAtributos().get(i).name().equals("Nominal"))
+                    if(datosTest.getTipoAtributos().get(i).name().equals("Nominal"))
                     {
-                        /**
-                         * bayes = p(Clase)*p(Categoria nº 1 | Clase)*p(Categoria nº 2 | Clase)*
-                         *  *p(Categoria nº i | Clase)
-                         */
-                        bayes = sampleProbs.get(j)*((HashMap<Double,Double>)probCond.get(j).get(i)).get(sample[i]);
+                        if(((HashMap<Double,Double>)probCond.get(j).get(i)).get(sample[i]) !=null){
+                            /**
+                             * bayes = p(Clase)*p(Categoria nº 1 | Clase)*p(Categoria nº 2 | Clase)*
+                             *  *p(Categoria nº i | Clase)
+                             */
+                            bayes = sampleProbs.get(j)*((HashMap<Double,Double>)probCond.get(j).get(i)).get(sample[i]);
+                        }
+                        else
+                            bayes = sampleProbs.get(j)*0.01;
                         
-                    } 
-                    else if (((HashMap<Double,Double>)probCond.get(j).get(i)).get(sample[i]) == null){
-                        bayes = sampleProbs.get(j)*0;
-                    }
+                    }  
                     else{
                         double gaussian = this.calculaGaussian(sample[i], ((double[])probCond.get(j).get(i))[1], ((double[])probCond.get(j).get(i))[0]);
                         bayes = sampleProbs.get(j)*gaussian;

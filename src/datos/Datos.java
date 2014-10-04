@@ -137,6 +137,12 @@ public class Datos {
             
             /*Segunda linea, nombre de los campos*/
             String[] categorias = sc.nextLine().split(",");
+            
+            for(int i=0; i<categorias.length; i++) {
+                
+                categorias[i] = categorias[i].toLowerCase();
+                
+            }
              
             /*Tercera linea, tipos de atributos: Nominal o Continuo*/
             String data [] = sc.nextLine().split(",");
@@ -167,7 +173,7 @@ public class Datos {
                         
                  
                         if(tipoAtributos.get(j).equals(
-                                TiposDeAtributos.Nominal) && !datos.getCategorias().get(j).equals("Class")) {
+                                TiposDeAtributos.Nominal) && !datos.getCategorias().get(j).equals("class")) {
                             
                             if(!diccionario.getDiccionarioAtributos().containsKey(inputData[j])) {
                                 
@@ -181,7 +187,7 @@ public class Datos {
                                 datos.datos[i][j] = diccionario.getDiccionarioAtributos().get(inputData[j]);
                             
                         }
-                        else if(datos.getCategorias().get(j).equals("Class")){
+                        else if(datos.getCategorias().get(j).equals("class")){
                             
                             if(!diccionario.getDiccionarioClases().containsKey(inputData[j])) {
                                 
