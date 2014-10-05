@@ -17,7 +17,7 @@ import java.util.Map.Entry;
  * @author Adrián Lorenzo Mateo
  */
 public class ClasificadorNaiveBayes extends Clasificador {
-    private boolean LAPLACE_FLAG = true;
+    private boolean LAPLACE_FLAG = false;
 
     public boolean isLAPLACE_FLAG() {
         return LAPLACE_FLAG;
