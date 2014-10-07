@@ -4,6 +4,8 @@ package datos;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -39,6 +41,15 @@ public class Diccionario {
     
     public  HashMap<String,Integer> getDiccionarioAtributos() {
         return atributos;
+    }
+    
+    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Entry<T, E> entry : map.entrySet()) {
+            if (value.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
     
     

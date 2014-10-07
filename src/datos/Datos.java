@@ -222,10 +222,19 @@ public class Datos {
     public String toString() {
         
         String s = "";
+        Diccionario dic = Diccionario.getInstance();
         
         for (double[] dato : datos) {
             for (int j = 0; j < dato.length; j++) {
-                s = s + dato[j] + ",";
+                if(tipoAtributos.get(j).name().equals("Nominal") &&
+                        !categorias.get(j).equals("class"))
+                    
+                    s = s + Diccionario.getKeyByValue(dic.getDiccionarioAtributos(),(int) dato[j]) + ",";
+                else if(categorias.get(j).equals("class"))
+                    s = s + Diccionario.getKeyByValue(dic.getDiccionarioClases(),(int) dato[j]) + ",";
+                else
+                    s = s + dato[j] + ",";
+
             }
             s = s + "\n";
         }

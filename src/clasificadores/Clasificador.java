@@ -129,7 +129,7 @@ abstract public class Clasificador {
 
             }
             if (args[i].compareTo("-laplace") == 0) {
-                
+                System.out.println("OJETE");
                 ((ClasificadorNaiveBayes) c).setLAPLACE_FLAG(true);
             }
             if (args[i].compareTo("-particion") == 0) {
@@ -145,26 +145,26 @@ abstract public class Clasificador {
         double totalError = 0;
         ArrayList<Particion> particiones = part.crearParticiones(d.getDatos().length, particion);
         
-        for(int i=0; i<100; i++){
+       //for(int i=0; i<100; i++){
             
             double error=0;
             for(Particion idx : particiones){
                 
                 Datos train = d.extraeDatosTrain(idx);
                 Datos test = d.extraeDatosTest(idx);
-                //System.out.println("TRAIN\n");
-                //System.out.print(train.toString());
+                System.out.println("TRAIN\n");
+                System.out.print(train.toString());
                 //System.out.print("\n\nTEST\n" + test.toString());
                 
                 c.entrenamiento(train);
                 //System.out.print(c.clasifica(test));
-                //System.out.println(c.error(test, c));
+                System.out.println(c.error(test, c));
                 error += c.error(test, c);
             }
             error /= particiones.size();
             //System.out.println(error);
             totalError += error;
-        }
+        //}
         totalError /= 100;
         
         System.out.println(totalError);
