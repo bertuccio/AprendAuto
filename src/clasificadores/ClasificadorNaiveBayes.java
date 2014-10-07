@@ -78,7 +78,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
             probApriori.add(aprioriCounter);
             String clase = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioClases(),numClass);
             
-            System.out.println("P("+clase+") = "+probApriori.get(numClass));
+            System.out.println("P(Class="+clase+") = "+probApriori.get(numClass));
         }
     }
     
@@ -141,7 +141,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
                             String claseName = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioClases(),clase);
                             String atributoNominalName = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioAtributos(),key.intValue());
 
-                            System.out.println("P("+datosTrain.getCategorias().get(i)+"="+atributoNominalName+"|"+datosTrain.getCategorias().get(clase)+"="+claseName+") = "+map.get(key));
+                            System.out.println("P("+datosTrain.getCategorias().get(i)+"="+atributoNominalName+"| Class="+claseName+") = "+map.get(key));
                         }
                                 
                         
