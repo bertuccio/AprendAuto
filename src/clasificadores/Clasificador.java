@@ -44,7 +44,7 @@ abstract public class Clasificador {
         //System.out.println(prediccion);
         //System.out.println(real);
         for (int i = 0; i < prediccion.size(); i++){
-            if(/*prediccion.get(i)!= null &&*/ prediccion.get(i).equals(real.get(i)))
+            if(prediccion.get(i).equals(real.get(i)))
                count++;
         }
         /*Aciertos / totales*/
@@ -58,19 +58,20 @@ abstract public class Clasificador {
      * @param part
      * @param datos
      * @param clas
+     * @param config
      * @return 
      */
     public static ArrayList<Double> validacion(EstrategiaParticionado part, Datos datos, 
-        Clasificador clas) {
-
-        //Creamos las particiones siguiendo la estrategia llamando a datos.creaParticiones
-        //Para validación cruzada: En un bucle hasta nv entrenamos el clasf con la particion
-        // de train i (extraerDatosTrain)
-        // y obtenemos el error en la particion test de i (extraerDatosTest)
-        //Para validación porcentual entrenamos el clasf con la partición de train 
-        //(extraerDatosTrain) y 
-        // obtenemos el error en la particion test (extraerDatosTest)
-        return null;
+        Clasificador clas, Integer config) {
+        ArrayList<Double> res = new ArrayList<>();
+        ArrayList<Particion> particiones = part.crearParticiones(datos.getDatos().length, config);
+        for(Particion idx : particiones){                
+            Datos train = datos.extraeDatosTrain(idx);
+            Datos test = datos.extraeDatosTest(idx);
+            clas.entrenamiento(train);
+            res.add(clas.error(test, clas));
+        }
+        return res;
     }
 
 //    public static void main(String []args) {
