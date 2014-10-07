@@ -132,22 +132,20 @@ public class ClasificadorNaiveBayes extends Clasificador {
                         numElementClase +=value;                   
 
                     /*Aqui aplicamos correcion de Laplace antes de normalizar*/
-                    if(this.LAPLACE_FLAG){
-                        for(Double key : map.keySet())
-                            map.put(key, map.get(key)+1/(numElementClase+map.keySet().size()));                
-                    }else{
-                        for(Double key : map.keySet()){
-                            map.put(key, map.get(key)/(numElementClase)); 
-                            String claseName = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioClases(),clase);
-                            String atributoNominalName = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioAtributos(),key.intValue());
+                    
+                     
+                    for (Double key : map.keySet()) {
+                        if (this.LAPLACE_FLAG) 
+                            map.put(key, (map.get(key) + 1) / (numElementClase + map.keySet().size()));
+                        else 
+                            map.put(key, map.get(key) / (numElementClase));
+                     
+                     String claseName = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioClases(), clase);
+                     String atributoNominalName = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioAtributos(), key.intValue());
 
-                            System.out.println("P("+datosTrain.getCategorias().get(i)+"="+atributoNominalName+"| Class="+claseName+") = "+map.get(key));
-                        }
-                                
-                        
-            
-                        
+                     System.out.println("P(" + datosTrain.getCategorias().get(i) + "=" + atributoNominalName + "| Class=" + claseName + ") = " + map.get(key));
                     }
+                    
                     prob.add(map);  
                     
                 }
