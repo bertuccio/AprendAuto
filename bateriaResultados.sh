@@ -2,10 +2,10 @@
 
 
 
-echo "#  VALIDACION CRUZADA" > car_output
-echo "#  VALIDACION CRUZADA" > iris_output
-echo "#  VALIDACION CRUZADA" > lenses_output
-echo "#  VALIDACION CRUZADA" > spambase_output
+echo "  VALIDACION CRUZADA" > car_output
+echo "  VALIDACION CRUZADA" > iris_output
+echo "  VALIDACION CRUZADA" > lenses_output
+echo "  VALIDACION CRUZADA" > spambase_output
 
 inicio=2
 final=8
@@ -28,10 +28,10 @@ done
 
 
 
-echo "# DIVISION PORCENTUAL" >> car_output
-echo "# DIVISION PORCENTUAL" >> iris_output
-echo "# DIVISION PORCENTUAL" >> lenses_output
-echo "# DIVISION PORCENTUAL" >> spambase_output
+echo " DIVISION PORCENTUAL" >> car_output
+echo " DIVISION PORCENTUAL" >> iris_output
+echo " DIVISION PORCENTUAL" >> lenses_output
+echo " DIVISION PORCENTUAL" >> spambase_output
 
 inicio=10
 final=90

@@ -223,7 +223,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
                     }  
                     else{
                         double gaussian = this.calculaGaussian(sample[i], ((double[])probCond.get(j).get(i))[1], ((double[])probCond.get(j).get(i))[0]);
-                        System.out.println("GUASSIAN ="+gaussian);
+                        //System.out.println("GUASSIAN ="+gaussian);
                         bayes = sampleProbs.get(j)*gaussian;
                     }
                     sampleProbs.put(j, bayes);
