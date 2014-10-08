@@ -176,7 +176,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
     }
     
     private double calculaGaussian(double valor, double media,double varianza){
-        return ((1.0/(Math.sqrt(varianza)*Math.sqrt(2*Math.PI)))*Math.pow(Math.E,(-((valor-media)*(valor-media)/(2*varianza)))));
+        return (double) ((1.0)*Math.pow(Math.E,(-(Math.pow(valor-media,2))/(2*varianza))))/(Math.sqrt(varianza)*Math.sqrt(2*Math.PI));
     }
 
     @Override
@@ -223,6 +223,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
                     }  
                     else{
                         double gaussian = this.calculaGaussian(sample[i], ((double[])probCond.get(j).get(i))[1], ((double[])probCond.get(j).get(i))[0]);
+                        System.out.println("GUASSIAN ="+gaussian);
                         bayes = sampleProbs.get(j)*gaussian;
                     }
                     sampleProbs.put(j, bayes);

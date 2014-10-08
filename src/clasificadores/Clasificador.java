@@ -146,7 +146,7 @@ abstract public class Clasificador {
         double totalError = 0;
         ArrayList<Particion> particiones = part.crearParticiones(d.getDatos().length, particion);
         
-       for(int i=0; i<100; i++){
+      // for(int i=0; i<100; i++){
             
             double error=0;
             for(Particion idx : particiones){
@@ -165,7 +165,7 @@ abstract public class Clasificador {
             error /= particiones.size();
             //System.out.println(error);
             totalError += error;
-        }
+        //}
         totalError /= 100;
         
         System.out.println(totalError);
