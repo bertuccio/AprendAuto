@@ -57,7 +57,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
         /*obtiene el indice de la clase dentro de la matriz de datos*/
         int indexClass = datosTrain.getCategorias().indexOf("class");
         
-        System.out.println("PROB A PRIORI");
+        //System.out.println("PROB A PRIORI");
         /*Itera sobre las clases del conjunto de datos*/
         for (int numClass = 0; numClass < totalClases; numClass++) {
             
@@ -78,7 +78,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
             probApriori.add(aprioriCounter);
             String clase = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioClases(),numClass);
             
-            System.out.println("P(Class="+clase+") = "+probApriori.get(numClass));
+            //System.out.println("P(Class="+clase+") = "+probApriori.get(numClass));
         }
     }
     
@@ -136,14 +136,14 @@ public class ClasificadorNaiveBayes extends Clasificador {
                      
                     for (Double key : map.keySet()) {
                         if (this.LAPLACE_FLAG) 
-                            map.put(key, (map.get(key) + 1) / (numElementClase + map.keySet().size()));
+                            map.put(key, (double)(map.get(key) + 1) / (numElementClase + map.keySet().size()));
                         else 
                             map.put(key, map.get(key) / (numElementClase));
                      
                      String claseName = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioClases(), clase);
                      String atributoNominalName = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioAtributos(), key.intValue());
 
-                     System.out.println("P(" + datosTrain.getCategorias().get(i) + "=" + atributoNominalName + "| Class=" + claseName + ") = " + map.get(key));
+                     //System.out.println("P(" + datosTrain.getCategorias().get(i) + "=" + atributoNominalName + "| Class=" + claseName + ") = " + map.get(key));
                     }
                     
                     prob.add(map);  
