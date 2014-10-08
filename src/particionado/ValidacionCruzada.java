@@ -8,6 +8,7 @@ import java.util.List;
  * Estrategia de particionado de tipo Validación Cruzada.
  * 
  * @author Adrián Lorenzo Mateo
+ * @author Andres Ruiz Carrasco
  */
 public class ValidacionCruzada implements EstrategiaParticionado {
 
@@ -42,7 +43,6 @@ public class ValidacionCruzada implements EstrategiaParticionado {
             listDatos.add(i);
         }
 
-        //  int fromIndex = 0;
         int toIndex = tamanioParticion;
 
         for (int i = 0; i < numParticiones; i++) {

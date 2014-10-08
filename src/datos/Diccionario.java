@@ -9,16 +9,18 @@ import java.util.Map.Entry;
 
 /**
  *
- *  Almacena una correspondencia entre una categoría nominal y un identificador
- *  mediante una tabla hash. Diseñado como Singleton.
+ *  Almacena una correspondencia entre una elemento nominal (tanto atributo,
+ *  como clase) y un identificador mediante una tabla hash. 
+ *  Diseñado como Singleton.
  * 
  * @author Adrián Lorenzo Mateo
+ * @author Andres Ruiz Carrasco
  */
 public class Diccionario {
     
     private static Diccionario miDiccionario;
-    private  HashMap<String,Integer> clases;
-    private  HashMap<String,Integer> atributos; 
+    private  HashMap<String,Integer> clases; //diccionario de clases
+    private  HashMap<String,Integer> atributos; //diccionario de atributos
     
     private Diccionario() { 
     
@@ -43,6 +45,16 @@ public class Diccionario {
         return atributos;
     }
     
+    /**
+     * 
+     * Obtiene una clave del diccionario dado un valor (correspondiencia 1:1).
+     * 
+     * @param <T>
+     * @param <E>
+     * @param map
+     * @param value
+     * @return 
+     */
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
         for (Entry<T, E> entry : map.entrySet()) {
             if (value.equals(entry.getValue())) {

@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * de  particionado  del  particionado  en  sí  mismo.
  * 
  * @author Adrián Lorenzo Mateo
+ * @author Andres Ruiz Carrasco
  */
 public interface EstrategiaParticionado {
     

@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * Modela particiones a través de indices de entrenamiento y test.
  * 
  * @author Adrián Lorenzo Mateo
+ * @author Andres Ruiz Carrasco
  */
 public class Particion 
 {

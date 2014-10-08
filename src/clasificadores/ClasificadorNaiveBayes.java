@@ -15,6 +15,7 @@ import java.util.Map.Entry;
  * Clasificador mediante el método de Naive Bayes (Bayes ingenuo).
  *
  * @author Adrián Lorenzo Mateo
+ * @author Andres Ruiz Carrasco
  */
 public class ClasificadorNaiveBayes extends Clasificador {
     private boolean LAPLACE_FLAG = false;

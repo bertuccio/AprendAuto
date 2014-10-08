@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * 
  * 
  * @author Adrián Lorenzo Mateo
+ * @author Andres Ruiz Carrasco
  */
 public class DivisionPorcentual implements EstrategiaParticionado{
     
@@ -45,7 +46,7 @@ public class DivisionPorcentual implements EstrategiaParticionado{
         
         int tamanioParticion = (int) (numDatos*porcentaje*0.01);
         
-        /*INDICES VAN DE 0 a numDatos-1!!*/
+        /*Indices van desde 0 a numDatos-1!!*/
         for(int i=0; i<tamanioParticion; i++)
             indicesTrain.add(i);
         
