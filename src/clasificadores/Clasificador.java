@@ -58,13 +58,13 @@ abstract public class Clasificador {
      * @param part
      * @param datos
      * @param clas
-     * @param config
+     * @param nParticion
      * @return 
      */
     public static ArrayList<Double> validacion(EstrategiaParticionado part, Datos datos, 
-        Clasificador clas, Integer config) {
+        Clasificador clas, Integer nParticion) {
         ArrayList<Double> res = new ArrayList<>();
-        ArrayList<Particion> particiones = part.crearParticiones(datos.getDatos().length, config);
+        ArrayList<Particion> particiones = part.crearParticiones(datos.getDatos().length, nParticion);
         for(Particion idx : particiones){                
             Datos train = datos.extraeDatosTrain(idx);
             Datos test = datos.extraeDatosTest(idx);
@@ -74,100 +74,59 @@ abstract public class Clasificador {
         return res;
     }
 
-//    public static void main(String []args) {
-//          TU MAIN !!! QUE PONGO EL MIO PRARA PROBAR TODO DE GOLPE
-//        //Datos d = Datos.cargaDeFichero("car.data");
-////        
-//        ////System.out.print(d.toString());
-//        ////System.out.print("\n\n");
-////        
-//        //EstrategiaParticionado part = new ValidacionCruzada();
-////        
-////        
-//        //double totalError = 0;
-//        //ArrayList<Particion> particiones =
-//         //part.crearParticiones(d.getDatos().length, 3);        
-//        //for(int i=0; i<100; i++){            
-//            //double error=0;
-//            //for(Particion idx : particiones){                
-//                //Datos train = d.extraeDatosTrain(idx);
-//                //Datos test = d.extraeDatosTest(idx);
-//                ////System.out.println("TRAIN\n");
-//                ////System.out.print(train.toString());
-//                ////System.out.print("\n\nTEST\n" + test.toString());
-//                //Clasificador c = new ClasificadorNaiveBayes();
-//                //c.entrenamiento(train);
-//                ////System.out.print(c.clasifica(test));
-//                ////System.out.println(c.error(test, c));
-//                //error += c.error(test, c);
-//            //}
-//            //error /= particiones.size();
-//            //totalError += error;
-//        //}
-//        //totalError /= 100;
-////        
-//        //System.out.println(totalError);
-//    //} 
-   public static void main(String []args) {
-        
-        //Datos d = Datos.cargaDeFichero(args[0]);
-        /*Para no tener que configurar el netBeans BORRRAR!!!!!*/
-        
+    public static void main(String[] args) {
+
         String inputFile = "input";
         Integer particion = 5;
-        
+
         EstrategiaParticionado part = new DivisionPorcentual();
-        Clasificador c = new ClasificadorNaiveBayes();
-        
+        Clasificador clasificador = new ClasificadorNaiveBayes();
+
         for (int i = 0; i < args.length; i++) {
+            
             if (args[i].compareTo("-input") == 0) {
+                
                 inputFile = args[i + 1];
                 i++;
             }
             if (args[i].compareTo("-cruzada") == 0) {
-                
+
                 part = new ValidacionCruzada();
 
             }
             if (args[i].compareTo("-laplace") == 0) {
-                //System.out.println("OJETE");
-                ((ClasificadorNaiveBayes) c).setLAPLACE_FLAG(true);
+                
+                ((ClasificadorNaiveBayes) clasificador).setLAPLACE_FLAG(true);
             }
             if (args[i].compareTo("-particion") == 0) {
+                
                 particion = Integer.parseInt(args[i + 1]);
                 i++;
             }
+            if (args[i].compareTo("-debug") == 0) {
+                
+                ((ClasificadorNaiveBayes) clasificador).setDEBUG_FLAG(true);
+            }
         }
         Datos d = Datos.cargaDeFichero(inputFile);
-        
-        //System.out.print(d.toString());
-        //System.out.print("\n\n");
-        
+
         double totalError = 0;
-        ArrayList<Particion> particiones = part.crearParticiones(d.getDatos().length, particion);
-        
-      for(int i=0; i<100; i++){
-            
-            double error=0;
-            for(Particion idx : particiones){
-                
-                Datos train = d.extraeDatosTrain(idx);
-                Datos test = d.extraeDatosTest(idx);
-                //System.out.println("TRAIN\n");
-                //System.out.print(train.toString());
-                //System.out.print("\n\nTEST\n" + test.toString());
-                
-                c.entrenamiento(train);
-                //System.out.print(c.clasifica(test));
-                //System.out.println(c.error(test, c));
-                error += c.error(test, c);
+
+        for (int i = 0; i < 100; i++) {
+
+            double error = 0;
+            ArrayList<Double> resultados = Clasificador.validacion(
+                    part, d, clasificador, particion);
+
+            for (Double resultado : resultados) {
+                error += resultado;
             }
-            error /= particiones.size();
-            //System.out.println(error);
+
+            error /= resultados.size();
             totalError += error;
         }
         totalError /= 100;
-        
+
         System.out.println(totalError);
-    } 
+    }
 }

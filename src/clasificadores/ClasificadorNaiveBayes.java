@@ -18,31 +18,31 @@ import java.util.Map.Entry;
  * @author Andres Ruiz Carrasco
  */
 public class ClasificadorNaiveBayes extends Clasificador {
+    
+    private ArrayList<Double> probApriori = new ArrayList<>();
+    private ArrayList<ArrayList<Object>> probCond = new ArrayList<>();
+    
     private boolean LAPLACE_FLAG = false;
-
-    public boolean isLAPLACE_FLAG() {
-        return LAPLACE_FLAG;
-    }
+    private boolean DEBUG_FLAG = false;
 
     public void setLAPLACE_FLAG(boolean LAPLACE_FLAG) {
         this.LAPLACE_FLAG = LAPLACE_FLAG;
     }
 
-    private ArrayList<Double> probApriori = new ArrayList<>();
-    private ArrayList<ArrayList<Object>> probCond = new ArrayList<>();
+    public void setDEBUG_FLAG(boolean DEBUG_FLAG) {
+        this.DEBUG_FLAG = DEBUG_FLAG;
+    }   
+    
 
     @Override
     public void entrenamiento(Datos datosTrain) {
+        
         getProbAPriori(datosTrain);
         getProbCondicionada(datosTrain);
-        
-        
-   
-       
+ 
     }
     
-    
-
+ 
     /**
      *
      * Obtiene las probabilidades a priori de las clases del conjunto de
@@ -77,9 +77,13 @@ public class ClasificadorNaiveBayes extends Clasificador {
             /*Se obtinen todas las probabilidades de clase*/
             aprioriCounter = aprioriCounter / numTuplas;
             probApriori.add(aprioriCounter);
-            String clase = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioClases(),numClass);
             
-            //System.out.println("P(Class="+clase+") = "+probApriori.get(numClass));
+            if(DEBUG_FLAG){
+                
+                String clase = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioClases(),numClass);
+                System.out.println("P(Class="+clase+") = "+probApriori.get(numClass));
+            }
+            
         }
     }
     
@@ -116,6 +120,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
                 if(datosTrain.getTipoAtributos().get(i).name().equals("Nominal")){
                     
                     HashMap<Double,Double> map = new HashMap<>();
+                    
                     /*Por cada muestra*/
                     for (double[] dato : datosTrain.getDatos()) {                    
                         if (dato[indexClass] == clase) {                                                
@@ -136,15 +141,22 @@ public class ClasificadorNaiveBayes extends Clasificador {
                     
                      
                     for (Double key : map.keySet()) {
+                        
                         if (this.LAPLACE_FLAG) 
                             map.put(key, (double)(map.get(key) + 1) / (numElementClase + map.keySet().size()));
                         else 
                             map.put(key, map.get(key) / (numElementClase));
                      
-                     String claseName = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioClases(), clase);
-                     String atributoNominalName = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioAtributos(), key.intValue());
+                        if(DEBUG_FLAG){
+                            String claseName = Diccionario.getKeyByValue(Diccionario.getInstance().
+                                    getDiccionarioClases(), clase);
+                            String atributoNominalName = Diccionario.getKeyByValue(Diccionario.getInstance().
+                                    getDiccionarioAtributos(), key.intValue());
 
-                     //System.out.println("P(" + datosTrain.getCategorias().get(i) + "=" + atributoNominalName + "| Class=" + claseName + ") = " + map.get(key));
+                            System.out.println("P(" + datosTrain.getCategorias().get(i) + 
+                                    "=" + atributoNominalName + "| Class=" + claseName + ") = " + map.get(key));
+                    
+                        }
                     }
                     
                     prob.add(map);  
