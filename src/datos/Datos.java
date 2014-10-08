@@ -24,9 +24,10 @@ public class Datos {
     
     public enum TiposDeAtributos {Continuo, Nominal};
 
-    /* Tantos elementos en el array como columnas tenga el dataset*/
-    private ArrayList<TiposDeAtributos> tipoAtributos;
+    
     private double [][]datos;
+    /* Tantos elementos en los arrays como columnas tenga el dataset*/
+    private ArrayList<TiposDeAtributos> tipoAtributos;
     private ArrayList<String> categorias;
     
     
