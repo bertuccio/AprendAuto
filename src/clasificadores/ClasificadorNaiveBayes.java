@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package clasificadores;
 
 import datos.Datos;
@@ -48,7 +43,8 @@ public class ClasificadorNaiveBayes extends Clasificador {
      * Obtiene las probabilidades a priori de las clases del conjunto de
      * entrenamiento.
      *
-     * @param datosTrain
+     * @param datosTrain conjunto de datos de los que obtiene las probabilidades a priori
+     * @see datos.Datos
      */
     private void getProbAPriori(Datos datosTrain) {
         
@@ -58,7 +54,6 @@ public class ClasificadorNaiveBayes extends Clasificador {
         /*obtiene el indice de la clase dentro de la matriz de datos*/
         int indexClass = datosTrain.getCategorias().indexOf("class");
         
-        //System.out.println("PROB A PRIORI");
         /*Itera sobre las clases del conjunto de datos*/
         for (int numClass = 0; numClass < totalClases; numClass++) {
             
@@ -79,7 +74,6 @@ public class ClasificadorNaiveBayes extends Clasificador {
             probApriori.add(aprioriCounter);
             
             if(DEBUG_FLAG){
-                
                 String clase = Diccionario.getKeyByValue(Diccionario.getInstance().getDiccionarioClases(),numClass);
                 System.out.println("P(Class="+clase+") = "+probApriori.get(numClass));
             }
@@ -92,7 +86,8 @@ public class ClasificadorNaiveBayes extends Clasificador {
      * con la siguiente estructura
      * Clases->Atrubuto->valor->probabilidad
      * 
-     * @param datosTrain 
+     * @param datosTrain conjunto de datos de los que obtiene las probabilidades condicionadas
+     * @see datos.Datos
      */
     private void getProbCondicionada(Datos datosTrain) {
         
@@ -101,10 +96,10 @@ public class ClasificadorNaiveBayes extends Clasificador {
         int numCategorias = datosTrain.getCategorias().size()-1;
         
         /*Variables temporales*/
-        double varianza_media[] = null;
-        double contMedia = 0;
-        double acumMedia = 0;
-        double contVarianza = 0;
+        double varianza_media[];
+        double contMedia;
+        double acumMedia;
+        double contVarianza;
         
         /*obtiene el indice de la clase dentro de la matriz de datos*/
         int indexClass = datosTrain.getCategorias().indexOf("class");
@@ -137,7 +132,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
                     for(Double value : map.values())
                         numElementClase +=value;                   
 
-                    /*Aqui aplicamos correcion de Laplace antes de normalizar*/
+                    /*Aqui aplicamos correccion de Laplace antes de normalizar*/
                     
                      
                     for (Double key : map.keySet()) {
@@ -177,24 +172,43 @@ public class ClasificadorNaiveBayes extends Clasificador {
                     varianza_media[1] = acumMedia/(double)contMedia;
                     for (double[] dato : datosTrain.getDatos()) {                    
                         if (dato[indexClass] == clase) {   
-                            contVarianza += (- varianza_media[1] + dato[i]) * (- varianza_media[1] + dato[i]);  
+                            contVarianza += (dato[i] - varianza_media[1]) * (dato[i] - varianza_media[1]);  
                         }
                     }
                     varianza_media[0] = contVarianza/(double)contMedia;
                     prob.add(varianza_media);
+                    if(DEBUG_FLAG){
+                        String atributoContinuoName = datosTrain.getCategorias().get(i);
+                        System.out.println("Media: "+varianza_media[1]+" | Varianza: "+varianza_media[0]+" | "+atributoContinuoName+"[Clase "+clase+"]");
+                    }
+                    
                 }
             }
             probCond.add(prob);
         }
     }
     
+    /**
+     * Funcion que calcula la el valor de la distribucion normal estimada.
+     * 
+     * @param valor dato a obtener la probabilidad
+     * @param media media de la coleccion 
+     * @param varianza varianza de la coleccion
+     * @return dobule probabilidad obtenida
+     */
     private double calculaGaussian(double valor, double media,double varianza){
         return (double) ((1.0)*Math.pow(Math.E,(-(Math.pow(valor-media,2))/(2*varianza))))/(Math.sqrt(varianza)*Math.sqrt(2*Math.PI));
     }
 
+    /**
+     * Funcion que clasifica un conjunto de datos de test
+     * 
+     * @param datosTest conjunto de datos a clasificar
+     * @return Lista de clases predichas
+     * @see datos.Datos
+     */
     @Override
     public ArrayList<Integer> clasifica(Datos datosTest) {
-        //double counter;
         ArrayList<Integer> res = new ArrayList<>();
         
         /*Una instancia por sample <Clase,Probabilidad>*/
@@ -253,9 +267,6 @@ public class ClasificadorNaiveBayes extends Clasificador {
                 for(Entry<Integer,Double> entry : sampleProbs.entrySet()) { 
                     if(entry.getValue().isNaN())
                         entry. setValue(0.0);
-                    /*if(entry.getValue() < Double.MIN_VALUE)
-                        System.out.println(Double.MIN_VALUE); /// JAJAJAJAJAJAJAJAJAJAJAJJJAJAJA WTF!! MIN_VALUE SE LLAMA MIN_VALUE*/
-                        /*Tio lo de java es acojonante te lo juro.... pongo -1 que como son probabilidades como poco tiene 0 ...*/
                     if(entry.getValue().isInfinite())
                         entry.setValue(Double.MAX_VALUE);
                     if(entry.getValue() >= maxValue) { 
@@ -264,11 +275,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
                     } 
                 }
                 res.add(maxKey);  
-            }else{
-                System.out.println("RaroRaro1"); //No entra nunca .. como es normal ... entonces que cojones.... Double.Min_Value no sera >
             }
-            if (maxKey == null)
-                System.out.println("RaroRaro2");    
         }
         /*El retorno es una lista de Clases de las muestras de test en orden*/
         return res;

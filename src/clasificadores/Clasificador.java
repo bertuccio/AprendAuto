@@ -1,4 +1,3 @@
-
 package clasificadores;
 
 import datos.Datos;
@@ -28,9 +27,12 @@ abstract public class Clasificador {
      * 
      * Obtiene el numero de aciertos y errores para calcular la tasa de fallo.
      * 
-     * @param datos
-     * @param clas
-     * @return 
+     * @param datos coleccion de datos a clasificar
+     * @param clas clasificador a utilizar
+     * @return porcentaje de acierto
+     * @see datos.Datos
+     * @see clasificadores.Clasificador
+     * @see clasificadores.ClasificadorNaiveBayes
      */
     public double error (Datos datos, Clasificador clas) {
         ArrayList<Integer> prediccion = clas.clasifica(datos);
@@ -41,8 +43,7 @@ abstract public class Clasificador {
         for(double[] sample : datos.getDatos()){
            real.add(Double.valueOf(sample[datos.getCategorias().indexOf("class")]).intValue());
         }
-        //System.out.println(prediccion);
-        //System.out.println(real);
+
         for (int i = 0; i < prediccion.size(); i++){
             if(prediccion.get(i).equals(real.get(i)))
                count++;
@@ -55,10 +56,11 @@ abstract public class Clasificador {
      * 
      * Realiza una clasificacion utilizando una estrategia de particionado determinada.
      * 
-     * @param part
-     * @param datos
-     * @param clas
-     * @param nParticion
+     * @param part particionador a utilizar
+     * @param datos coleccion de datos para entrenar/clasificar
+     * @param clas clasificacion a utilizar
+     * @param nParticion Parametro de configuracion (En validacion cruzada numero de particiones) 
+     *                                              (En division porcentual porcentaje de aprendizaje)
      * @return 
      */
     public static ArrayList<Double> validacion(EstrategiaParticionado part, Datos datos, 
@@ -74,6 +76,19 @@ abstract public class Clasificador {
         return res;
     }
 
+        /**
+     * 
+     * Main de para realizar las pruebas necesarias:
+     * USO:
+     *  Parametros disponibles:
+     *      -input file: entrada de datos
+     *      -cruzada: particionado con validacion cruzada
+     *      -partition: particionado porcentual
+     *      -laplace: utilizar suavizado de laplace
+     *      -debug: activar trazas de debug          
+     * 
+     * @param args cadena de opciones "Clasificador.jar -input file -cruzada|-partition [-laplace] [-debug]"
+     */
     public static void main(String[] args) {
 
         String inputFile = "input";
