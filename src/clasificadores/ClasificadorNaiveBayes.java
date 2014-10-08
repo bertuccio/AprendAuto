@@ -172,7 +172,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
                     varianza_media[1] = acumMedia/(double)contMedia;
                     for (double[] dato : datosTrain.getDatos()) {                    
                         if (dato[indexClass] == clase) {   
-                            contVarianza += (dato[i] - varianza_media[1]) * (dato[i] - varianza_media[1]);  
+                            contVarianza += Math.pow((dato[i] - varianza_media[1]),2);
                         }
                     }
                     varianza_media[0] = contVarianza/(double)contMedia;
@@ -196,8 +196,20 @@ public class ClasificadorNaiveBayes extends Clasificador {
      * @param varianza varianza de la coleccion
      * @return dobule probabilidad obtenida
      */
-    private double calculaGaussian(double valor, double media,double varianza){
-        return (double) ((1.0)*Math.pow(Math.E,(-(Math.pow(valor-media,2))/(2*varianza))))/(Math.sqrt(varianza)*Math.sqrt(2*Math.PI));
+    private double calculaGaussian(double valor, double media,  double varianza){
+        //System.out.println("Valor "+valor+"Media "+media+"Varianza "+varianza);
+        double num = (double)(Math.pow(Math.E,1.0/(Math.pow((valor-media),2)/(2.0*varianza))));
+        double deno = (double)(Math.sqrt(varianza*2.0*Math.PI));
+        if (num > deno){
+            System.out.println(num);
+            System.out.println(" > " + deno);
+            System.out.println(deno);
+        }
+        double ret = (double) (Math.pow(Math.E,-((Math.pow(valor-media,2))/(2.0*varianza)))) / (double) (Math.sqrt(varianza*2.0*Math.PI));
+        /*if (ret > 1)
+            System.out.println("Gauss mayor");*/
+        return ret;
+        
     }
 
     /**
