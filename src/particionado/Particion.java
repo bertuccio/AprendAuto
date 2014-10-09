@@ -12,7 +12,11 @@ public class Particion
     private ArrayList<Integer> indicesTrain;
     private ArrayList<Integer> indicesTest;
     
-    
+    /**
+     *
+     * @param indTrain
+     * @param indTest
+     */
     public Particion(ArrayList<Integer> indTrain, ArrayList<Integer> indTest) 
     {
         indicesTrain = indTrain;
@@ -20,10 +24,18 @@ public class Particion
         
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Integer> getIndicesTrain() {
         return indicesTrain;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Integer> getIndicesTest() {
         return indicesTest;
     }

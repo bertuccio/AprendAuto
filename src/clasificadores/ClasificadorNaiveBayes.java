@@ -20,15 +20,26 @@ public class ClasificadorNaiveBayes extends Clasificador {
     private boolean LAPLACE_FLAG = false;
     private boolean DEBUG_FLAG = false;
 
+    /**
+     *
+     * @param LAPLACE_FLAG
+     */
     public void setLAPLACE_FLAG(boolean LAPLACE_FLAG) {
         this.LAPLACE_FLAG = LAPLACE_FLAG;
     }
 
+    /**
+     *
+     * @param DEBUG_FLAG
+     */
     public void setDEBUG_FLAG(boolean DEBUG_FLAG) {
         this.DEBUG_FLAG = DEBUG_FLAG;
     }   
     
-
+    /**
+     *
+     * @param datosTrain
+     */
     @Override
     public void entrenamiento(Datos datosTrain) {
         
@@ -179,7 +190,8 @@ public class ClasificadorNaiveBayes extends Clasificador {
                     prob.add(varianza_media);
                     if(DEBUG_FLAG){
                         String atributoContinuoName = datosTrain.getCategorias().get(i);
-                        System.out.println("Media: "+varianza_media[1]+" | Varianza: "+varianza_media[0]+" | "+atributoContinuoName+"[Clase "+clase+"]");
+                        System.out.println("Media: "+varianza_media[1]+" | Varianza: "+varianza_media[0]+" | "+atributoContinuoName+"[Clase "+Diccionario.getKeyByValue(Diccionario.getInstance().
+                                    getDiccionarioClases(), clase)+"]");
                     }
                     
                 }
@@ -197,17 +209,9 @@ public class ClasificadorNaiveBayes extends Clasificador {
      * @return dobule probabilidad obtenida
      */
     private double calculaGaussian(double valor, double media,  double varianza){
-        //System.out.println("Valor "+valor+"Media "+media+"Varianza "+varianza);
         double num = (double)(Math.pow(Math.E,1.0/(Math.pow((valor-media),2)/(2.0*varianza))));
         double deno = (double)(Math.sqrt(varianza*2.0*Math.PI));
-        if (num > deno){
-            System.out.println(num);
-            System.out.println(" > " + deno);
-            System.out.println(deno);
-        }
-        double ret = (double) (Math.pow(Math.E,-((Math.pow(valor-media,2))/(2.0*varianza)))) / (double) (Math.sqrt(varianza*2.0*Math.PI));
-        /*if (ret > 1)
-            System.out.println("Gauss mayor");*/
+        double ret = num / deno;
         return ret;
         
     }
@@ -262,7 +266,6 @@ public class ClasificadorNaiveBayes extends Clasificador {
                     }  
                     else{
                         double gaussian = this.calculaGaussian(sample[i], ((double[])probCond.get(j).get(i))[1], ((double[])probCond.get(j).get(i))[0]);
-                        //System.out.println("GUASSIAN ="+gaussian);
                         bayes = sampleProbs.get(j)*gaussian;
                     }
                     sampleProbs.put(j, bayes);
@@ -270,7 +273,7 @@ public class ClasificadorNaiveBayes extends Clasificador {
             }
             
             /**
-             * obtiene la mayor probabilidad de todas. Devuelve la key
+             * Obtiene la mayor probabilidad de todas. Devuelve la key
              * que corresponde al identificador de la clase con mayor prob.
              */
             Integer maxKey = null; 

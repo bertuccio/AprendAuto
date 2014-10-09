@@ -20,7 +20,18 @@ import particionado.ValidacionCruzada;
 abstract public class Clasificador {
     
     //Métodos abstractos que se implementan en cada clasificador concreto
-    abstract public void entrenamiento (Datos datosTrain);
+
+    /**
+     *
+     * @param datosTrain
+     */
+        abstract public void entrenamiento (Datos datosTrain);
+
+    /**
+     *
+     * @param datosTest
+     * @return
+     */
     abstract public ArrayList<Integer> clasifica (Datos datosTest);
 
     /**

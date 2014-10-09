@@ -3,7 +3,6 @@
 package datos;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -28,6 +27,10 @@ public class Diccionario {
             atributos = new HashMap<>();
     }
     
+    /**
+     *
+     * @return
+     */
     public static Diccionario getInstance(){
         
         if(miDiccionario == null)
@@ -37,10 +40,18 @@ public class Diccionario {
         
     }
 
+    /**
+     *
+     * @return
+     */
     public  HashMap<String,Integer> getDiccionarioClases() {
         return clases;
     }
     
+    /**
+     *
+     * @return
+     */
     public  HashMap<String,Integer> getDiccionarioAtributos() {
         return atributos;
     }

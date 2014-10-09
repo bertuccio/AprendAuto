@@ -1,4 +1,3 @@
-
 package datos;
 
 import java.io.File;
@@ -22,7 +21,20 @@ import particionado.Particion;
  */
 public class Datos {
     
-    public enum TiposDeAtributos {Continuo, Nominal};
+    /**
+     *
+     */
+    public enum TiposDeAtributos {
+
+        /**
+         *
+         */
+        Continuo, 
+
+        /**
+         *
+         */
+        Nominal};
 
     
     private double [][]datos;
@@ -30,7 +42,12 @@ public class Datos {
     private ArrayList<TiposDeAtributos> tipoAtributos;
     private ArrayList<String> categorias;
     
-    
+    /**
+     *
+     * @param numDatos
+     * @param tipos
+     * @param categorias
+     */
     public Datos(int numDatos, ArrayList<TiposDeAtributos> tipos, List<String> categorias) 
     {
         tipoAtributos = tipos;
@@ -39,14 +56,26 @@ public class Datos {
         
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<TiposDeAtributos> getTipoAtributos() {
         return tipoAtributos;
     }
 
+    /**
+     *
+     * @return
+     */
     public double[][] getDatos() {
         return datos;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getCategorias() {
         return categorias;
     }

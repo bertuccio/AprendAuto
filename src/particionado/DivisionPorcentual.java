@@ -1,4 +1,3 @@
-
 package particionado;
 
 import java.util.ArrayList;
