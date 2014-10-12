@@ -8,12 +8,8 @@ package clasificadores;
 import datos.Datos;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
-/**
- *
- * @author Adrián Lorenzo Mateo
- * @author Andres Ruiz Carrasco
- */
 
 /**
  * 
@@ -22,9 +18,9 @@ import java.util.Collections;
  */
 public class ClasificadorKNN extends Clasificador{
 
-    ArrayList<Double> distancias = new ArrayList<>();
+    
     private double datosEntrenamiento[][];
-    private int kNN = 1;    
+    private int kNN = 5;    
 
     
     
@@ -54,6 +50,8 @@ public class ClasificadorKNN extends Clasificador{
         
         for(double instanciaTest[] : datosTest.getDatos()){
             
+            ArrayList<Double> distancias = new ArrayList<>();
+            
             for(double instanciaTrain[] : datosEntrenamiento){
                 
                 double distanciaEuclidea = 0;
@@ -69,13 +67,27 @@ public class ClasificadorKNN extends Clasificador{
             ArrayList<Double> distanciasAuxiliar = new ArrayList<>(distancias);
             Collections.sort(distanciasAuxiliar);
             
-                       
+            HashMap<Double,Double> mapaKNN = new HashMap<>();
+            
             for(int i=0; i<kNN; i++){
                 
                 /*obtiene el indice en la matrix de los knn con menor distancia*/
                 int indice = distancias.indexOf(distanciasAuxiliar.get(i));
+                double clase = datosEntrenamiento[indice][datosTest.getCategorias().indexOf("class")];
+                
+                if(mapaKNN.containsKey(clase))
+                    mapaKNN.put(clase, mapaKNN.get(clase)+1);
+              
+                else
+                    mapaKNN.put(clase, 1.0);
 
             }
+            for (Double clase : mapaKNN.keySet()) {
+                
+                mapaKNN.put(clase, mapaKNN.get(clase)/(double)kNN);
+                
+            }
+            
             
                 
 
