@@ -9,6 +9,7 @@ import datos.Datos;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -20,7 +21,7 @@ public class ClasificadorKNN extends Clasificador{
 
     
     private double datosEntrenamiento[][];
-    private int kNN = 5;    
+    private int kNN = 1;    
 
     
     
@@ -88,9 +89,29 @@ public class ClasificadorKNN extends Clasificador{
                 
             }
             
+             /**
+             * Obtiene la mayor probabilidad de todas. Devuelve la key
+             * que corresponde al identificador de la clase con mayor prob.
+             */           
+            Double maxKey = null; 
+            Double maxValue = -1.0; 
             
-                
+            if (!mapaKNN.entrySet().isEmpty()) {
+                for (Map.Entry<Double, Double> entry : mapaKNN.entrySet()) {
+                    if (entry.getValue().isNaN()) {
+                        entry.setValue(0.0);
+                    }
+                    if (entry.getValue().isInfinite()) {
+                        entry.setValue(Double.MAX_VALUE);
+                    }
+                    if (entry.getValue() >= maxValue) {
+                        maxValue = entry.getValue();
+                        maxKey = entry.getKey();
+                    }
+                }
+                res.add(maxKey.intValue());
 
+            }
         }
         
         return res;

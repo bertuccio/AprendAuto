@@ -125,17 +125,18 @@ abstract public class Clasificador {
                 particion = Integer.parseInt(args[i + 1]);
                 i++;
             }
-//            if (args[i].compareTo("-debug") == 0) {
-//                
-//                ((ClasificadorNaiveBayes) clasificador).setDEBUG_FLAG(true);
-//            }
+            if (args[i].compareTo("-K") == 0) {
+                
+                ((ClasificadorKNN) clasificador).setkNN(Integer.parseInt(args[i + 1]));
+                i++;
+            }
         }
         Datos d = Datos.cargaDeFichero(inputFile);
 
                 
         double totalError = 0;
 
-        for (int i = 0; i < 100; i++) {
+        //for (int i = 0; i < 100; i++) {
 
             double error = 0;
             ArrayList<Double> resultados = Clasificador.validacion(
@@ -147,8 +148,8 @@ abstract public class Clasificador {
 
             error /= resultados.size();
             totalError += error;
-        }
-        totalError /= 100;
+        //}
+        //totalError /= 100;
 
         System.out.println(totalError);
     }
