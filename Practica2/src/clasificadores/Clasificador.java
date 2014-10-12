@@ -106,7 +106,7 @@ abstract public class Clasificador {
         Integer particion = 5;
 
         EstrategiaParticionado part = new DivisionPorcentual();
-        Clasificador clasificador = new ClasificadorNaiveBayes();
+        Clasificador clasificador = new ClasificadorKNN();
 
         for (int i = 0; i < args.length; i++) {
             
@@ -120,22 +120,19 @@ abstract public class Clasificador {
                 part = new ValidacionCruzada();
 
             }
-            if (args[i].compareTo("-laplace") == 0) {
-                
-                ((ClasificadorNaiveBayes) clasificador).setLAPLACE_FLAG(true);
-            }
             if (args[i].compareTo("-particion") == 0) {
                 
                 particion = Integer.parseInt(args[i + 1]);
                 i++;
             }
-            if (args[i].compareTo("-debug") == 0) {
-                
-                ((ClasificadorNaiveBayes) clasificador).setDEBUG_FLAG(true);
-            }
+//            if (args[i].compareTo("-debug") == 0) {
+//                
+//                ((ClasificadorNaiveBayes) clasificador).setDEBUG_FLAG(true);
+//            }
         }
         Datos d = Datos.cargaDeFichero(inputFile);
 
+                
         double totalError = 0;
 
         for (int i = 0; i < 100; i++) {
