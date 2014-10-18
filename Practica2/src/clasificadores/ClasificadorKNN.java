@@ -21,19 +21,15 @@ import java.util.PriorityQueue;
  */
 public class ClasificadorKNN extends Clasificador{
     
-    private double[] mediasAtributos;
-    private double[] desviacionesTipicasAtributos;
-    
-    
+    /*Auxiliar classes*/
     private class KNNelement{
-
+        private Double clas;
+        
         public KNNelement(Double clas, Double euclideanDistance) {
             this.clas = clas;
             this.euclideanDistance = euclideanDistance;
         }
-        
-        private Double clas;
-
+       
         public Double getClas() {
             return clas;
         }
@@ -52,7 +48,7 @@ public class ClasificadorKNN extends Clasificador{
         private Double euclideanDistance;
     }
     
-    /*Comparador de elementos*/
+    /*Element comparator*/
     private class KNNComparator implements Comparator<KNNelement>{
         @Override
         public int compare(KNNelement o1, KNNelement o2) {
@@ -60,21 +56,45 @@ public class ClasificadorKNN extends Clasificador{
             return (res.intValue());
         }
     }
-
     
+    /*Private Atributes*/
     private double datosEntrenamiento[][];
     private int kNN = 1;    
-    private PriorityQueue<KNNelement> heapNeigh = new PriorityQueue<>(this.kNN, new KNNComparator());
-    
+    private PriorityQueue<KNNelement> heapNeigh;
+    private double[] mediasAtributos;
+    private double[] desviacionesTipicasAtributos;  
     
     public void setkNN(int kNN) {
         this.kNN = kNN;
     }
 
-    /**
-     * 
-     * @param datosTrain 
-     */
+    /*Private methods*/
+    /*Normalize value*/
+    private double normalizeValue(int index,double value){
+        return (value - this.mediasAtributos[index])/this.desviacionesTipicasAtributos[index];
+    }
+    /*Get max class probability*/
+    private Integer getMaxClassProbability(PriorityQueue<KNNelement> heapNeigh){
+        HashMap<Integer,Integer> classes = new HashMap<>();
+        Map.Entry<Integer,Integer> maxEntry = null;
+        for(KNNelement node : heapNeigh){
+            if(classes.containsKey(node.clas.intValue())){
+                classes.put(node.clas.intValue(), classes.get(node.clas.intValue()) + 1);
+            }else{
+                classes.put(node.clas.intValue(), 1);
+            }
+        }
+        for (Map.Entry<Integer, Integer> entry : classes.entrySet()){
+            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0){
+                maxEntry = entry;
+            }
+        }
+        if (maxEntry != null)
+            return maxEntry.getKey();
+        return -1;
+    }        
+    
+    /*Public methods*/
     @Override
     public void entrenamiento(Datos datosTrain) {
     
@@ -108,22 +128,18 @@ public class ClasificadorKNN extends Clasificador{
 
     }
 
-    /**
-     * 
-     * @param datosTest
-     * @return 
-     */
     @Override
     public ArrayList<Integer> clasifica(Datos datosTest) {
         ArrayList<Integer> res = new ArrayList<>();
         
         for(double instanciaTest[] : datosTest.getDatos()){
+            this.heapNeigh = new PriorityQueue<>(this.kNN, new KNNComparator());
             
             for(double instanciaTrain[] : datosEntrenamiento){
                 double distanciaEuclidea = 0;
                 
                 for(int i=0; i<instanciaTest.length; i++){
-                    distanciaEuclidea += Math.pow((instanciaTest[i] - instanciaTrain[i]),2);
+                    distanciaEuclidea += Math.pow((normalizeValue(i,instanciaTest[i]) - normalizeValue(i,instanciaTrain[i])),2);
                 }
                 
                 distanciaEuclidea = Math.sqrt(distanciaEuclidea);
@@ -135,62 +151,14 @@ public class ClasificadorKNN extends Clasificador{
                 } else {
                     heapNeigh.offer(new KNNelement(distanciaEuclidea,instanciaTrain[datosTest.getCategorias().size()-1]));
                 }                
-                //TOD
-                //distancias.add(distanciaEuclidea);
             }
             
-            //TODO
-            ArrayList<Double> distanciasAuxiliar = new ArrayList<>(distancias);
-            Collections.sort(distanciasAuxiliar);
-            
-            HashMap<Double,Double> mapaKNN = new HashMap<>();
-            
-            for(int i=0; i<kNN; i++){
-                
-                /*obtiene el indice en la matrix de los knn con menor distancia*/
-                int indice = distancias.indexOf(distanciasAuxiliar.get(i));
-                double clase = datosEntrenamiento[indice][datosTest.getCategorias().indexOf("class")];
-                
-                if(mapaKNN.containsKey(clase))
-                    mapaKNN.put(clase, mapaKNN.get(clase)+1);
-              
-                else
-                    mapaKNN.put(clase, 1.0);
-
-            }
-            for (Double clase : mapaKNN.keySet()) {
-                
-                mapaKNN.put(clase, mapaKNN.get(clase)/(double)kNN);
-                
-            }
-            
-             /**
-             * Obtiene la mayor probabilidad de todas. Devuelve la key
-             * que corresponde al identificador de la clase con mayor prob.
-             */           
-            Double maxKey = null; 
-            Double maxValue = -1.0; 
-            
-            if (!mapaKNN.entrySet().isEmpty()) {
-                for (Map.Entry<Double, Double> entry : mapaKNN.entrySet()) {
-                    if (entry.getValue().isNaN()) {
-                        entry.setValue(0.0);
-                    }
-                    if (entry.getValue().isInfinite()) {
-                        entry.setValue(Double.MAX_VALUE);
-                    }
-                    if (entry.getValue() >= maxValue) {
-                        maxValue = entry.getValue();
-                        maxKey = entry.getKey();
-                    }
-                }
-                res.add(maxKey.intValue());
-
-            }
+            //in this point the head of the heap is the maximun euclidean distance of K neighbors
+            //Extratcion of the max probability class
+            res.add(getMaxClassProbability(this.heapNeigh));
+            /*Resources free*/
+            this.heapNeigh.clear();
         }
-        
         return res;
-    
     }
-    
 }
