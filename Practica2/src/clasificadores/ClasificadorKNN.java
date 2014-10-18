@@ -7,8 +7,10 @@ package clasificadores;
 
 import datos.Datos;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
@@ -22,19 +24,19 @@ public class ClasificadorKNN extends Clasificador{
     
     /*Auxiliar classes*/
     private class KNNelement{
-        private Double clas;
+        private Double clase;
         
         public KNNelement(Double clas, Double euclideanDistance) {
-            this.clas = clas;
+            this.clase = clas;
             this.euclideanDistance = euclideanDistance;
         }
        
-        public Double getClas() {
-            return clas;
+        public Double getClase() {
+            return clase;
         }
 
-        public void setClas(Double clas) {
-            this.clas = clas;
+        public void setClaes(Double clase) {
+            this.clase = clase;
         }
 
         public Double getEuclideanDistance() {
@@ -51,8 +53,8 @@ public class ClasificadorKNN extends Clasificador{
     private class KNNComparator implements Comparator<KNNelement>{
         @Override
         public int compare(KNNelement o1, KNNelement o2) {
-            Double res =  o2.euclideanDistance - o1.euclideanDistance;
-            return (res.intValue());
+            
+            return o2.euclideanDistance.compareTo(o1.euclideanDistance);
         }
     }
     
@@ -74,13 +76,14 @@ public class ClasificadorKNN extends Clasificador{
     }
     /*Get max class probability*/
     private Integer getMaxClassProbability(PriorityQueue<KNNelement> heapNeigh){
+      
         HashMap<Integer,Integer> classes = new HashMap<>();
         Map.Entry<Integer,Integer> maxEntry = null;
         for(KNNelement node : heapNeigh){
-            if(classes.containsKey(node.clas.intValue())){
-                classes.put(node.clas.intValue(), classes.get(node.clas.intValue()) + 1);
+            if(classes.containsKey(node.clase.intValue())){
+                classes.put(node.clase.intValue(), classes.get(node.clase.intValue()) + 1);
             }else{
-                classes.put(node.clas.intValue(), 1);
+                classes.put(node.clase.intValue(), 1);
             }
         }
         for (Map.Entry<Integer, Integer> entry : classes.entrySet()){
@@ -91,6 +94,7 @@ public class ClasificadorKNN extends Clasificador{
         if (maxEntry != null)
             return maxEntry.getKey();
         return -1;
+ 
     }        
     
     /*Public methods*/
@@ -129,15 +133,17 @@ public class ClasificadorKNN extends Clasificador{
 
     @Override
     public ArrayList<Integer> clasifica(Datos datosTest) {
+        
         ArrayList<Integer> res = new ArrayList<>();
         
         for(double instanciaTest[] : datosTest.getDatos()){
-            this.heapNeigh = new PriorityQueue<>(this.kNN, new KNNComparator());
+                       
+            heapNeigh = new PriorityQueue<>(this.kNN, new KNNComparator());
             
             for(double instanciaTrain[] : datosEntrenamiento){
                 double distanciaEuclidea = 0;
                 
-                for(int i=0; i<instanciaTest.length; i++){
+                for(int i=0; i<instanciaTest.length-1; i++){
                     distanciaEuclidea += Math.pow((normalizeValue(i,instanciaTest[i]) - normalizeValue(i,instanciaTrain[i])),2);
                 }
                 
@@ -145,16 +151,16 @@ public class ClasificadorKNN extends Clasificador{
                 if (heapNeigh.size() == this.kNN) {
                     if (heapNeigh.peek().euclideanDistance > distanciaEuclidea){
                         heapNeigh.poll();
-                        heapNeigh.offer(new KNNelement(distanciaEuclidea,instanciaTrain[datosTest.getCategorias().size()-1]));
+                        heapNeigh.offer(new KNNelement(instanciaTrain[datosTest.getCategorias().size()-1],distanciaEuclidea));
                     }
                 } else {
-                    heapNeigh.offer(new KNNelement(distanciaEuclidea,instanciaTrain[datosTest.getCategorias().size()-1]));
-                }                
+                    heapNeigh.offer(new KNNelement(instanciaTrain[datosTest.getCategorias().size()-1],distanciaEuclidea));
+                }  
             }
             
             //in this point the head of the heap is the maximun euclidean distance of K neighbors
             //Extratcion of the max probability class
-            res.add(getMaxClassProbability(this.heapNeigh));
+            res.add(getMaxClassProbability(heapNeigh));
             /*Resources free*/
             this.heapNeigh.clear();
         }

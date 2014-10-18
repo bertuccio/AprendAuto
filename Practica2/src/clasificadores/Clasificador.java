@@ -106,7 +106,7 @@ abstract public class Clasificador {
         Integer particion = 5;
 
         EstrategiaParticionado part = new DivisionPorcentual();
-        Clasificador clasificador = new ClasificadorKNN();
+        Clasificador clasificador = new ClasificadorRegresionLogistica();
 
         for (int i = 0; i < args.length; i++) {
             
