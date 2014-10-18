@@ -37,7 +37,7 @@ public class ClasificadorRegresionLogistica extends Clasificador{
 
     private double regresionLogistica(double dato[]){
         
-        double logist = .0;
+        double logist = 0.0;
         
         for (int i = 0; i < pesos.length; i++) {
             logist += pesos[i] * dato[i];
