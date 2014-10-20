@@ -7,6 +7,7 @@ package clasificadores;
 
 import datos.Datos;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * 
@@ -49,8 +50,13 @@ public class ClasificadorRegresionLogistica extends Clasificador{
     @Override
     public void entrenamiento(Datos datosTrain) {
         
-        pesos = new double [datosTrain.getCategorias().size()-1];
-        
+        pesos = new double [datosTrain.getCategorias().size()-1]; 
+        Random rand = new Random();
+
+        for (int i = 0; i < pesos.length; i++) {
+            pesos[i] = Math.random() * (0.5 - (-0.5)) + (-0.5);
+        }
+
         for (int n = 0; n < ITERACIONES; n++) {
 
             for (double dato[] : datosTrain.getDatos()) {
