@@ -35,7 +35,7 @@ public class ClasificadorKNN extends Clasificador{
             return clase;
         }
 
-        public void setClaes(Double clase) {
+        public void setClase(Double clase) {
             this.clase = clase;
         }
 
@@ -125,8 +125,10 @@ public class ClasificadorKNN extends Clasificador{
             }
         }
         for (int i = 0; i < tamanioAtributos; i++) {
-            desviacionesTipicasAtributos[i] /= datosTrain.getDatos().length;
+            desviacionesTipicasAtributos[i] /= (datosTrain.getDatos().length -1);
+            desviacionesTipicasAtributos[i] = Math.sqrt(desviacionesTipicasAtributos[i]);
         }
+        
        
 
     }
