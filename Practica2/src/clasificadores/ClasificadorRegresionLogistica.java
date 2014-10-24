@@ -50,8 +50,10 @@ public class ClasificadorRegresionLogistica extends Clasificador{
     @Override
     public void entrenamiento(Datos datosTrain) {
         
-        pesos = new double [datosTrain.getCategorias().size()-1]; 
-        Random rand = new Random();
+        int tamanioAtributos = datosTrain.getCategorias().size();
+        
+        pesos = new double [tamanioAtributos]; 
+        //Random rand = new Random();
 
         for (int i = 0; i < pesos.length; i++) {
             pesos[i] = Math.random() * (0.5 - (-0.5)) + (-0.5);
@@ -64,9 +66,10 @@ public class ClasificadorRegresionLogistica extends Clasificador{
                 double clasePredicha = regresionLogistica(dato);
                 double claseReal = dato[datosTrain.getCategorias().size()-1];
                 
-                for (int i = 0; i < pesos.length; i++) {
+                for (int i = 0; i < tamanioAtributos; i++) {
                     pesos[i] = pesos[i] + tasaAprendizaje * (claseReal - clasePredicha) * dato[i];
                 }
+                pesos[tamanioAtributos] = pesos[tamanioAtributos] + tasaAprendizaje * (claseReal - clasePredicha) * 1;
             }
         } 
     }
