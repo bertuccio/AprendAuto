@@ -201,7 +201,7 @@ public class Datos {
                         
                  
                         if(tipoAtributos.get(j).equals(
-                                TiposDeAtributos.Nominal) && !datos.getCategorias().get(j).equals("class")) {
+                                TiposDeAtributos.Nominal) && j != datos.getCategorias().size()-1) {
                             
                             if(!diccionario.getDiccionarioAtributos().containsKey(inputData[j])) {
                                 
@@ -215,7 +215,7 @@ public class Datos {
                                 datos.datos[i][j] = diccionario.getDiccionarioAtributos().get(inputData[j]);
                             
                         }
-                        else if(datos.getCategorias().get(j).equals("class")){
+                        else if( j == datos.getCategorias().size()-1){
                             
                             if(!diccionario.getDiccionarioClases().containsKey(inputData[j])) {
                                 
@@ -256,10 +256,10 @@ public class Datos {
         for (double[] dato : datos) {
             for (int j = 0; j < dato.length; j++) {
                 if(tipoAtributos.get(j).name().equals("Nominal") &&
-                        !categorias.get(j).equals("class"))
+                        j != categorias.size()-1)
                     
                     s = s + Diccionario.getKeyByValue(dic.getDiccionarioAtributos(),(int) dato[j]) + ",";
-                else if(categorias.get(j).equals("class"))
+                else if(j == categorias.size()-1)
                     s = s + Diccionario.getKeyByValue(dic.getDiccionarioClases(),(int) dato[j]) + ",";
                 else
                     s = s + dato[j] + ",";

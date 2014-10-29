@@ -52,7 +52,7 @@ abstract public class Clasificador {
         int count = 0;
        
         for(double[] sample : datos.getDatos()){
-           real.add(Double.valueOf(sample[datos.getCategorias().indexOf("class")]).intValue());
+           real.add(Double.valueOf(sample[ datos.getCategorias().size()-1]).intValue());
         }
 
         for (int i = 0; i < prediccion.size(); i++){
@@ -106,7 +106,7 @@ abstract public class Clasificador {
         Integer particion = 5;
 
         EstrategiaParticionado part = new DivisionPorcentual();
-        Clasificador clasificador = new ClasificadorKNN();
+        Clasificador clasificador = new ClasificadorRegresionLogistica();
 
         for (int i = 0; i < args.length; i++) {
             

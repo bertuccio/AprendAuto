@@ -40,9 +40,10 @@ public class ClasificadorRegresionLogistica extends Clasificador{
         
         double logist = 0.0;
         
-        for (int i = 0; i < pesos.length; i++) {
+        for (int i = 0; i < pesos.length-1; i++) {
             logist += pesos[i] * dato[i];
         }
+        logist += pesos[pesos.length-1] * 1;
         return sigmoidal(logist);        
         
     }
@@ -52,7 +53,7 @@ public class ClasificadorRegresionLogistica extends Clasificador{
         
         int tamanioAtributos = datosTrain.getCategorias().size();
         
-        pesos = new double [tamanioAtributos]; 
+        pesos = new double [tamanioAtributos+1]; 
         //Random rand = new Random();
 
         for (int i = 0; i < pesos.length; i++) {
