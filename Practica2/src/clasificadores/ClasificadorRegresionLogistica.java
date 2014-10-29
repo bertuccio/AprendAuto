@@ -20,7 +20,7 @@ public class ClasificadorRegresionLogistica extends Clasificador{
     
     private double tasaAprendizaje = 0.0001;
     private double[] pesos;
-    private int ITERACIONES = 1000;
+    private int ITERACIONES = 3000;
 
     
     public void setTasaAprendizaje(double tasaAprendizaje) {
