@@ -12,6 +12,7 @@ import particionado.EstrategiaParticionado;
 import particionado.ValidacionCruzada;
 
 /**
+ * Clasificador basado en regresion logistica
  * 
  * @author Adrian Lorenzo Mateo
  * @author Andres Ruiz Carrasco
