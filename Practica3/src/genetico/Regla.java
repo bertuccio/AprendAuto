@@ -32,22 +32,22 @@ public class Regla {
     }
     
     public int evaluate(int muestra[]){
-        ArrayList<Integer> punterosGen = new ArrayList<Integer>();
+        ArrayList<Integer> punterosGen = new ArrayList<>();
         
         for (int i = 0; i < this.nAtributos; i++){
             punterosGen.add(i*rangoAtributos);
         }
         
+        /*La variable Z cuenta el atributo que estamos mirando AND */
         int z = 0;
+        /*Hay tantos punteros Gen como Atributos*/
         for (int i : punterosGen){
-            for (int j = i; (i - j) < rangoAtributos; i++){
-                if(this.cromosoma[muestra[z]] == 1){
-                    
-                }
-                    
+            if(muestra[z]+i != 1){
+                return 0;
             }
             z++;
         }
+        return this.clase;
     }
     
 }

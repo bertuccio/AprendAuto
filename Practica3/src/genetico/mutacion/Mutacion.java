@@ -6,10 +6,21 @@
 
 package genetico.mutacion;
 
+import genetico.Individuo;
+import java.util.ArrayList;
+
 /**
  *
  * @author temporal
  */
 public class Mutacion {
+
+    public ArrayList<Individuo> muta() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public ArrayList<Individuo> muta(Individuo mutante) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
