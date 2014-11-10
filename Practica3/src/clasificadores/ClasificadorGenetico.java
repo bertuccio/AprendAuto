@@ -1,8 +1,7 @@
 package clasificadores;
 
+import clasificadores.genetico.poblacion.Poblacion;
 import datos.Datos;
-import genetico.Individuo;
-import genetico.Poblacion;
 import java.util.ArrayList;
 import particionado.DivisionPorcentual;
 import particionado.EstrategiaParticionado;
@@ -18,33 +17,11 @@ import particionado.ValidacionCruzada;
 public class ClasificadorGenetico extends Clasificador{
     /*Metodos privados*/
     private Poblacion poblacion;
-
-    public Poblacion getPoblacion() {
-        return poblacion;
-    }
-
-    public void setPoblacion(Poblacion poblacion) {
-        this.poblacion = poblacion;
-    }
-
-    public Individuo getBest() {
-        return best;
-    }
-
-    public void setBest(Individuo best) {
-        this.best = best;
-    }
-
-    public int getMaxGeneraciones() {
-        return maxGeneraciones;
-    }
-
-    public void setMaxGeneraciones(int maxGeneraciones) {
-        this.maxGeneraciones = maxGeneraciones;
-    }
-    private Individuo best;
-    
     private int maxGeneraciones;
+    
+    private int[][] datosToEntorno(Datos datos){
+        return null;
+    }
 
     /*Metodos publicos*/
     @Override
@@ -52,12 +29,11 @@ public class ClasificadorGenetico extends Clasificador{
         
     }
 
+    
     @Override
     public ArrayList<Integer> clasifica(Datos datosTest) {
-        
+        return null;
     }
-
-
 
     /**
      * 
@@ -101,13 +77,30 @@ public class ClasificadorGenetico extends Clasificador{
         Datos d = Datos.cargaDeFichero(inputFile);
 
         double error = 0;
-        ArrayList<Double> resultados = Clasificador.validacion(
-                part, d, clasificador, particion);
+        ArrayList<Double> resultados = Clasificador.validacion(part, d, clasificador, particion);
         for (Double resultado : resultados) {
             error += resultado;
         }
         error /= resultados.size();
         
         System.out.println(error);
+    }
+    
+    
+    
+    public Poblacion getPoblacion() {
+        return poblacion;
+    }
+
+    public void setPoblacion(Poblacion poblacion) {
+        this.poblacion = poblacion;
+    }
+
+    public int getMaxGeneraciones() {
+        return maxGeneraciones;
+    }
+
+    public void setMaxGeneraciones(int maxGeneraciones) {
+        this.maxGeneraciones = maxGeneraciones;
     }
 }

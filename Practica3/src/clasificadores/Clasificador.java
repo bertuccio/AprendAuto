@@ -74,16 +74,18 @@ abstract public class Clasificador {
      *                                              (En division porcentual porcentaje de aprendizaje)
      * @return 
      */
-    public static ArrayList<Double> validacion(EstrategiaParticionado part, Datos datos, 
-        Clasificador clas, Integer nParticion) {
+    public static ArrayList<Double> validacion(EstrategiaParticionado part, Datos datos, Clasificador clas, Integer nParticion) {
+        
         ArrayList<Double> res = new ArrayList<>();
         ArrayList<Particion> particiones = part.crearParticiones(datos.getDatos().length, nParticion);
+        
         for(Particion idx : particiones){                
             Datos train = datos.extraeDatosTrain(idx);
             Datos test = datos.extraeDatosTest(idx);
             clas.entrenamiento(train);
             res.add(clas.error(test, clas));
         }
+        
         return res;
     }
 

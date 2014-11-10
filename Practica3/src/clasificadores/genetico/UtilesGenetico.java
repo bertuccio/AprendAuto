@@ -1,4 +1,4 @@
-package genetico;
+package clasificadores.genetico;
 
 import java.util.Random;
 

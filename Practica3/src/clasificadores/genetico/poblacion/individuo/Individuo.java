@@ -4,18 +4,34 @@
  * and open the template in the editor.
  */
 
-package genetico;
+package clasificadores.genetico.poblacion.individuo;
 
+import clasificadores.genetico.UtilesGenetico;
 import java.util.ArrayList;
 
 /**
  *
  * @author temporal
  */
-public class Individuo {
+public class Individuo implements Comparable<Individuo>{
     
-    private ArrayList<Regla> reglas = new ArrayList<Regla>();
+    private ArrayList<Regla> reglas = new ArrayList<>();
+    public float score;
 
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
+    }
+
+    @Override
+    public int compareTo(Individuo b) {
+        return (int) (this.score - b.score);
+    }
+
+    
     public ArrayList<Regla> getReglas() {
         return reglas;
     }
@@ -25,6 +41,7 @@ public class Individuo {
     }
     
     public Individuo(int nClases,int nAtributos,int rangoAtributos,int maxReglasIni){
+        this.score = 0;
         int nReglas = UtilesGenetico.randomNumber(maxReglasIni);
         for(int i = 0; i<nReglas;i++){
             this.reglas.add(new Regla(nClases,nAtributos,rangoAtributos));

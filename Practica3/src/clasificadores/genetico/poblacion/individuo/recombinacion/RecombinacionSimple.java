@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package genetico.cruce;
+package clasificadores.genetico.poblacion.individuo.recombinacion;
 
 /**
  *
  * @author temporal
  */
-public class CruceSimple {
+public class RecombinacionSimple {
     
 }

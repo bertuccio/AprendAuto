@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package genetico.mutacion;
+package clasificadores.genetico.poblacion.individuo.mutacion;
 
 /**
  *

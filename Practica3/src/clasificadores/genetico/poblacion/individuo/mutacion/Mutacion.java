@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package genetico.mutacion;
+package clasificadores.genetico.poblacion.individuo.mutacion;
 
-import genetico.Individuo;
+import clasificadores.genetico.poblacion.individuo.Individuo;
 import java.util.ArrayList;
 
 /**
