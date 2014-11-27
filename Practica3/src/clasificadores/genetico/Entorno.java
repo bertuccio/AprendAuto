@@ -19,6 +19,7 @@ public class Entorno {
     private Poblacion poblacion;
     private ArrayList<MuestraGenetica> entornoEvolutivo;
     private ArrayList<MuestraGenetica> entornoTesteo;
+    private Individuo king;
     
     /*Cuando metemos estos*/
     ArrayList<Mutacion> mutaciones = new ArrayList<>();
@@ -26,11 +27,11 @@ public class Entorno {
     ArrayList<Seleccion> selecciones = new ArrayList<>();
     Evaluador evaluador;
     
-    private float probMutation;
-    private float probRecombine;
+    private double probMutation;
+    private double probRecombine;
     
     public Entorno(int maxIndividuos,int nClases,int nAtributos,int rangoAtributos,
-            int maxReglasIni,float probMutation,float probRecombine,Evaluador evaluator,
+            int maxReglasIni,double probMutation,double probRecombine,Evaluador evaluator,
             Datos entornoEvolutivo, Datos entornoTesteo){
         
         this.entornoEvolutivo = new ArrayList<>();
@@ -114,7 +115,7 @@ public class Entorno {
         3) Selecciona la nueva poblacion
     */
     public void epoch(){
-        Individuo[] newPoblation = new Individuo[this.poblacion.getMaxIndividuos()];
+        Individuo[] newPoblation = new Individuo[this.poblacion.MAX_INDIVIDUOS];
         this.evolve();
         this.mutate();
         this.scoring();
@@ -134,25 +135,50 @@ public class Entorno {
         this.poblacion.setIndividuos(newPoblation);
         this.poblacion.setSumScores(0);
         this.poblacion.setnIndividuos(j);
+        
+        this.scoring();
+        this.poblacion.sort();
+        this.king = this.poblacion.getIndividuos()[0];
+        this.getClass();
     }
     
-
+    /*
+    Funcion que prueba el individuo mejor de la poblacion
+    Retorno: Devuelve un array list con las predicciones del individuo mejor
+    */
+    public ArrayList<Integer> test(){
+        ArrayList<Integer> results = new ArrayList();
+        
+        this.scoring();
+        this.poblacion.sort();
+        
+        Individuo ganador = this.poblacion.getIndividuos()[0];
+        
+        int i = 0;
+        for(MuestraGenetica muestra : entornoTesteo){
+            results.add(i,ganador.evaluate(muestra.getArgs()));
+        }
+        return results;
+    }
+    
+    
+    
     
     
     /*Metodos de acceso*/
-    public float getProbMutation() {
+    public double getProbMutation() {
         return probMutation;
     }
 
-    public void setProbMutation(float probMutation) {
+    public void setProbMutation(double probMutation) {
         this.probMutation = probMutation;
     }
 
-    public float getProbRecombine() {
+    public double getProbRecombine() {
         return probRecombine;
     }
 
-    public void setProbRecombine(float probRecombine) {
+    public void setProbRecombine(double probRecombine) {
         this.probRecombine = probRecombine;
     }
     
@@ -192,16 +218,19 @@ public class Entorno {
         return entornoEvolutivo;
     }
 
-    public void setEntornoEvolutivo(ArrayList<MuestraGenetica> entornoEvolutivo) {
-        this.entornoEvolutivo = entornoEvolutivo;
+    public void setEntornoEvolutivo(Datos entornoEvolutivo) {
+        for (double[] muestra : entornoEvolutivo.getDatos())
+            this.entornoEvolutivo.add(new MuestraGenetica(muestra));
     }
 
     public ArrayList<MuestraGenetica> getEntornoTesteo() {
         return entornoTesteo;
     }
 
-    public void setEntornoTesteo(ArrayList<MuestraGenetica> entornoTesteo) {
-        this.entornoTesteo = entornoTesteo;
+    public void setEntornoTesteo(Datos entornoTesteo) {
+        if (this.entornoTesteo == null) this.entornoTesteo = new ArrayList<>();
+        for (double[] muestra : entornoTesteo.getDatos())
+            this.entornoTesteo.add(new MuestraGenetica(muestra));
     }
 
     public Evaluador getEvaluador() {

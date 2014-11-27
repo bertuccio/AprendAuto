@@ -11,7 +11,9 @@ public class MutacionGen implements Mutacion {
 
     @Override
     public Individuo muta(Individuo mutante) {
-        mutante.getReglas().get(UtilesGenetico.randomNumber(mutante.getReglas().size()-1)).changeGen(UtilesGenetico.randomNumber(mutante.getNumGensRegla()));
+        if (mutante.getReglas().isEmpty())
+            return mutante;
+        mutante.getReglas().get(UtilesGenetico.randomNumber(mutante.getReglas().size()-1)).changeGen(UtilesGenetico.randomNumber(mutante.getNumGensRegla() - 19));
         mutante.setMutated(1);
         return mutante;
     }

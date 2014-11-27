@@ -34,20 +34,22 @@ public class Poblacion {
             this.individuos[i]=new Individuo(nClases,nAtributos,rangoAtributos,maxReglasIni);
             this.nIndividuos++;
         }    
+        this.getClass();
     }
     
     public void addIndividuo(Individuo individuo){
         if (this.MAX_INDIVIDUOS-this.nIndividuos > 0) {
-            this.nIndividuos++;
             this.individuos[this.nIndividuos]=individuo;
+            this.nIndividuos++;
         }
     }
     
     public void scoring(Evaluador evaluador,ArrayList<MuestraGenetica> entorno){
         this.sumScores = 0;
-        for (int i = 0; i < this.nIndividuos;i++){
+        for (int i = 0; i < this.nIndividuos - 1;i++){
             if(this.individuos[i].getMutated() == 1)
                 this.individuos[i].setScore(evaluador.puntua(this.individuos[i], entorno));   
+            this.individuos[i].setMutated(0);
             this.sumScores += this.individuos[i].getScore();
         }
     }
@@ -86,6 +88,6 @@ public class Poblacion {
     }
     
     public void sort(){
-        Arrays.sort(this.individuos, Collections.reverseOrder());
+        Arrays.sort(this.individuos,0,this.nIndividuos - 1, Collections.reverseOrder());
     }
 }

@@ -16,46 +16,6 @@ import java.util.ArrayList;
 public class Regla {
     
     private int nClases;
-
-    public int getnClases() {
-        return nClases;
-    }
-
-    public void setnClases(int nClases) {
-        this.nClases = nClases;
-    }
-
-    public int getnAtributos() {
-        return nAtributos;
-    }
-
-    public void setnAtributos(int nAtributos) {
-        this.nAtributos = nAtributos;
-    }
-
-    public int getRangoAtributos() {
-        return rangoAtributos;
-    }
-
-    public void setRangoAtributos(int rangoAtributos) {
-        this.rangoAtributos = rangoAtributos;
-    }
-
-    public int[] getCromosoma() {
-        return cromosoma;
-    }
-
-    public void setCromosoma(int[] cromosoma) {
-        this.cromosoma = cromosoma;
-    }
-
-    public int getClase() {
-        return clase;
-    }
-
-    public void setClase(int clase) {
-        this.clase = clase;
-    }
     private int nAtributos;
     private int rangoAtributos;
     private int[] cromosoma;
@@ -70,6 +30,14 @@ public class Regla {
             this.cromosoma[i] = UtilesGenetico.coinDrop();
         }
         this.clase = UtilesGenetico.randomNumber(nClases);
+    }
+    
+    public Regla(int clase, int[] cromosoma, int nAtributos,int rangoAtributos,int nClases){
+        this.cromosoma = cromosoma;
+        this.clase = clase;
+        this.nAtributos = nAtributos;
+        this.rangoAtributos = rangoAtributos;
+        this.nClases = nClases;
     }
     
     public int evaluate(double dMuestra[]){
@@ -122,5 +90,45 @@ public class Regla {
     
     public void changeClass(){
         this.setClase(UtilesGenetico.randomNumber(this.nClases));
+    }
+    
+    public int getnClases() {
+        return nClases;
+    }
+
+    public void setnClases(int nClases) {
+        this.nClases = nClases;
+    }
+
+    public int getnAtributos() {
+        return nAtributos;
+    }
+
+    public void setnAtributos(int nAtributos) {
+        this.nAtributos = nAtributos;
+    }
+
+    public int getRangoAtributos() {
+        return rangoAtributos;
+    }
+
+    public void setRangoAtributos(int rangoAtributos) {
+        this.rangoAtributos = rangoAtributos;
+    }
+
+    public int[] getCromosoma() {
+        return cromosoma;
+    }
+
+    public void setCromosoma(int[] cromosoma) {
+        this.cromosoma = cromosoma;
+    }
+
+    public int getClase() {
+        return clase;
+    }
+
+    public void setClase(int clase) {
+        this.clase = clase;
     }
 }

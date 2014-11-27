@@ -1,11 +1,20 @@
 package clasificadores;
 
 import clasificadores.genetico.Entorno;
+import clasificadores.genetico.evaluacion.Evaluador;
+import clasificadores.genetico.evaluacion.FitnessFunction;
+import clasificadores.genetico.poblacion.individuo.mutacion.Mutacion;
+import clasificadores.genetico.poblacion.individuo.mutacion.MutacionClase;
+import clasificadores.genetico.poblacion.individuo.mutacion.MutacionGen;
+import clasificadores.genetico.recombinacion.Recombinacion;
+import clasificadores.genetico.recombinacion.RecombinacionSimple;
+import clasificadores.genetico.selecciones.Seleccion;
+import clasificadores.genetico.selecciones.SeleccionRuleta;
 import datos.Datos;
+import datos.Diccionario;
 import java.util.ArrayList;
 import particionado.DivisionPorcentual;
 import particionado.EstrategiaParticionado;
-import particionado.ValidacionCruzada;
 
 
 /**
@@ -16,19 +25,54 @@ import particionado.ValidacionCruzada;
  */
 public class ClasificadorGenetico extends Clasificador{
 
+    
+    private int epochs = 1000;
+    private int maxIndividuos = 1000;
+    private int maxReglasIni = 100;
+    private double probMutation = 0.01;
+    private double probRecombine = 0.6;
+    private Evaluador evaluator = new FitnessFunction();
+    
     private int maxGeneraciones;
     private Entorno entorno;
     
     /*Metodos publicos*/
     @Override
     public void entrenamiento(Datos datosTrain) {
+        int nClases = Diccionario.getInstance().getDiccionarioClases().size();
         
+        int nAtributos = datosTrain.getCategorias().size() - 1;
+        int rangoAtributos = Diccionario.getInstance().getDiccionarioAtributos().size();
+        
+        this.entorno = new Entorno(maxIndividuos,nClases,nAtributos,rangoAtributos,maxReglasIni,probMutation,probRecombine,evaluator,datosTrain,null);
+        
+        
+        ArrayList<Mutacion> mutaciones = new ArrayList<>();
+        mutaciones.add(new MutacionClase());
+        mutaciones.add(new MutacionGen());
+        
+        this.entorno.setMutaciones(mutaciones);
+        
+        ArrayList<Recombinacion> recombinaciones = new ArrayList<>();
+        recombinaciones.add(new RecombinacionSimple());
+        
+        this.entorno.setCruces(recombinaciones);
+        
+        ArrayList<Seleccion> selecciones = new ArrayList<>();
+        selecciones.add(new SeleccionRuleta());
+        
+        this.entorno.setSelecciones(selecciones);
+    
+        for(int i = 0; i<epochs;i++){
+            this.entorno.epoch();
+        }
     }
 
     
     @Override
     public ArrayList<Integer> clasifica(Datos datosTest) {
-        return null;
+        this.entorno.setEntornoTesteo(datosTest);
+        return this.entorno.test();
     }
 
     /**
@@ -52,7 +96,7 @@ public class ClasificadorGenetico extends Clasificador{
         EstrategiaParticionado part = new DivisionPorcentual();
         Clasificador clasificador = new ClasificadorGenetico();
 
-        for (int i = 0; i < args.length; i++) {
+        /*for (int i = 0; i < args.length; i++) {
             
             if (args[i].compareTo("-input") == 0) {
                 
@@ -69,10 +113,11 @@ public class ClasificadorGenetico extends Clasificador{
                 particion = Integer.parseInt(args[i + 1]);
                 i++;
             }
-        }
-        Datos d = Datos.cargaDeFichero(inputFile);
+        }*/
+        Datos d = Datos.cargaDeFichero("Scale.data");
 
         double error = 0;
+        
         ArrayList<Double> resultados = Clasificador.validacion(part, d, clasificador, particion);
         for (Double resultado : resultados) {
             error += resultado;
@@ -81,6 +126,12 @@ public class ClasificadorGenetico extends Clasificador{
         
         System.out.println(error);
     }
+    
+    
+    
+    
+    
+    
 
     public int getMaxGeneraciones() {
         return maxGeneraciones;

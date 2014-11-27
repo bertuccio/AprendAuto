@@ -28,12 +28,14 @@ public class Individuo implements Comparable<Individuo> {
         for(int i = 0; i<nReglas;i++){
             this.reglas.add(new Regla(nClases,nAtributos,rangoAtributos));
         }
+        this.score = 0; 
     }
     
-    public Individuo(int nClases,int nAtributos,int rangoAtributos,int maxReglasIni,ArrayList<Regla> reglas){
+    public Individuo(int numGensRegla,ArrayList<Regla> reglas){
         this.mutated = 1; 
-        this.numGensRegla = nAtributos * rangoAtributos;
+        this.numGensRegla = numGensRegla;
         this.reglas = reglas;
+        this.score = 0; 
     }
     
     /*Muestra debe de ser solo los datos a machear sin la clase*/

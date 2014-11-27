@@ -10,7 +10,8 @@ public class MuestraGenetica {
     private double[] args;
     
     /*Este constructor toma como clase el ultimo elemento*/
-    public MuestraGenetica(double[] muestra) {
+    public MuestraGenetica(double[] muestra){ 
+        this.args = new double[muestra.length-1];
         this.clase = muestra[muestra.length-1];
         System.arraycopy( muestra, 0, this.args, 0, muestra.length-1 );
     }
