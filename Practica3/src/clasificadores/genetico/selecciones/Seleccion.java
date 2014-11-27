@@ -1,6 +1,6 @@
-package clasificadores.genetico.poblacion.selecciones;
+package clasificadores.genetico.selecciones;
 
-import clasificadores.genetico.poblacion.individuo.Individuo;
+import clasificadores.genetico.poblacion.Poblacion;
 import java.util.ArrayList;
 
 public interface Seleccion {
@@ -13,9 +13,8 @@ public interface Seleccion {
      * tamaño maxIndividuos seleccionados segun como se comporte en un entorno dado
      * 
      * @param poblacion
-     * @param maxIndividuos
-     * @param entorno
+     * @param nIndividuos
      * @return Lista con los individuos seleccionados
      */
-    public ArrayList<Individuo> selecciona(ArrayList<Individuo> poblacion, int maxIndividuos,int[][] entorno);
+    public ArrayList<Integer> selecciona(Poblacion poblacion, int nIndividuos);
 }

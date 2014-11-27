@@ -1,10 +1,12 @@
 package clasificadores.genetico.poblacion;
-import clasificadores.genetico.UtilesGenetico;
+
+import clasificadores.genetico.MuestraGenetica;
+import clasificadores.genetico.evaluacion.Evaluador;
 import clasificadores.genetico.poblacion.individuo.Individuo;
-import clasificadores.genetico.poblacion.individuo.mutacion.Mutacion;
-import clasificadores.genetico.poblacion.individuo.recombinacion.Recombinacion;
-import clasificadores.genetico.poblacion.selecciones.Seleccion;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 
 /**
  *
@@ -12,114 +14,78 @@ import java.util.ArrayList;
  */
 public class Poblacion {
     
-    private ArrayList<Individuo> individuos = new ArrayList<>();
+    /**
+     * Numero maximo de individuos en una poblacion
+     */
+    public final int MAX_INDIVIDUOS = 5000;
     
-    ArrayList<Mutacion> mutaciones = new ArrayList<>();
-    ArrayList<Recombinacion> cruces = new ArrayList<>();
-    ArrayList<Seleccion> selecciones = new ArrayList<>();
+    private int nIndividuos;
+    private Individuo[] individuos;
+    private double sumScores;
     
-    private float probMutation;
-    private float probRecombine;
     private int maxIndividuos;
     
-    
-    public Poblacion(int maxIndividuos,int nClases,int nAtributos,int rangoAtributos,int maxReglasIni,float probMutation,float probRecombine){
+    public Poblacion(int maxIndividuos,int nClases,int nAtributos,int rangoAtributos,int maxReglasIni,Evaluador evaluator){
+        this.nIndividuos = 0;
+        this.individuos = new Individuo[MAX_INDIVIDUOS];
+        
         this.maxIndividuos = maxIndividuos;
-        this.probMutation = probMutation;
-        this.probRecombine = probRecombine;
         for (int i = 0; i < maxIndividuos;i++){
-            this.individuos.add(new Individuo(nClases,nAtributos,rangoAtributos,maxReglasIni));
+            this.individuos[i]=new Individuo(nClases,nAtributos,rangoAtributos,maxReglasIni);
+            this.nIndividuos++;
         }    
     }
     
-    public ArrayList<Individuo> muta(Individuo mutante){
-        int mutacionIndex = UtilesGenetico.randomNumber(this.mutaciones.size() - 1);
-        return this.mutaciones.get(mutacionIndex).muta(mutante);
-   }
-    
-    public ArrayList<Individuo> reproduce(Individuo a,Individuo b){
-        int cruceIndex = UtilesGenetico.randomNumber(this.cruces.size() - 1);
-        return this.cruces.get(cruceIndex).recombina(a,b);
-   }
-   
-    public ArrayList<Individuo> seleccionNatural(ArrayList<Individuo> nuevaPoblacion,int[][] entorno){
-        int seleccionIndex = UtilesGenetico.randomNumber(this.selecciones.size() - 1);
-        return this.selecciones.get(seleccionIndex).selecciona(nuevaPoblacion,this.maxIndividuos,entorno);
-   }
-   
-    public ArrayList<Individuo> seleccionEvolutiva(ArrayList<Individuo> nuevaPoblacion,int[][] entorno){
-        int seleccionIndex = UtilesGenetico.randomNumber(this.selecciones.size() - 1);
-        Float nRecombinaciones;
-        nRecombinaciones = this.probRecombine * this.individuos.size();
-        return this.selecciones.get(seleccionIndex).selecciona(nuevaPoblacion,nRecombinaciones.intValue(),entorno);
-   }
-    
-    public ArrayList<Individuo> evolve(){
-        
-        
-        return null;
+    public void addIndividuo(Individuo individuo){
+        if (this.MAX_INDIVIDUOS-this.nIndividuos > 0) {
+            this.nIndividuos++;
+            this.individuos[this.nIndividuos]=individuo;
+        }
     }
     
-    public ArrayList<Individuo> evolve(){
-        
-        
-        return null;
-    }
-    
-    
-    public float getProbMutation() {
-        return probMutation;
+    public void scoring(Evaluador evaluador,ArrayList<MuestraGenetica> entorno){
+        this.sumScores = 0;
+        for (int i = 0; i < this.nIndividuos;i++){
+            if(this.individuos[i].getMutated() == 1)
+                this.individuos[i].setScore(evaluador.puntua(this.individuos[i], entorno));   
+            this.sumScores += this.individuos[i].getScore();
+        }
     }
 
-    public void setProbMutation(float probMutation) {
-        this.probMutation = probMutation;
-    }
-
-    public float getProbRecombine() {
-        return probRecombine;
-    }
-
-    public void setProbRecombine(float probRecombine) {
-        this.probRecombine = probRecombine;
-    }
-    
-    public ArrayList<Individuo> getIndividuos() {
+    /*Metodos de acceso*/
+    public Individuo[] getIndividuos() {
         return individuos;
     }
 
-    public void setIndividuos(ArrayList<Individuo> individuos) {
+    public void setIndividuos(Individuo[] individuos) {
         this.individuos = individuos;
     }
-
-    public ArrayList<Mutacion> getMutaciones() {
-        return mutaciones;
-    }
-
-    public void setMutaciones(ArrayList<Mutacion> mutaciones) {
-        this.mutaciones = mutaciones;
-    }
-
-    public ArrayList<Recombinacion> getCruces() {
-        return cruces;
-    }
-
-    public void setCruces(ArrayList<Recombinacion> cruces) {
-        this.cruces = cruces;
-    }
-
-    public ArrayList<Seleccion> getSelecciones() {
-        return selecciones;
-    }
-
-    public void setSelecciones(ArrayList<Seleccion> selecciones) {
-        this.selecciones = selecciones;
-    }
-
+    
     public int getMaxIndividuos() {
         return maxIndividuos;
     }
 
     public void setMaxIndividuos(int maxIndividuos) {
         this.maxIndividuos = maxIndividuos;
+    }
+
+    public int getnIndividuos() {
+        return nIndividuos;
+    }
+
+    public void setnIndividuos(int nIndividuos) {
+        this.nIndividuos = nIndividuos;
+    }
+
+    public double getSumScores() {
+        return sumScores;
+    }
+
+    public void setSumScores(double sumScores) {
+        this.sumScores = sumScores;
+    }
+    
+    public void sort(){
+        Arrays.sort(this.individuos, Collections.reverseOrder());
     }
 }

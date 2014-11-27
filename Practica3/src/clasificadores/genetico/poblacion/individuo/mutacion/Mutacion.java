@@ -7,20 +7,13 @@
 package clasificadores.genetico.poblacion.individuo.mutacion;
 
 import clasificadores.genetico.poblacion.individuo.Individuo;
-import java.util.ArrayList;
 
 /**
  *
- * @author temporal
+ * @author Andres Ruiz
  */
-public class Mutacion {
+public interface Mutacion {
 
-    public ArrayList<Individuo> muta() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public ArrayList<Individuo> muta(Individuo mutante) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public Individuo muta(Individuo mutante);
     
 }

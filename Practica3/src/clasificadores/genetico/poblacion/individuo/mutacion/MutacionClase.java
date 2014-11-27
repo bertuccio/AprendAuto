@@ -6,10 +6,20 @@
 
 package clasificadores.genetico.poblacion.individuo.mutacion;
 
+import clasificadores.genetico.UtilesGenetico;
+import clasificadores.genetico.poblacion.individuo.Individuo;
+
 /**
  *
- * @author temporal
+ * @author Andres Ruiz
  */
-public class MutacionClase {
+public class MutacionClase implements Mutacion{
+
+    @Override
+    public Individuo muta(Individuo mutante) {
+        mutante.getReglas().get(UtilesGenetico.randomNumber(mutante.getReglas().size()-1)).changeClass();
+        mutante.setMutated(1);
+        return mutante;
+    }
     
 }

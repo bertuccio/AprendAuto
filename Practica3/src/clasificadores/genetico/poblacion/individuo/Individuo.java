@@ -13,24 +13,39 @@ import java.util.ArrayList;
  *
  * @author temporal
  */
-public class Individuo implements Comparable<Individuo>{
+public class Individuo implements Comparable<Individuo> {
     
     private ArrayList<Regla> reglas = new ArrayList<>();
-    public float score;
-
-    public float getScore() {
-        return score;
+    private int numGensRegla;
+    private int mutated;
+    private double score;
+    
+    
+    public Individuo(int nClases,int nAtributos,int rangoAtributos,int maxReglasIni){
+        this.mutated = 1; 
+        this.numGensRegla = nAtributos * rangoAtributos;
+        int nReglas = UtilesGenetico.randomNumber(maxReglasIni);
+        for(int i = 0; i<nReglas;i++){
+            this.reglas.add(new Regla(nClases,nAtributos,rangoAtributos));
+        }
     }
-
-    public void setScore(float score) {
-        this.score = score;
+    
+    public Individuo(int nClases,int nAtributos,int rangoAtributos,int maxReglasIni,ArrayList<Regla> reglas){
+        this.mutated = 1; 
+        this.numGensRegla = nAtributos * rangoAtributos;
+        this.reglas = reglas;
     }
-
-    @Override
-    public int compareTo(Individuo b) {
-        return (int) (this.score - b.score);
+    
+    /*Muestra debe de ser solo los datos a machear sin la clase*/
+    public int evaluate(double muestra[]){
+        int claseActual;
+        for (Regla reglaActual : this.reglas){
+            claseActual = reglaActual.evaluate(muestra);
+            if (claseActual != 0)
+                return claseActual;
+        }
+        return 0;
     }
-
     
     public ArrayList<Regla> getReglas() {
         return reglas;
@@ -39,23 +54,34 @@ public class Individuo implements Comparable<Individuo>{
     public void setReglas(ArrayList<Regla> reglas) {
         this.reglas = reglas;
     }
-    
-    public Individuo(int nClases,int nAtributos,int rangoAtributos,int maxReglasIni){
-        this.score = 0;
-        int nReglas = UtilesGenetico.randomNumber(maxReglasIni);
-        for(int i = 0; i<nReglas;i++){
-            this.reglas.add(new Regla(nClases,nAtributos,rangoAtributos));
-        }
+
+    public int getNumGensRegla() {
+        return numGensRegla;
     }
-    
-    public int evaluate(int muestra[]){
-        int claseActual;
-        for (Regla reglaActual : this.reglas){
-            claseActual = reglaActual.evaluate(muestra);
-            if (claseActual != 0)
-                return claseActual;
-        }
-        return 0;
+
+    public void setNumGensRegla(int numGensRegla) {
+        this.numGensRegla = numGensRegla;
+    }
+
+    public int getMutated() {
+        return mutated;
+    }
+
+    public void setMutated(int mutated) {
+        this.mutated = mutated;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    @Override
+    public int compareTo(Individuo o) {
+        return new Double(this.score).intValue() - new Double(o.score).intValue();
     }
 
 }

@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  *
- * @author temporal
+ * @author Andres Ruiz Carrasco
  */
 public class UtilesGenetico {
     
@@ -19,6 +19,5 @@ public class UtilesGenetico {
         Random rg = new Random();
         int num = rg.nextInt(n+1);
         return num;
-    }
-    
+    } 
 }

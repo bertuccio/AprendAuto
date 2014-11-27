@@ -1,6 +1,6 @@
 package clasificadores;
 
-import clasificadores.genetico.poblacion.Poblacion;
+import clasificadores.genetico.Entorno;
 import datos.Datos;
 import java.util.ArrayList;
 import particionado.DivisionPorcentual;
@@ -15,14 +15,10 @@ import particionado.ValidacionCruzada;
  * @author Andres Ruiz Carrasco
  */
 public class ClasificadorGenetico extends Clasificador{
-    /*Metodos privados*/
-    private Poblacion poblacion;
-    private int maxGeneraciones;
-    
-    private int[][] datosToEntorno(Datos datos){
-        return null;
-    }
 
+    private int maxGeneraciones;
+    private Entorno entorno;
+    
     /*Metodos publicos*/
     @Override
     public void entrenamiento(Datos datosTrain) {
@@ -85,16 +81,6 @@ public class ClasificadorGenetico extends Clasificador{
         
         System.out.println(error);
     }
-    
-    
-    
-    public Poblacion getPoblacion() {
-        return poblacion;
-    }
-
-    public void setPoblacion(Poblacion poblacion) {
-        this.poblacion = poblacion;
-    }
 
     public int getMaxGeneraciones() {
         return maxGeneraciones;
@@ -103,4 +89,13 @@ public class ClasificadorGenetico extends Clasificador{
     public void setMaxGeneraciones(int maxGeneraciones) {
         this.maxGeneraciones = maxGeneraciones;
     }
+
+    public Entorno getEntorno() {
+        return entorno;
+    }
+
+    public void setEntorno(Entorno entorno) {
+        this.entorno = entorno;
+    }
+    
 }

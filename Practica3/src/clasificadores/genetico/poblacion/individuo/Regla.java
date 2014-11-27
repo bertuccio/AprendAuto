@@ -72,7 +72,14 @@ public class Regla {
         this.clase = UtilesGenetico.randomNumber(nClases);
     }
     
-    public int evaluate(int muestra[]){
+    public int evaluate(double dMuestra[]){
+        int muestra[] = new int[this.nAtributos];
+        int j = 0;
+        for (double d : dMuestra){
+            muestra[j] = new Double(d).intValue();
+            j++;
+        }
+            
         ArrayList<Integer> punterosGen = new ArrayList<>();
         
         for (int i = 0; i < this.nAtributos; i++){
@@ -83,7 +90,7 @@ public class Regla {
         int z = 0;
         /*Hay tantos punteros Gen como Atributos*/
         for (int i : punterosGen){
-            if(muestra[z]+i != 1){
+            if(this.cromosoma[muestra[z]+i] != 1){
                 return 0;
             }
             z++;
@@ -111,5 +118,9 @@ public class Regla {
     
     public void changeGen(int index){
         this.cromosoma[index] = ((this.cromosoma[index] == 1) ? 0 : 1);
+    }
+    
+    public void changeClass(){
+        this.setClase(UtilesGenetico.randomNumber(this.nClases));
     }
 }
