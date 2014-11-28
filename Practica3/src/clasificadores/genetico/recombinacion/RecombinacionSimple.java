@@ -27,8 +27,8 @@ public class RecombinacionSimple implements Recombinacion {
         ArrayList<Regla> reglasA = new ArrayList<>();
         ArrayList<Regla> reglasB = new ArrayList<>();
         
-        int indexCorteA = UtilesGenetico.randomNumber(a.getReglas().size());
-        int indexCorteB = UtilesGenetico.randomNumber(b.getReglas().size());
+        int indexCorteA = UtilesGenetico.randomNumber(a.getReglas().size()-1);
+        int indexCorteB = UtilesGenetico.randomNumber(b.getReglas().size()-1);
         
         ArrayList<Regla> recombinacionReglas = this.recombinaReglas(a.getReglas().get(indexCorteA), b.getReglas().get(indexCorteB));
         

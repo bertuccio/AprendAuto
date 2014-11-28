@@ -75,7 +75,7 @@ public class Entorno {
         
         /*Obtenemos los individuos selecionados para el cruce*/
         ArrayList<Integer> index = this.selecciones.get(UtilesGenetico.randomNumber(
-                this.selecciones.size())).selecciona(
+                this.selecciones.size() - 1)).selecciona(
                         poblacion, 
                         new Double(this.probRecombine * this.poblacion.getnIndividuos()).intValue());
         
@@ -88,7 +88,7 @@ public class Entorno {
             if (itr.hasNext()) {
                 b = (Integer) itr.next();
                 recombineResult = this.cruces.get(UtilesGenetico.randomNumber(
-                        this.cruces.size())).recombina(
+                        this.cruces.size() - 1)).recombina(
                                 this.poblacion.getIndividuos()[a],
                                 this.poblacion.getIndividuos()[b]);
                 for (Individuo i : recombineResult){
@@ -104,7 +104,10 @@ public class Entorno {
     public void mutate(){
         int nMutantes = (int) (this.probMutation * this.poblacion.getnIndividuos());
         for(int i = nMutantes; i>=0; i--){
-            this.mutaciones.get(UtilesGenetico.randomNumber(this.mutaciones.size())).muta(this.poblacion.getIndividuos()[UtilesGenetico.randomNumber(this.poblacion.getnIndividuos()-1)]);
+            this.mutaciones.get(
+                    UtilesGenetico.randomNumber(
+                            this.mutaciones.size()-1)).muta(
+                                    this.poblacion.getIndividuos()[UtilesGenetico.randomNumber(this.poblacion.getnIndividuos()-1)]);
         }
     }
     
@@ -122,7 +125,7 @@ public class Entorno {
         
         /*Obtenemos los individuos selecionados para sobrevivir*/
         ArrayList<Integer> index = this.selecciones.get(UtilesGenetico.randomNumber(
-                this.selecciones.size())).selecciona(
+                this.selecciones.size()-1)).selecciona(
                         poblacion, 
                         new Double(this.poblacion.getMaxIndividuos()).intValue());
         
@@ -156,8 +159,10 @@ public class Entorno {
         
         int i = 0;
         for(MuestraGenetica muestra : entornoTesteo){
-            results.add(i,ganador.evaluate(muestra.getArgs()));
+            results.add(i,ganador.evaluate(muestra.getArgs())[0]);
+            i++;
         }
+        
         return results;
     }
     
@@ -240,9 +245,5 @@ public class Entorno {
     public void setEvaluador(Evaluador evaluador) {
         this.evaluador = evaluador;
     }
-
-
-    
-    
 }
 

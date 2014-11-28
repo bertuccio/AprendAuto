@@ -19,9 +19,12 @@ public class FitnessFunction implements Evaluador {
     @Override
     public double puntua(Individuo objeto, ArrayList<MuestraGenetica> entornoEvolutivo) {
     	int aciertos=0,totales=0;
+        int res[];
     	for (MuestraGenetica muestraGenetica : entornoEvolutivo) {
     		totales++;
-    		if(objeto.evaluate(muestraGenetica.getArgs())==muestraGenetica.getClase()) aciertos++;
+    		res = objeto.evaluate(muestraGenetica.getArgs());
+                if(res[0] == muestraGenetica.getClase()) 
+                    aciertos++;
     	}
         return aciertos*100.0/totales;
     }

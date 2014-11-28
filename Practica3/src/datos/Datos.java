@@ -236,7 +236,7 @@ public class Datos {
                 
             }
         // desordena las filas de la matriz para evitar posibles sesgos
-        //Datos.shuffleArray(datos.datos);
+        Datos.shuffleArray(datos.datos);
       
       
         return datos;

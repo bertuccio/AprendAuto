@@ -40,7 +40,7 @@ public class SeleccionRuleta implements Seleccion {
             random=UtilesGenetico.randomNumber(100)-1;
             for (int j = 0; j<poblacion.getnIndividuos();j++){
                 acumRuleta += poblacion.getIndividuos()[j].getScore() * 100 / poblacion.getSumScores();
-                if (acumRuleta > random){
+                if (!indexIndividuos.contains(j) && acumRuleta > random){
                     indexIndividuos.add(j);
                     /*Aseguramos la salida del bucle*/
                     j = poblacion.getnIndividuos();

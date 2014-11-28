@@ -8,6 +8,7 @@ package clasificadores.genetico.poblacion.individuo;
 
 import clasificadores.genetico.UtilesGenetico;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -59,7 +60,7 @@ public class Regla {
         /*Hay tantos punteros Gen como Atributos*/
         for (int i : punterosGen){
             if(this.cromosoma[muestra[z]+i] != 1){
-                return 0;
+                return -1;
             }
             z++;
         }
@@ -130,5 +131,10 @@ public class Regla {
 
     public void setClase(int clase) {
         this.clase = clase;
+    }
+    
+    @Override
+    public String toString(){
+        return Arrays.toString(this.cromosoma) + "->" + this.clase;
     }
 }

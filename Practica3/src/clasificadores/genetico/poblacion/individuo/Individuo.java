@@ -39,14 +39,22 @@ public class Individuo implements Comparable<Individuo> {
     }
     
     /*Muestra debe de ser solo los datos a machear sin la clase*/
-    public int evaluate(double muestra[]){
+    public int[] evaluate(double muestra[]){
         int claseActual;
+        int res[] = new int[2];
+        int i = 0;
         for (Regla reglaActual : this.reglas){
             claseActual = reglaActual.evaluate(muestra);
-            if (claseActual != 0)
-                return claseActual;
+            if (claseActual != -1){
+                res[0] = claseActual;
+                res[1] = i;
+                return res;
+            }
+            i++;
         }
-        return 0;
+        res[0]=-1;
+        res[1]=-1;
+        return res;
     }
     
     public ArrayList<Regla> getReglas() {
