@@ -26,9 +26,9 @@ import particionado.EstrategiaParticionado;
 public class ClasificadorGenetico extends Clasificador{
 
     
-    private int epochs = 1000;
-    private int maxIndividuos = 1000;
-    private int maxReglasIni = 100;
+    private int epochs = 10000;
+    private int maxIndividuos = 100;
+    private int maxReglasIni = 20;
     private double probMutation = 0.01;
     private double probRecombine = 0.6;
     private Evaluador evaluator = new FitnessFunction();
@@ -91,7 +91,7 @@ public class ClasificadorGenetico extends Clasificador{
     public static void main(String[] args) {
 
         String inputFile = "input";
-        Integer particion = 5;
+        Integer particion = 70;
 
         EstrategiaParticionado part = new DivisionPorcentual();
         Clasificador clasificador = new ClasificadorGenetico();
