@@ -123,13 +123,21 @@ public class Entorno {
         this.mutate();
         this.scoring();
         
+        this.poblacion.sort();
+        
+        newPoblation[0] = this.poblacion.getIndividuos()[0];
+        this.poblacion.getIndividuos()[0].setScore(0);
+        
+        newPoblation[1] = this.poblacion.getIndividuos()[1];
+        this.poblacion.getIndividuos()[1].setScore(0);
+        
         /*Obtenemos los individuos selecionados para sobrevivir*/
         ArrayList<Integer> index = this.selecciones.get(UtilesGenetico.randomNumber(
-                this.selecciones.size()-1)).selecciona(
-                        poblacion, 
-                        new Double(this.poblacion.getMaxIndividuos()).intValue());
+                this.selecciones.size()- 1)).selecciona(
+                        this.poblacion, 
+                        new Double(this.poblacion.getMaxIndividuos()).intValue() - 2);
         
-        int j=0;
+        int j=2;
         for (Integer i : index){
             newPoblation[j] = this.poblacion.getIndividuos()[i];
             j++;
@@ -245,5 +253,14 @@ public class Entorno {
     public void setEvaluador(Evaluador evaluador) {
         this.evaluador = evaluador;
     }
+
+    public Individuo getKing() {
+        return king;
+    }
+
+    public void setKing(Individuo king) {
+        this.king = king;
+    }
+    
 }
 

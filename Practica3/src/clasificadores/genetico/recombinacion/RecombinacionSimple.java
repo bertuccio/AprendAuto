@@ -29,8 +29,13 @@ public class RecombinacionSimple implements Recombinacion {
         
         int indexCorteA = UtilesGenetico.randomNumber(a.getReglas().size()-1);
         int indexCorteB = UtilesGenetico.randomNumber(b.getReglas().size()-1);
-        
+        //System.out.println(indexCorteA+":"+a.getReglas().get(indexCorteA));
+        //System.out.println(indexCorteB+":"+b.getReglas().get(indexCorteB));
+        //System.out.println("paren");
         ArrayList<Regla> recombinacionReglas = this.recombinaReglas(a.getReglas().get(indexCorteA), b.getReglas().get(indexCorteB));
+        
+
+        
         
         /*Formacion de reglas del individuo A*/
         for(int i=0; i < indexCorteA;i++){
@@ -87,8 +92,13 @@ public class RecombinacionSimple implements Recombinacion {
             System.arraycopy(a.getCromosoma(), indexCorte, tmp1, indexCorte, (a.getnAtributos()*a.getRangoAtributos()) - indexCorte);            
         }
         
-        Regla a1 = new Regla(a.getnClases(), tmp1, a.getnAtributos(), a.getRangoAtributos(), a.getnClases());
-        Regla b1 = new Regla(b.getnClases(), tmp2, b.getnAtributos(), b.getRangoAtributos(), b.getnClases());
+        Regla a1 = new Regla(a.getClase(), tmp1, a.getnAtributos(), a.getRangoAtributos(), a.getnClases());
+        Regla b1 = new Regla(b.getClase(), tmp2, b.getnAtributos(), b.getRangoAtributos(), b.getnClases());
+        
+    //System.out.println(indexCorte);
+    //System.out.println(a1);
+    //System.out.println(b1);
+        
         res.add(0,a1);
         res.add(1, b1);
         return res;

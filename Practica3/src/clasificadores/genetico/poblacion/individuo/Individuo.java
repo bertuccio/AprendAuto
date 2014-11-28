@@ -24,7 +24,7 @@ public class Individuo implements Comparable<Individuo> {
     public Individuo(int nClases,int nAtributos,int rangoAtributos,int maxReglasIni){
         this.mutated = 1; 
         this.numGensRegla = nAtributos * rangoAtributos;
-        int nReglas = UtilesGenetico.randomNumber(maxReglasIni);
+        int nReglas = UtilesGenetico.randomNumber(maxReglasIni-1)+1;
         for(int i = 0; i<nReglas;i++){
             this.reglas.add(new Regla(nClases,nAtributos,rangoAtributos));
         }
@@ -91,7 +91,9 @@ public class Individuo implements Comparable<Individuo> {
 
     @Override
     public int compareTo(Individuo o) {
-        return new Double(this.score).intValue() - new Double(o.score).intValue();
+        if(this.score > o.score) return 1;
+        else if(this.score < o.score) return -1;
+        return 0;
     }
 
 }

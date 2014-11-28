@@ -15,6 +15,7 @@ import datos.Diccionario;
 import java.util.ArrayList;
 import particionado.DivisionPorcentual;
 import particionado.EstrategiaParticionado;
+import particionado.ValidacionCruzada;
 
 
 /**
@@ -26,7 +27,8 @@ import particionado.EstrategiaParticionado;
 public class ClasificadorGenetico extends Clasificador{
 
     
-    private int epochs = 10000;
+    private double tolerance = 0.001;
+    private int epoch = 1000;
     private int maxIndividuos = 100;
     private int maxReglasIni = 20;
     private double probMutation = 0.01;
@@ -39,6 +41,9 @@ public class ClasificadorGenetico extends Clasificador{
     /*Metodos publicos*/
     @Override
     public void entrenamiento(Datos datosTrain) {
+        double lastScore = 0;
+        double actualScore = 0;
+        
         int nClases = Diccionario.getInstance().getDiccionarioClases().size();
         
         int nAtributos = datosTrain.getCategorias().size() - 1;
@@ -50,6 +55,22 @@ public class ClasificadorGenetico extends Clasificador{
         ArrayList<Mutacion> mutaciones = new ArrayList<>();
         mutaciones.add(new MutacionClase());
         mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        mutaciones.add(new MutacionGen());
+        
         
         this.entorno.setMutaciones(mutaciones);
         
@@ -63,9 +84,19 @@ public class ClasificadorGenetico extends Clasificador{
         
         this.entorno.setSelecciones(selecciones);
     
-        for(int i = 0; i<epochs;i++){
+        for (int i = 0; i< this.epoch; i++){
             this.entorno.epoch();
+            
         }
+        System.out.println(this.entorno.getKing().getScore());
+//        do {
+//            lastScore = actualScore;
+//            for (int i = 0; i < this.epoch; i++){
+//                this.entorno.epoch();
+//            }
+//            actualScore=this.entorno.getKing().getScore();
+//        }while (Math.abs(lastScore - actualScore) > this.tolerance);
+            
     }
 
     
@@ -94,6 +125,7 @@ public class ClasificadorGenetico extends Clasificador{
         Integer particion = 70;
 
         EstrategiaParticionado part = new DivisionPorcentual();
+        //EstrategiaParticionado part = new ValidacionCruzada();
         Clasificador clasificador = new ClasificadorGenetico();
 
         /*for (int i = 0; i < args.length; i++) {
@@ -114,7 +146,7 @@ public class ClasificadorGenetico extends Clasificador{
                 i++;
             }
         }*/
-        Datos d = Datos.cargaDeFichero("Scale.data");
+        Datos d = Datos.cargaDeFichero("scale.data");
 
         double error = 0;
         

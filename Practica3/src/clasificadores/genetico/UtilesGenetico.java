@@ -16,7 +16,7 @@ public class UtilesGenetico {
     }
     
     public static int randomNumber(int n) {
-        if (n == 0) return 0;
+        if (n <= 0) return 0;
         Random rg = new Random();
         int num = rg.nextInt(n+1);
         return num;

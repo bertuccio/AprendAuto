@@ -38,14 +38,16 @@ public class SeleccionRuleta implements Seleccion {
         for (int i = 0; i<nIndividuos; i++){
             /*Tirada de 0-99*/
             random=UtilesGenetico.randomNumber(100)-1;
+            acumRuleta = 0;
             for (int j = 0; j<poblacion.getnIndividuos();j++){
-                acumRuleta += poblacion.getIndividuos()[j].getScore() * 100 / poblacion.getSumScores();
+                acumRuleta += poblacion.getIndividuos()[j].getScore() * 100.0000000000 / poblacion.getSumScores();
                 if (!indexIndividuos.contains(j) && acumRuleta > random){
                     indexIndividuos.add(j);
                     /*Aseguramos la salida del bucle*/
                     j = poblacion.getnIndividuos();
                 }
             }
+            
         }
         return indexIndividuos;
     }
