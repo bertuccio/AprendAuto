@@ -118,18 +118,22 @@ public class Entorno {
         3) Selecciona la nueva poblacion
     */
     public void epoch(){
+        
         Individuo[] newPoblation = new Individuo[this.poblacion.MAX_INDIVIDUOS];
+        
         this.evolve();
         this.mutate();
-        this.scoring();
         
+        this.scoring();
         this.poblacion.sort();
         
         newPoblation[0] = this.poblacion.getIndividuos()[0];
         this.poblacion.getIndividuos()[0].setScore(0);
+        this.poblacion.getIndividuos()[0].setMutated(1);
         
         newPoblation[1] = this.poblacion.getIndividuos()[1];
         this.poblacion.getIndividuos()[1].setScore(0);
+        this.poblacion.getIndividuos()[1].setMutated(1);
         
         /*Obtenemos los individuos selecionados para sobrevivir*/
         ArrayList<Integer> index = this.selecciones.get(UtilesGenetico.randomNumber(
@@ -150,7 +154,6 @@ public class Entorno {
         this.scoring();
         this.poblacion.sort();
         this.king = this.poblacion.getIndividuos()[0];
-        this.getClass();
     }
     
     /*

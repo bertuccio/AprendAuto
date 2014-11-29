@@ -35,20 +35,21 @@ public class SeleccionRuleta implements Seleccion {
         /*Ordenamos el conjuto de poblacion*/
         poblacion.sort();
         
-        for (int i = 0; i<nIndividuos; i++){
+        for (int i = 0; i<nIndividuos;){
             /*Tirada de 0-99*/
-            random=UtilesGenetico.randomNumber(100)-1;
+            random=UtilesGenetico.randomNumber(100);
             acumRuleta = 0;
             for (int j = 0; j<poblacion.getnIndividuos();j++){
-                acumRuleta += poblacion.getIndividuos()[j].getScore() * 100.0000000000 / poblacion.getSumScores();
+                acumRuleta += poblacion.getIndividuos()[j].getScore() * 100 / poblacion.getSumScores();
                 if (!indexIndividuos.contains(j) && acumRuleta > random){
                     indexIndividuos.add(j);
+                    i++;
                     /*Aseguramos la salida del bucle*/
                     j = poblacion.getnIndividuos();
                 }
-            }
-            
+            } 
         }
+        
         return indexIndividuos;
     }
 }

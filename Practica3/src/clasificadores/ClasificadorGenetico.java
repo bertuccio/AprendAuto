@@ -3,6 +3,7 @@ package clasificadores;
 import clasificadores.genetico.Entorno;
 import clasificadores.genetico.evaluacion.Evaluador;
 import clasificadores.genetico.evaluacion.FitnessFunction;
+import clasificadores.genetico.poblacion.individuo.Individuo;
 import clasificadores.genetico.poblacion.individuo.mutacion.Mutacion;
 import clasificadores.genetico.poblacion.individuo.mutacion.MutacionClase;
 import clasificadores.genetico.poblacion.individuo.mutacion.MutacionGen;
@@ -15,7 +16,6 @@ import datos.Diccionario;
 import java.util.ArrayList;
 import particionado.DivisionPorcentual;
 import particionado.EstrategiaParticionado;
-import particionado.ValidacionCruzada;
 
 
 /**
@@ -31,7 +31,7 @@ public class ClasificadorGenetico extends Clasificador{
     private int epoch = 1000;
     private int maxIndividuos = 100;
     private int maxReglasIni = 20;
-    private double probMutation = 0.01;
+    private double probMutation = 0.0;
     private double probRecombine = 0.6;
     private Evaluador evaluator = new FitnessFunction();
     
@@ -43,6 +43,8 @@ public class ClasificadorGenetico extends Clasificador{
     public void entrenamiento(Datos datosTrain) {
         double lastScore = 0;
         double actualScore = 0;
+        
+        Individuo lastKing = null;
         
         int nClases = Diccionario.getInstance().getDiccionarioClases().size();
         
@@ -86,17 +88,13 @@ public class ClasificadorGenetico extends Clasificador{
     
         for (int i = 0; i< this.epoch; i++){
             this.entorno.epoch();
-            
+            if (lastKing != null){
+                if (lastKing.getScore() > this.entorno.getKing().getScore())
+                    System.err.println("");
+            }
+            System.out.println(this.entorno.getKing().getScore());
+            lastKing = this.entorno.getKing();
         }
-        System.out.println(this.entorno.getKing().getScore());
-//        do {
-//            lastScore = actualScore;
-//            for (int i = 0; i < this.epoch; i++){
-//                this.entorno.epoch();
-//            }
-//            actualScore=this.entorno.getKing().getScore();
-//        }while (Math.abs(lastScore - actualScore) > this.tolerance);
-            
     }
 
     
