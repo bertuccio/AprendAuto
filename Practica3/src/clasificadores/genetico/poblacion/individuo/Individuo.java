@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package clasificadores.genetico.poblacion.individuo;
 
 import clasificadores.genetico.UtilesGenetico;
@@ -11,7 +5,8 @@ import java.util.ArrayList;
 
 /**
  *
- * @author temporal
+ * @author Andres Ruiz Carrasco
+ * @author Adrian Lorenzo Mateo
  */
 public class Individuo implements Comparable<Individuo> {
     
@@ -34,7 +29,7 @@ public class Individuo implements Comparable<Individuo> {
     public Individuo(int numGensRegla,ArrayList<Regla> reglas){
         this.mutated = 1; 
         this.numGensRegla = numGensRegla;
-        this.reglas = reglas;
+        this.reglas = (ArrayList<Regla>) reglas.clone();
         this.score = 0; 
     }
     

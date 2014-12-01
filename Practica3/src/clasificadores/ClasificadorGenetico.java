@@ -16,10 +16,11 @@ import datos.Diccionario;
 import java.util.ArrayList;
 import particionado.DivisionPorcentual;
 import particionado.EstrategiaParticionado;
+import particionado.ValidacionCruzada;
 
 
 /**
- * Clasificador que utiliza un modelo KNN
+ * Clasificador que utiliza un clasificador Genetico
  * 
  * @author Adrian Lorenzo Mateo
  * @author Andres Ruiz Carrasco
@@ -27,13 +28,13 @@ import particionado.EstrategiaParticionado;
 public class ClasificadorGenetico extends Clasificador{
 
     
-    private double tolerance = 0.001;
-    private int epoch = 1000;
-    private int maxIndividuos = 100;
-    private int maxReglasIni = 20;
-    private double probMutation = 0.01;
-    private double probRecombine = 0.6;
-    private Evaluador evaluator = new FitnessFunction();
+    private final double tolerance = 0.001;
+    private final int epoch = 1000;
+    private final int maxIndividuos = 100;
+    private final int maxReglasIni = 20;
+    private final double probMutation = 0.1;
+    private final double probRecombine = 0.6;
+    private final Evaluador evaluator = new FitnessFunction();
     
     private int maxGeneraciones;
     private Entorno entorno;
@@ -41,10 +42,8 @@ public class ClasificadorGenetico extends Clasificador{
     /*Metodos publicos*/
     @Override
     public void entrenamiento(Datos datosTrain) {
-        double lastScore = 0;
-        double actualScore = 0;
         
-        Individuo lastKing = null;
+        double lastKing =  0;
         
         int nClases = Diccionario.getInstance().getDiccionarioClases().size();
         
@@ -73,7 +72,6 @@ public class ClasificadorGenetico extends Clasificador{
         mutaciones.add(new MutacionGen());
         mutaciones.add(new MutacionGen());
         
-        
         this.entorno.setMutaciones(mutaciones);
         
         ArrayList<Recombinacion> recombinaciones = new ArrayList<>();
@@ -88,11 +86,9 @@ public class ClasificadorGenetico extends Clasificador{
     
         for (int i = 0; i< this.epoch; i++){
           this.entorno.epoch();
-            if (lastKing != null){
-                if (lastKing.getScore() > this.entorno.getKing().getScore())
-                    System.err.println("");
+            if (lastKing < this.entorno.getKing()){
+                System.out.println(this.entorno.getKing());
             }
-//            System.out.println(this.entorno.getKing().getScore());
             lastKing = this.entorno.getKing();
         }
         
@@ -123,8 +119,8 @@ public class ClasificadorGenetico extends Clasificador{
         String inputFile = "input";
         Integer particion = 90;
 
-        EstrategiaParticionado part = new DivisionPorcentual();
-        //EstrategiaParticionado part = new ValidacionCruzada();
+        //EstrategiaParticionado part = new DivisionPorcentual();
+        EstrategiaParticionado part = new ValidacionCruzada();
         Clasificador clasificador = new ClasificadorGenetico();
 
         /*for (int i = 0; i < args.length; i++) {

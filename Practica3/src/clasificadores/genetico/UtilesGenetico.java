@@ -5,6 +5,7 @@ import java.util.Random;
 /**
  *
  * @author Andres Ruiz Carrasco
+ * @author Adrian Lorenzo Mateo
  */
 public class UtilesGenetico {
     

@@ -2,7 +2,8 @@ package clasificadores.genetico;
 
 /**
  *
- * @author Andres
+ * @author Andres Ruiz Carrasco
+ * @author Adrian Lorenzo Mateo
  */
 public class MuestraGenetica {
     

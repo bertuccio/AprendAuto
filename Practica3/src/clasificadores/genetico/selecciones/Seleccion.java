@@ -3,6 +3,11 @@ package clasificadores.genetico.selecciones;
 import clasificadores.genetico.poblacion.Poblacion;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author Andres Ruiz Carrasco
+ * @author Adrian Lorenzo Mateo
+ */
 public interface Seleccion {
 
     /**

@@ -5,7 +5,8 @@ import clasificadores.genetico.poblacion.individuo.Individuo;
 
 /**
  *
- * @author Andres Ruiz
+ * @author Andres Ruiz Carrasco
+ * @author Adrian Lorenzo Mateo
  */
 public class MutacionGen implements Mutacion {
 

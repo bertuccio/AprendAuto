@@ -10,7 +10,8 @@ import java.util.Collections;
 
 /**
  *
- * @author temporal
+ * @author Andres Ruiz Carrasco
+ * @author Adrian Lorenzo Mateo
  */
 public class Poblacion {
     

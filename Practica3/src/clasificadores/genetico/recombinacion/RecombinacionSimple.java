@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package clasificadores.genetico.recombinacion;
 
 import clasificadores.genetico.UtilesGenetico;
@@ -13,7 +7,8 @@ import java.util.ArrayList;
 
 /**
  *
- * @author temporal
+ * @author Andres Ruiz Carrasco
+ * @author Adrian Lorenzo Mateo
  */
 public class RecombinacionSimple implements Recombinacion {
     
@@ -29,14 +24,8 @@ public class RecombinacionSimple implements Recombinacion {
         
         int indexCorteA = UtilesGenetico.randomNumber(a.getReglas().size()-1);
         int indexCorteB = UtilesGenetico.randomNumber(b.getReglas().size()-1);
-        //System.out.println(indexCorteA+":"+a.getReglas().get(indexCorteA));
-        //System.out.println(indexCorteB+":"+b.getReglas().get(indexCorteB));
-        //System.out.println("paren");
         ArrayList<Regla> recombinacionReglas = this.recombinaReglas(a.getReglas().get(indexCorteA), b.getReglas().get(indexCorteB));
-        
 
-        
-        
         /*Formacion de reglas del individuo A*/
         for(int i=0; i < indexCorteA;i++){
             reglasA.add(new Regla(a.getReglas().get(i).getClase(),a.getReglas().get(i).getCromosoma(),a.getReglas().get(i).getnAtributos(),a.getReglas().get(i).getRangoAtributos(),a.getReglas().get(i).getnClases()));

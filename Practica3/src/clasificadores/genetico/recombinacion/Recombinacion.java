@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 /**
  *
- * @author temporal
+ * @author Andres Ruiz Carrasco
+ * @author Adrian Lorenzo Mateo
  */
 public interface Recombinacion {
 

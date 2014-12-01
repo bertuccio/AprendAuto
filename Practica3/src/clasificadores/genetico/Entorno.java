@@ -13,13 +13,14 @@ import java.util.Iterator;
 /**
  *
  * @author Andres Ruiz Carrasco
+ * @author Adrian Lorenzo Mateo
  */
 public class Entorno {
     
     private Poblacion poblacion;
     private ArrayList<MuestraGenetica> entornoEvolutivo;
     private ArrayList<MuestraGenetica> entornoTesteo;
-    private Individuo king;
+    private double king;
     
     /*Cuando metemos estos*/
     ArrayList<Mutacion> mutaciones = new ArrayList<>();
@@ -121,10 +122,11 @@ public class Entorno {
         
         Individuo[] newPoblation = new Individuo[this.poblacion.MAX_INDIVIDUOS];
         
+        
         this.evolve();
         this.mutate();
-        
         this.scoring();
+        
         this.poblacion.sort();
         
         newPoblation[0] = this.poblacion.getIndividuos()[0];
@@ -153,7 +155,10 @@ public class Entorno {
         
         this.scoring();
         this.poblacion.sort();
-        this.king = this.poblacion.getIndividuos()[0];
+        if (this.king > this.poblacion.getIndividuos()[0].getScore()){
+                System.out.println(" Raro ");
+        }
+        this.king = this.poblacion.getIndividuos()[0].getScore();
     }
     
     /*
@@ -257,11 +262,11 @@ public class Entorno {
         this.evaluador = evaluador;
     }
 
-    public Individuo getKing() {
+    public double getKing() {
         return king;
     }
 
-    public void setKing(Individuo king) {
+    public void setKing(double king) {
         this.king = king;
     }
     

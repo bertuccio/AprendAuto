@@ -11,7 +11,8 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Andres
+ * @author Andres Ruiz Carrasco
+ * @author Adrian Lorenzo Mateo
  */
 public class SeleccionRuleta implements Seleccion {
     
@@ -30,7 +31,7 @@ public class SeleccionRuleta implements Seleccion {
     @Override
     public ArrayList<Integer> selecciona(Poblacion poblacion, int nIndividuos){
         ArrayList<Integer> indexIndividuos = new ArrayList<>();
-        double random,probability = 0,acumRuleta = 0;
+        double random,acumRuleta = 0;
         
         /*Ordenamos el conjuto de poblacion*/
         poblacion.sort();
