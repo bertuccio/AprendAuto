@@ -39,20 +39,20 @@ public class RecombinacionSimple implements Recombinacion {
         
         /*Formacion de reglas del individuo A*/
         for(int i=0; i < indexCorteA;i++){
-            reglasA.add(a.getReglas().get(i));
+            reglasA.add(new Regla(a.getReglas().get(i).getClase(),a.getReglas().get(i).getCromosoma(),a.getReglas().get(i).getnAtributos(),a.getReglas().get(i).getRangoAtributos(),a.getReglas().get(i).getnClases()));
         }
         reglasA.add(recombinacionReglas.get(0));
         for(int i=indexCorteB; i < b.getReglas().size();i++){
-            reglasA.add(b.getReglas().get(i));
+            reglasA.add(new Regla(b.getReglas().get(i).getClase(),b.getReglas().get(i).getCromosoma(),b.getReglas().get(i).getnAtributos(),b.getReglas().get(i).getRangoAtributos(),b.getReglas().get(i).getnClases()));
         }
         
         /*Formacion de reglas del individuo B*/
         for(int i=0; i < indexCorteB;i++){
-            reglasB.add(b.getReglas().get(i));
+            reglasB.add(new Regla(b.getReglas().get(i).getClase(),b.getReglas().get(i).getCromosoma(),b.getReglas().get(i).getnAtributos(),b.getReglas().get(i).getRangoAtributos(),b.getReglas().get(i).getnClases()));
         }
         reglasB.add(recombinacionReglas.get(1));
         for(int i=indexCorteA; i < a.getReglas().size();i++){
-            reglasB.add(a.getReglas().get(i));
+            reglasB.add(new Regla(a.getReglas().get(i).getClase(),a.getReglas().get(i).getCromosoma(),a.getReglas().get(i).getnAtributos(),a.getReglas().get(i).getRangoAtributos(),a.getReglas().get(i).getnClases()));
         }
         
         Individuo a1 = new Individuo(a.getNumGensRegla(),reglasA);

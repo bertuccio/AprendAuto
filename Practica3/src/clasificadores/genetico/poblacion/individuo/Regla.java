@@ -30,11 +30,11 @@ public class Regla {
         for (int i = 0; i < nAtributos*rangoAtributos; i++){
             this.cromosoma[i] = UtilesGenetico.coinDrop();
         }
-        this.clase = UtilesGenetico.randomNumber(nClases);
+        this.clase = UtilesGenetico.randomNumber(nClases - 1);
     }
     
     public Regla(int clase, int[] cromosoma, int nAtributos,int rangoAtributos,int nClases){
-        this.cromosoma = cromosoma;
+        this.cromosoma = cromosoma.clone();
         this.clase = clase;
         this.nAtributos = nAtributos;
         this.rangoAtributos = rangoAtributos;

@@ -31,7 +31,7 @@ public class ClasificadorGenetico extends Clasificador{
     private int epoch = 1000;
     private int maxIndividuos = 100;
     private int maxReglasIni = 20;
-    private double probMutation = 0.0;
+    private double probMutation = 0.01;
     private double probRecombine = 0.6;
     private Evaluador evaluator = new FitnessFunction();
     
@@ -87,14 +87,15 @@ public class ClasificadorGenetico extends Clasificador{
         this.entorno.setSelecciones(selecciones);
     
         for (int i = 0; i< this.epoch; i++){
-            this.entorno.epoch();
+          this.entorno.epoch();
             if (lastKing != null){
                 if (lastKing.getScore() > this.entorno.getKing().getScore())
                     System.err.println("");
             }
-            System.out.println(this.entorno.getKing().getScore());
+//            System.out.println(this.entorno.getKing().getScore());
             lastKing = this.entorno.getKing();
         }
+        
     }
 
     
@@ -120,7 +121,7 @@ public class ClasificadorGenetico extends Clasificador{
     public static void main(String[] args) {
 
         String inputFile = "input";
-        Integer particion = 70;
+        Integer particion = 90;
 
         EstrategiaParticionado part = new DivisionPorcentual();
         //EstrategiaParticionado part = new ValidacionCruzada();
