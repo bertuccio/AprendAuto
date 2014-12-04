@@ -78,8 +78,10 @@ abstract public class Clasificador {
         
         ArrayList<Double> res = new ArrayList<>();
         ArrayList<Particion> particiones = part.crearParticiones(datos.getDatos().length, nParticion);
-        
+        int i = 0;
         for(Particion idx : particiones){                
+            i++;
+            System.out.println("Particion " + i);
             Datos train = datos.extraeDatosTrain(idx);
             Datos test = datos.extraeDatosTest(idx);
             clas.entrenamiento(train);

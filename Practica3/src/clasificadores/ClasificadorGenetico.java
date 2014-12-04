@@ -3,7 +3,6 @@ package clasificadores;
 import clasificadores.genetico.Entorno;
 import clasificadores.genetico.evaluacion.Evaluador;
 import clasificadores.genetico.evaluacion.FitnessFunction;
-import clasificadores.genetico.poblacion.individuo.Individuo;
 import clasificadores.genetico.poblacion.individuo.mutacion.Mutacion;
 import clasificadores.genetico.poblacion.individuo.mutacion.MutacionClase;
 import clasificadores.genetico.poblacion.individuo.mutacion.MutacionGen;
@@ -14,7 +13,6 @@ import clasificadores.genetico.selecciones.SeleccionRuleta;
 import datos.Datos;
 import datos.Diccionario;
 import java.util.ArrayList;
-import particionado.DivisionPorcentual;
 import particionado.EstrategiaParticionado;
 import particionado.ValidacionCruzada;
 
@@ -27,8 +25,7 @@ import particionado.ValidacionCruzada;
  */
 public class ClasificadorGenetico extends Clasificador{
 
-    
-    private final double tolerance = 0.001;
+    /*Parametros de configuracion*/
     private final int epoch = 1000;
     private final int maxIndividuos = 100;
     private final int maxReglasIni = 20;
@@ -83,12 +80,11 @@ public class ClasificadorGenetico extends Clasificador{
         selecciones.add(new SeleccionRuleta());
         
         this.entorno.setSelecciones(selecciones);
-    
+        
+        System.out.println("Epoca;Mejor");
         for (int i = 0; i< this.epoch; i++){
-          this.entorno.epoch();
-            if (lastKing < this.entorno.getKing()){
-                System.out.println(this.entorno.getKing());
-            }
+            this.entorno.epoch();
+            System.out.println(i + ";" + this.entorno.getKing());
             lastKing = this.entorno.getKing();
         }
         
@@ -104,26 +100,29 @@ public class ClasificadorGenetico extends Clasificador{
     /**
      * 
      * Main de uso del clasificador Genetico:
+     * @author Adrian Lorenzo Mateo
+     * @author Andres Ruiz Carrasco
+     * 
      * USO:
      *  Parametros disponibles:
      *      -input file: entrada de datos
      *      -cruzada: particionado con validacion cruzada
-     *      -partition: particionado porcentual
-     *      -laplace: utilizar suavizado de laplace
-     *      -debug: activar trazas de debug          
+     *      -partition: particionado porcentual   
      * 
-     * @param args cadena de opciones "-input file [-cruzada|-partition] [-debug]"
+     *  El entorno esta configurado segun el enunciado. Si se desea modificar
+     * cualquier dato ver linea 28 de este mismo fichero
+     * @param args cadena de opciones "-input file [-cruzada|-partition]"
      */
     public static void main(String[] args) {
 
         String inputFile = "input";
-        Integer particion = 90;
+        Integer particion = 6;
 
-        //EstrategiaParticionado part = new DivisionPorcentual();
+        
         EstrategiaParticionado part = new ValidacionCruzada();
         Clasificador clasificador = new ClasificadorGenetico();
 
-        /*for (int i = 0; i < args.length; i++) {
+        for (int i = 0; i < args.length; i++) {
             
             if (args[i].compareTo("-input") == 0) {
                 
@@ -140,8 +139,8 @@ public class ClasificadorGenetico extends Clasificador{
                 particion = Integer.parseInt(args[i + 1]);
                 i++;
             }
-        }*/
-        Datos d = Datos.cargaDeFichero("scale.data");
+        }
+        Datos d = Datos.cargaDeFichero(inputFile);
 
         double error = 0;
         
@@ -151,7 +150,7 @@ public class ClasificadorGenetico extends Clasificador{
         }
         error /= resultados.size();
         
-        System.out.println(error);
+        System.out.println("Acierto: "+error);
     }
     
     
