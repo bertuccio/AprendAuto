@@ -21,26 +21,27 @@ public class Entorno {
     
     private Poblacion poblacion;
     Instances data;
-    private double king;
+    private Individuo king;
+    private int nFolds;
     
-    /*Cuando metemos estos*/
-    ArrayList<Mutacion> mutaciones = new ArrayList<>();
-    ArrayList<Recombinacion> cruces = new ArrayList<>();
-    ArrayList<Seleccion> selecciones = new ArrayList<>();
-    Evaluador evaluador;
-    Factory factory;
+    private ArrayList<Mutacion> mutaciones = new ArrayList<>();
+    private ArrayList<Recombinacion> cruces = new ArrayList<>();
+    private ArrayList<Seleccion> selecciones = new ArrayList<>();
+    private Evaluador evaluador;
+    private Factory factory;
     private double probMutation;
     private double probRecombine;
     
     public Entorno(int maxIndividuos,double probMutation,double probRecombine,Evaluador evaluator,
-            Instances data, Factory factory){
+            Instances data, Factory factory, int nfolds){
          
         this.data = data;
         this.factory = factory;
         this.probMutation = probMutation;
         this.probRecombine = probRecombine;
         this.evaluador = evaluator;
-        this.poblacion = new Poblacion(maxIndividuos, this.factory);    
+        this.poblacion = new Poblacion(maxIndividuos, this.factory);   
+        this.nFolds = nfolds;
     }
     
     
@@ -59,7 +60,7 @@ public class Entorno {
     public void evolve() throws Exception{
         
         /*Actualizamos los scores de cada individuo*/
-        this.scoring(3);
+        this.scoring(nFolds);
         
         /*Obtenemos los individuos selecionados para el cruce*/
         ArrayList<Integer> index = this.selecciones.get(UtilesGenetico.randomNumber(
@@ -113,7 +114,7 @@ public class Entorno {
         
         this.evolve();
         this.mutate();
-        this.scoring(3);
+        this.scoring(nFolds);
         
         this.poblacion.sort();
         
@@ -141,12 +142,12 @@ public class Entorno {
         this.poblacion.setSumScores(0);
         this.poblacion.setnIndividuos(j);
         
-        this.scoring(3);
+        this.scoring(nFolds);
         this.poblacion.sort();
 //        if (this.king > this.poblacion.getIndividuos()[0].getScore()){
 //                System.out.println(" Raro ");
 //        }
-        this.king = this.poblacion.getIndividuos()[0].getScore();
+        this.king = this.poblacion.getIndividuos()[0];
     }
     
     /*
@@ -231,13 +232,10 @@ public class Entorno {
         this.evaluador = evaluador;
     }
 
-    public double getKing() {
+    public Individuo getKing() {
         return king;
     }
 
-    public void setKing(double king) {
-        this.king = king;
-    }
     
 }
 

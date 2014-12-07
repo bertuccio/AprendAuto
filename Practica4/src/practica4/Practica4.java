@@ -16,6 +16,7 @@ import optimizador.genetico.recombinacion.Recombinacion;
 import optimizador.genetico.recombinacion.RecombinacionSimple;
 import optimizador.genetico.seleccion.Seleccion;
 import optimizador.genetico.seleccion.SeleccionRuleta;
+import weka.classifiers.Evaluation;
 import weka.classifiers.functions.MultilayerPerceptron;
 import weka.core.Instances;
 
@@ -30,25 +31,26 @@ public class Practica4 {
      */
     public static void main(String[] args) throws Exception {
         
-        Datos data = new Datos("data/credit-g.arff");
-        Factory factoryPerceptron = new FactoryPerceptron();
-        
-        Entorno e = new Entorno(10,0.01,0.6,new FitnessFunction(),
-            data.getData(), factoryPerceptron);
-        //Poblacion pob = new Poblacion(3, factoryPerceptron);
+        ArrayList<Mutacion> mutaciones = new ArrayList<>();
+        ArrayList<Individuo> bestOnes = new ArrayList<>();
+        mutaciones.add(new MutacionGen());
+        ArrayList<Seleccion> selecciones = new ArrayList<>();
+        selecciones.add(new SeleccionRuleta());
         ArrayList<Recombinacion> recombinaciones = new ArrayList<>();
         recombinaciones.add(new RecombinacionSimple());
         
-        e.setCruces(recombinaciones);
+        Evaluador fitness = new FitnessFunction();
+        Datos data = new Datos("data/credit-g.arff");
+        Factory factoryPerceptron = new FactoryPerceptron();
+        Individuo bestOne;
+
         
-        ArrayList<Mutacion> mutaciones = new ArrayList<>();
-        mutaciones.add(new MutacionGen());
-        
-        e.setMutaciones(mutaciones);
-        ArrayList<Seleccion> selecciones = new ArrayList<>();
-        selecciones.add(new SeleccionRuleta());
-        
-        e.setSelecciones(selecciones);
+//        Entorno e1 = new Entorno(10,0.01,0.6,new FitnessFunction(),
+//            data.getData(), factoryPerceptron);
+//        //Poblacion pob = new Poblacion(3, factoryPerceptron);     
+//        e1.setCruces(recombinaciones);
+//        e1.setMutaciones(mutaciones);
+//        e1.setSelecciones(selecciones);
 //        pob.scoring(new FitnessFunction(), data.getData(), 3);
 //        pob.sort();
 //        
@@ -56,12 +58,44 @@ public class Practica4 {
 //        System.out.println(pob.getIndividuos()[0].getScore());
 //        System.out.println(pob.getIndividuos()[1].getScore());
 //        System.out.println(pob.getIndividuos()[2].getScore());
-//
-        for(int i=0;i<3;i++){
-             e.epoch();
-            System.out.println(e.getKing());
+//        double error = 0;
+        int nFolds = 3;
+        double best = Integer.MAX_VALUE;
+        for (int fold = 0; fold < nFolds; fold++) {
+            
+            Instances training = data.getData().trainCV(nFolds, fold);
+            Evaluation eval = new Evaluation(training);
+            
+            for(int fold2 = 0; fold2 < (nFolds-1); fold2++){
+                
+                Entorno entorno = new Entorno(10, 0.01, 0.6, fitness,
+                training, factoryPerceptron, nFolds-1);
+                entorno.setCruces(recombinaciones);
+                entorno.setMutaciones(mutaciones);
+                entorno.setSelecciones(selecciones);
+                for(int i=0;i<3;i++){
+                    entorno.epoch();
+                }
+                bestOnes.add(entorno.getKing());
+            }
+            
+            Instances test = data.getData().testCV(nFolds, fold);
+            for(Individuo i : bestOnes){
+                eval.evaluateModel(i.getClasificador(), test);
+                System.out.println(eval.errorRate());
+                if(best>eval.errorRate()){
+                    best = eval.errorRate();
+                    bestOne = i;
+                }
+                    
+            }
+            System.out.println("-----------------");
+            bestOnes.clear();
+            //error += 
+            //error += eval.errorRate();
         }
-           
-    }
-    
+        System.out.println("<"+best+">");
+
+    }      
 }
+
