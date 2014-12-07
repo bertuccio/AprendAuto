@@ -49,9 +49,9 @@ public class Main {
         for (int fold = 0; fold < nFolds; fold++) {
             Instances training = data.trainCV(nFolds, fold);
             Instances test = data.testCV(nFolds, fold);
-            logistic.buildClassifier(training);
+            knn.buildClassifier(training);
             eval = new Evaluation(training);
-            eval.evaluateModel(logistic, test);
+            eval.evaluateModel(knn, test);
             error += eval.errorRate();
         }
         System.out.println("Logistic regression\n-------------------\nAvg. error rate:" + error / nFolds);

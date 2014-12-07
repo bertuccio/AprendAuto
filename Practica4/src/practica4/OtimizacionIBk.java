@@ -8,7 +8,7 @@ package practica4;
 import java.util.ArrayList;
 import optimizador.data.Datos;
 import optimizador.factory.Factory;
-import optimizador.factory.FactoryPerceptron;
+import optimizador.factory.FactoryIBk;
 import optimizador.genetico.*;
 import optimizador.genetico.mutacion.Mutacion;
 import optimizador.genetico.mutacion.MutacionGen;
@@ -17,14 +17,13 @@ import optimizador.genetico.recombinacion.RecombinacionSimple;
 import optimizador.genetico.seleccion.Seleccion;
 import optimizador.genetico.seleccion.SeleccionRuleta;
 import weka.classifiers.Evaluation;
-import weka.classifiers.functions.MultilayerPerceptron;
 import weka.core.Instances;
 
 /**
  *
  * @author e185826
  */
-public class Practica4 {
+public class OtimizacionIBk {
 
     /**
      * @param args the command line arguments
@@ -41,7 +40,7 @@ public class Practica4 {
         
         Evaluador fitness = new FitnessFunction();
         Datos data = new Datos("data/credit-g.arff");
-        Factory factoryPerceptron = new FactoryPerceptron();
+        FactoryIBk factoryIBk = new FactoryIBk();
         Individuo bestOne;
 
         
@@ -68,12 +67,12 @@ public class Practica4 {
             
             for(int fold2 = 0; fold2 < (nFolds-1); fold2++){
                 
-                Entorno entorno = new Entorno(10, 0.01, 0.6, fitness,
-                training, factoryPerceptron, nFolds-1);
+                Entorno entorno = new Entorno(20, 0.01, 0.6, fitness,
+                training, factoryIBk, nFolds-1);
                 entorno.setCruces(recombinaciones);
                 entorno.setMutaciones(mutaciones);
                 entorno.setSelecciones(selecciones);
-                for(int i=0;i<3;i++){
+                for(int i=0;i<10;i++){
                     entorno.epoch();
                 }
                 bestOnes.add(entorno.getKing());

@@ -5,6 +5,7 @@
  */
 package optimizador.factory;
 
+import static optimizador.genetico.UtilesGenetico.randomRangedNumber;
 import weka.classifiers.Classifier;
 import weka.classifiers.lazy.IBk;
 
@@ -14,9 +15,15 @@ import weka.classifiers.lazy.IBk;
  */
 public class FactoryIBk extends Factory{
 
+    private final int k[] = {3, 5, 7, 10, 15, 20, 30};
+    
     @Override
     public Classifier makeProduct() {
-        return new IBk();
+        
+        IBk knn = new IBk();
+        knn.setKNN(k[randomRangedNumber(0,k.length-1)]);
+        
+        return knn;
     }
     
 }

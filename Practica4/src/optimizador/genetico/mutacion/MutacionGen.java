@@ -2,6 +2,7 @@ package optimizador.genetico.mutacion;
 
 import optimizador.genetico.UtilesGenetico;
 import optimizador.genetico.Individuo;
+import static optimizador.genetico.UtilesGenetico.coinDrop;
 import static optimizador.genetico.UtilesGenetico.randomRangedNumberDecimal;
 import weka.classifiers.functions.MultilayerPerceptron;
 import weka.classifiers.lazy.IBk;
@@ -30,6 +31,15 @@ public class MutacionGen implements Mutacion {
         }
             
         else if(mutante.getClasificador().equals(IBk.class)){
+            
+            int k[] = {-1,1};
+            do{
+                
+                ((IBk) mutante.getClasificador()).setKNN(
+                    ((IBk) mutante.getClasificador()).getKNN()+k[coinDrop()]);
+            
+            }while(((IBk) mutante.getClasificador()).getKNN()<=1 || 
+                    (((IBk) mutante.getClasificador()).getKNN() % 2) == 0);
         }
     }
 }

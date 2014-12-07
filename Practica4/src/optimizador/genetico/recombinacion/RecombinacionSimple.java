@@ -2,6 +2,7 @@ package optimizador.genetico.recombinacion;
 
 import optimizador.genetico.UtilesGenetico;
 import optimizador.genetico.Individuo;
+
 import java.util.ArrayList;
 import optimizador.factory.Factory;
 import weka.classifiers.functions.MultilayerPerceptron;
@@ -25,7 +26,11 @@ public class RecombinacionSimple implements Recombinacion {
 
         Individuo a1 = new Individuo(factory);
         Individuo b1 = new Individuo(factory);
+        
         if(a.getClasificador().equals(MultilayerPerceptron.class)){
+            
+            System.out.println("MAL");
+            
             ((MultilayerPerceptron) a1.getClasificador()).setHiddenLayers(
             ((MultilayerPerceptron) b.getClasificador()).getHiddenLayers());
             ((MultilayerPerceptron) a1.getClasificador()).setLearningRate(
@@ -38,6 +43,13 @@ public class RecombinacionSimple implements Recombinacion {
         }
         else if(a.getClasificador().equals(IBk.class)){
         
+            System.out.println("BIEN");
+            
+            int knna =((IBk) a.getClasificador()).getKNN();
+            int knnb = ((IBk) b.getClasificador()).getKNN();
+            
+            ((IBk) a1.getClasificador()).setKNN((int) Math.floor((knna +knnb) / 2.0));
+            ((IBk) a1.getClasificador()).setKNN((int) Math.ceil((knna +knnb) / 2.0));
         }
         
         
