@@ -40,11 +40,29 @@ public class OtimizacionPerceptron {
         recombinaciones.add(new RecombinacionSimple());
         
         Evaluador fitness = new FitnessFunction();
-        Datos data = new Datos("data/credit-g.arff");
+        
         Factory factoryPerceptron = new FactoryPerceptron();
         Individuo bestOne;
-
         
+        int nFolds = 10;
+        String inputFile = "input";
+           
+            
+        for (int i = 0; i < args.length; i++) {
+
+            if (args[i].compareTo("-input") == 0) {
+
+                inputFile = args[i + 1];
+                i++;
+            }
+            if (args[i].compareTo("-nFolds") == 0) {
+
+                nFolds = Integer.parseInt(args[i + 1]);
+                i++;
+            }
+        }
+        
+        Datos data = new Datos(inputFile);
 //        Entorno e1 = new Entorno(10,0.01,0.6,new FitnessFunction(),
 //            data.getData(), factoryPerceptron);
 //        //Poblacion pob = new Poblacion(3, factoryPerceptron);     
@@ -59,7 +77,6 @@ public class OtimizacionPerceptron {
 //        System.out.println(pob.getIndividuos()[1].getScore());
 //        System.out.println(pob.getIndividuos()[2].getScore());
 //        double error = 0;
-        int nFolds = 3;
         double best = Integer.MAX_VALUE;
         for (int fold = 0; fold < nFolds; fold++) {
             
