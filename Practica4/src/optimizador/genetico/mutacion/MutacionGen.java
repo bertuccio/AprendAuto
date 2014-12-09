@@ -17,7 +17,7 @@ public class MutacionGen implements Mutacion {
     @Override
     public void muta(Individuo mutante) {
         
-        if(mutante.getClasificador().equals(MultilayerPerceptron.class)){
+        if(mutante.getClasificador().getClass().equals(MultilayerPerceptron.class)){
             
             double rnd;
             double learningRate = ((MultilayerPerceptron) mutante.
@@ -30,16 +30,21 @@ public class MutacionGen implements Mutacion {
             ((MultilayerPerceptron) mutante.getClasificador()).setLearningRate(learningRate + rnd);
         }
             
-        else if(mutante.getClasificador().equals(IBk.class)){
+        else if(mutante.getClasificador().getClass().equals(IBk.class)){
             
             int k[] = {-1,1};
+            int lastValue = ((IBk) mutante.getClasificador()).getKNN();
             do{
                 
                 ((IBk) mutante.getClasificador()).setKNN(
                     ((IBk) mutante.getClasificador()).getKNN()+k[coinDrop()]);
-            
-            }while(((IBk) mutante.getClasificador()).getKNN()<=1 || 
-                    (((IBk) mutante.getClasificador()).getKNN() % 2) == 0);
+                
+                while(((IBk) mutante.getClasificador()).getKNN()<=1)
+                    ((IBk) mutante.getClasificador()).setKNN(
+                            ((IBk) mutante.getClasificador()).getKNN()+1);
+                
+            }while((((IBk) mutante.getClasificador()).getKNN() == lastValue) || 
+                    ((((IBk) mutante.getClasificador()).getKNN() % 2) == 0));
         }
     }
 }

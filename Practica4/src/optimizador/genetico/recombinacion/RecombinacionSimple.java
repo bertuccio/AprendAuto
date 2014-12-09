@@ -27,9 +27,8 @@ public class RecombinacionSimple implements Recombinacion {
         Individuo a1 = new Individuo(factory);
         Individuo b1 = new Individuo(factory);
         
-        if(a.getClasificador().equals(MultilayerPerceptron.class)){
+        if(a.getClasificador().getClass().equals(MultilayerPerceptron.class)){
             
-            System.out.println("MAL");
             
             ((MultilayerPerceptron) a1.getClasificador()).setHiddenLayers(
             ((MultilayerPerceptron) b.getClasificador()).getHiddenLayers());
@@ -41,10 +40,9 @@ public class RecombinacionSimple implements Recombinacion {
             ((MultilayerPerceptron) b1.getClasificador()).setLearningRate(
             ((MultilayerPerceptron) b.getClasificador()).getLearningRate());
         }
-        else if(a.getClasificador().equals(IBk.class)){
+        else if(a.getClasificador().getClass().equals(IBk.class)){
         
-            System.out.println("BIEN");
-            
+           
             int knna =((IBk) a.getClasificador()).getKNN();
             int knnb = ((IBk) b.getClasificador()).getKNN();
             

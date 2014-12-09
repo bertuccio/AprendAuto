@@ -85,7 +85,7 @@ public class OtimizacionIBk {
             
             for(int fold2 = 0; fold2 < (nFolds-1); fold2++){
                 
-                Entorno entorno = new Entorno(20, 0.01, 0.6, fitness,
+                Entorno entorno = new Entorno(100, 0.01, 0.6, fitness,
                 training, factoryIBk, nFolds-1);
                 entorno.setCruces(recombinaciones);
                 entorno.setMutaciones(mutaciones);
