@@ -90,7 +90,7 @@ public class OtimizacionIBk {
                 entorno.setCruces(recombinaciones);
                 entorno.setMutaciones(mutaciones);
                 entorno.setSelecciones(selecciones);
-                for(int i=0;i<10;i++){
+                for(int i=0;i<100;i++){
                     entorno.epoch();
                 }
                 bestOnes.add(entorno.getKing());

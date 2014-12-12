@@ -30,7 +30,7 @@ public class FitnessFunction implements Evaluador {
             error += eval.errorRate();
         }
         error /= nFolds;
-        return (100 - error);
+        return (1 - error);
         
     }
 }

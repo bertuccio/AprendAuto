@@ -62,31 +62,31 @@ public class EnsembleApp {
             perceptron.setHiddenLayers(neurons.toString());                   // Perceptron parameter: nr. of neurons per layer, separated by commas
             perceptron.setTrainingTime(epochs); 
             e.addClassifier(perceptron);
-            Evaluation eval = new Evaluation(data.getData());
-            eval.crossValidateModel(perceptron, data.getData(), nFolds, rnd);
-            System.out.println("Perceptron: "+(100-eval.errorRate()));
+//            Evaluation eval = new Evaluation(data.getData());
+//            eval.crossValidateModel(perceptron, data.getData(), nFolds, rnd);
+//            System.out.println("Perceptron: "+(1-eval.errorRate()));
             
             IBk knn = new IBk();
             knn.setKNN(k);                                    // Nr. neighbors
             e.addClassifier(knn);
-            eval = new Evaluation(data.getData());
-            eval.crossValidateModel(knn, data.getData(), nFolds, rnd);
-            System.out.println("IBk: "+(100-eval.errorRate()));
+//            eval = new Evaluation(data.getData());
+//            eval.crossValidateModel(knn, data.getData(), nFolds, rnd);
+//            System.out.println("IBk: "+(1-eval.errorRate()));
             
             NaiveBayes nb = new NaiveBayes();
             e.addClassifier(nb);
-            eval = new Evaluation(data.getData());
-            eval.crossValidateModel(nb, data.getData(), nFolds, rnd);
-            System.out.println("NaiveBayes: "+(100-eval.errorRate()));
+//            eval = new Evaluation(data.getData());
+//            eval.crossValidateModel(nb, data.getData(), nFolds, rnd);
+//            System.out.println("NaiveBayes: "+(1-eval.errorRate()));
             
             Logistic logistic = new Logistic();
             logistic.setMaxIts(epochs);                           // Nr. epochs
             e.addClassifier(logistic);
-            eval = new Evaluation(data.getData());
-            eval.crossValidateModel(logistic, data.getData(), nFolds, rnd);
-            System.out.println("Logistic: "+(100-eval.errorRate()));
+//            eval = new Evaluation(data.getData());
+//            eval.crossValidateModel(logistic, data.getData(), nFolds, rnd);
+//            System.out.println("Logistic: "+(1-eval.errorRate()));
             
-            System.out.println("Ensemble: "+(100-e.eval(data.getData(), 10)));
+            System.out.println("Ensemble: "+(1-e.eval(data.getData(), 10)));
             
         }
     

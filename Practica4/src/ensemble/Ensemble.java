@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.core.Instance;
 import weka.core.Instances;
 
 /**
@@ -30,12 +31,44 @@ public class Ensemble {
         Random rnd = new Random(System.currentTimeMillis());
 
         double error = 0;
-        for(Classifier c : clasificadores){
-            Evaluation eval = new Evaluation(data);
-            eval.crossValidateModel(c, data, nFolds, rnd);
-            error += eval.errorRate();
+        
+        
+        int max = -1;
+        int index = 0;
+        
+        for (int fold = 0; fold < nFolds; fold++) {
+            Instances training = data.trainCV(nFolds, fold);
+            Instances test = data.testCV(nFolds, fold);
+            
+            for(Classifier c : clasificadores)
+                c.buildClassifier(training);
+            
+            for(int i=0; i<test.size(); i++){
+                int votaciones[] = new int[data.numClasses()];
+                Instance instancia = test.get(i);
+                for(Classifier c : clasificadores){
+                    Evaluation eval = new Evaluation(data);
+                    //System.out.println();
+                    //System.out.println(instancia.classValue());
+                    Double d = eval.evaluateModelOnce(c, instancia);
+                    votaciones[d.intValue()]++;
+                }
+
+                for(int j=0; j<votaciones.length; j++){
+                    if(votaciones[j] > max){
+                        max = votaciones[j];
+                        index = j;
+                    }
+                }
+
+                Double prediccion = (double) index;
+                if(instancia.classValue() != prediccion)
+                        error++;
+            }
         }
-        return error/clasificadores.size();
+            
+        System.out.print(error+"/"+nFolds+"="+error / nFolds+'\n');
+        return (error / nFolds)/100;
     }
     
     
