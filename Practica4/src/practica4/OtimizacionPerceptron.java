@@ -90,6 +90,11 @@ public class OtimizacionPerceptron {
                 entorno.setCruces(recombinaciones);
                 entorno.setMutaciones(mutaciones);
                 entorno.setSelecciones(selecciones);
+                
+                for(Individuo i : entorno.getPoblacion().getIndividuosPoblacion())
+                    System.out.print(" "+i.getScore());
+                System.out.println();
+                
                 for(int i=0;i<3;i++){
                     entorno.epoch();
                 }

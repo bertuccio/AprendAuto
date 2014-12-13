@@ -33,7 +33,7 @@ public class Ensemble {
         double error = 0;
         
         
-        int max = -1;
+        int max;
         int index = 0;
         
         for (int fold = 0; fold < nFolds; fold++) {
@@ -44,8 +44,10 @@ public class Ensemble {
                 c.buildClassifier(training);
             
             for(int i=0; i<test.size(); i++){
+                
                 int votaciones[] = new int[data.numClasses()];
                 Instance instancia = test.get(i);
+                
                 for(Classifier c : clasificadores){
                     Evaluation eval = new Evaluation(data);
                     //System.out.println();
@@ -53,7 +55,8 @@ public class Ensemble {
                     Double d = eval.evaluateModelOnce(c, instancia);
                     votaciones[d.intValue()]++;
                 }
-
+                
+                max = -1;
                 for(int j=0; j<votaciones.length; j++){
                     if(votaciones[j] > max){
                         max = votaciones[j];
@@ -66,8 +69,6 @@ public class Ensemble {
                         error++;
             }
         }
-            
-        System.out.print(error+"/"+nFolds+"="+error / nFolds+'\n');
         return (error / nFolds)/100;
     }
     
