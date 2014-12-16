@@ -17,6 +17,7 @@ import optimizador.genetico.recombinacion.RecombinacionSimple;
 import optimizador.genetico.seleccion.Seleccion;
 import optimizador.genetico.seleccion.SeleccionRuleta;
 import weka.classifiers.Evaluation;
+import weka.classifiers.lazy.IBk;
 import weka.core.Instances;
 
 /**
@@ -42,7 +43,7 @@ public class OtimizacionIBk {
         Evaluador fitness = new FitnessFunction();
         
         FactoryIBk factoryIBk = new FactoryIBk();
-        Individuo bestOne;
+        Individuo bestOne = null;
 
         int nFolds = 10;
         int epochs = 10;
@@ -105,17 +106,13 @@ public class OtimizacionIBk {
                 entorno.setMutaciones(mutaciones);
                 entorno.setSelecciones(selecciones);
                 
-                if(fold2 == 0){
-                    for(Individuo i : entorno.getPoblacion().getIndividuosPoblacion())
-                        System.out.print(" "+i.getScore());
-                    System.out.println();
-                }
+          
                 
                 for(int i=0;i<epochs;i++){
                     entorno.epoch();
-                    if(fold2 == 0){
+                    if(fold == 0 && fold2 == 0){
                         for(Individuo ind : entorno.getPoblacion().getIndividuosPoblacion())
-                            System.out.print(" "+ind.getScore());
+                            System.out.print(" "+ind.getScore()+" K:"+((IBk)ind.getClasificador()).getKNN());
                         System.out.println();
                     }
                 }
@@ -126,19 +123,20 @@ public class OtimizacionIBk {
             System.out.println("----BEST ONES----");
             for(Individuo i : bestOnes){
                 eval.evaluateModel(i.getClasificador(), test);
-                System.out.println(1-eval.errorRate());
+                System.out.println(1-eval.errorRate()+" K:"+((IBk)i.getClasificador()).getKNN());
                 if(best>eval.errorRate()){
                     best = eval.errorRate();
                     bestOne = i;
                 }
                     
             }
-            System.out.println("------BEST ONE ------");
+            
             bestOnes.clear();
             //error += 
             //error += eval.errorRate();
         }
-        System.out.println("<"+(1-best)+">");
+        System.out.println("------BEST ONE ------");
+        System.out.println("<"+(1-best)+">"+" K:"+((IBk)bestOne.getClasificador()).getKNN());
 
     }      
 }

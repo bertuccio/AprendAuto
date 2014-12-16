@@ -15,7 +15,7 @@ import weka.classifiers.lazy.IBk;
  */
 public class FactoryIBk extends Factory{
 
-    private final int k[] = {3, 5, 7, 10, 15, 20, 30};
+    private final int k[] = {3, 5, 7, 9, 11, 13, 15, 17, 21, 25, 31, 35, };
     
     @Override
     public Classifier makeProduct() {

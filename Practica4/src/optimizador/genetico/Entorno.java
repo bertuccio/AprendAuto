@@ -135,10 +135,10 @@ public class Entorno {
         int j=2;
         for (Integer i : index){
             newPoblation[j] = this.poblacion.getIndividuos()[i];
-            System.out.print(" "+newPoblation[j].getScore());
+//            System.out.print(" "+newPoblation[j].getScore());
             j++;
         }
-        System.out.println();
+//        System.out.println();
         
         this.poblacion.setIndividuos(newPoblation);
         this.poblacion.setSumScores(0);
@@ -149,9 +149,9 @@ public class Entorno {
 //        if (this.king > this.poblacion.getIndividuos()[0].getScore()){
 //                System.out.println(" Raro ");
 //        }
-        for(Individuo i : this.poblacion.getIndividuosPoblacion())
-            System.out.print(" "+i.getScore());
-        System.out.println();
+//        for(Individuo i : this.poblacion.getIndividuosPoblacion())
+//            System.out.print(" "+i.getScore());
+//        System.out.println();
                 
         this.king = this.poblacion.getIndividuos()[0];
     }
