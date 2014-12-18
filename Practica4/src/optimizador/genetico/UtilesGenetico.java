@@ -3,7 +3,7 @@ package optimizador.genetico;
 import java.util.Random;
 
 /**
- *
+ * Libreria de utilidades varias usadas en el algoritmo
  * @author Andres Ruiz Carrasco
  * @author Adrian Lorenzo Mateo
  */

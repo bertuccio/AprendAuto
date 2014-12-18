@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package practica4;
 
 import ensemble.Ensemble;
@@ -15,8 +10,9 @@ import weka.classifiers.functions.MultilayerPerceptron;
 import weka.classifiers.lazy.IBk;
 
 /**
- *
- * @author pinwi
+ * Main de Ensemble
+ * @author Adrian Lorenzo Mateo
+ * @author Andres Ruiz Carrasco
  */
 public class EnsembleApp {
     

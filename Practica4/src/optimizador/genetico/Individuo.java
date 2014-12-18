@@ -1,15 +1,11 @@
 package optimizador.genetico;
 
 import optimizador.factory.Factory;
-import java.util.ArrayList;
-import static optimizador.genetico.UtilesGenetico.randomRangedNumber;
-import static optimizador.genetico.UtilesGenetico.randomRangedNumberDecimal;
-import weka.classifiers.*;
-import weka.classifiers.functions.MultilayerPerceptron;
-import weka.classifiers.lazy.IBk;
+import weka.classifiers.Classifier;
 import weka.core.Instances;
+
 /**
- *
+ * Clase que modela un Individuo de la poblacion
  * @author Andres Ruiz Carrasco
  * @author Adrian Lorenzo Mateo
  */

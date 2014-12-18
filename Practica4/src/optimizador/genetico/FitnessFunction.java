@@ -1,18 +1,15 @@
 package optimizador.genetico;
 
-import optimizador.genetico.Individuo;
-import java.util.ArrayList;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
 
 /**
- *
- * @author Andres Ruiz Carrasco
+ * Clase que implementa un Evaluador (FitnessFunction)
  * @author Adrian Lorenzo Mateo
- */
+ * @author Andres Ruiz Carrasco
+*/ 
 public class FitnessFunction implements Evaluador {
-    
-    /*Funcion que puntua al individuo segun el porcentajes de acierto en un conjunto dado*/
+        
     @Override
     public double puntua(Individuo individuo, Instances data, int nFolds) throws Exception {
     	

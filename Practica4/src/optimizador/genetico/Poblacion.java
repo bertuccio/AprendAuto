@@ -1,16 +1,14 @@
 package optimizador.genetico;
 
-import optimizador.factory.Factory;
-import optimizador.genetico.Individuo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import weka.classifiers.Classifier;
+import optimizador.factory.Factory;
 import weka.core.Instances;
 
-
+ 
 /**
- *
+ * Clase que modela una Poblacion 
  * @author Andres Ruiz Carrasco
  * @author Adrian Lorenzo Mateo
  */

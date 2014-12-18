@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package optimizador.factory;
 
 import static optimizador.genetico.UtilesGenetico.randomRangedNumber;
@@ -11,9 +6,10 @@ import weka.classifiers.Classifier;
 import weka.classifiers.functions.MultilayerPerceptron;
 
 /**
- *
- * @author pinwi
- */
+ * Instanciacion de factoria para la creacion de una RN aleatoria (MLP)
+ * @author Adrian Lorenzo Mateo
+ * @author Andres Ruiz Carrasco
+*/ 
 public class FactoryPerceptron extends Factory {
     
     @Override

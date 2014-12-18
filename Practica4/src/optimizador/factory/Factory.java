@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package optimizador.factory;
 
 import weka.classifiers.Classifier;
 
 /**
- *
- * @author pinwi
- */
+ * Clase abstracta factoria de clasificadores
+ * @author Adrian Lorenzo Mateo
+ * @author Andres Ruiz Carrasco
+*/ 
 public abstract class Factory {
     
     public abstract Classifier makeProduct();

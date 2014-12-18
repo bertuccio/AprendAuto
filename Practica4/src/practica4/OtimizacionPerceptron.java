@@ -1,15 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package practica4;
 import java.util.ArrayList;
 import optimizador.data.Datos;
 import optimizador.factory.Factory;
 import optimizador.factory.FactoryPerceptron;
-import optimizador.genetico.*;
+import optimizador.genetico.Entorno;
+import optimizador.genetico.Evaluador;
+import optimizador.genetico.FitnessFunction;
+import optimizador.genetico.Individuo;
 import optimizador.genetico.mutacion.Mutacion;
 import optimizador.genetico.mutacion.MutacionGen;
 import optimizador.genetico.recombinacion.Recombinacion;
@@ -21,14 +18,12 @@ import weka.classifiers.functions.MultilayerPerceptron;
 import weka.core.Instances;
 
 /**
- *
- * @author e185826
+ * Main de Optimizacion de MLP
+ * @author Adrian Lorenzo Mateo
+ * @author Andres Ruiz Carrasco
  */
 public class OtimizacionPerceptron {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) throws Exception {
         
         ArrayList<Mutacion> mutaciones = new ArrayList<>();

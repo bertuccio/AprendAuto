@@ -1,22 +1,18 @@
 package optimizador.genetico;
 
-import optimizador.genetico.UtilesGenetico;
-import optimizador.genetico.Evaluador;
-import optimizador.genetico.Poblacion;
-import optimizador.genetico.Individuo;
-import optimizador.genetico.seleccion.Seleccion;
-import optimizador.factory.Factory;
 import java.util.ArrayList;
 import java.util.Iterator;
+import optimizador.factory.Factory;
 import optimizador.genetico.mutacion.Mutacion;
 import optimizador.genetico.recombinacion.Recombinacion;
+import optimizador.genetico.seleccion.Seleccion;
 import weka.core.Instances;
 
 /**
- *
- * @author Andres Ruiz Carrasco
+ * Clase que modela el Entorno de la poblacion
  * @author Adrian Lorenzo Mateo
- */
+ * @author Andres Ruiz Carrasco
+*/ 
 public class Entorno {
     
     private Poblacion poblacion;
@@ -135,10 +131,8 @@ public class Entorno {
         int j=2;
         for (Integer i : index){
             newPoblation[j] = this.poblacion.getIndividuos()[i];
-//            System.out.print(" "+newPoblation[j].getScore());
             j++;
         }
-//        System.out.println();
         
         this.poblacion.setIndividuos(newPoblation);
         this.poblacion.setSumScores(0);
@@ -146,39 +140,9 @@ public class Entorno {
         
         this.scoring(nFolds);
         this.poblacion.sort();
-//        if (this.king > this.poblacion.getIndividuos()[0].getScore()){
-//                System.out.println(" Raro ");
-//        }
-//        for(Individuo i : this.poblacion.getIndividuosPoblacion())
-//            System.out.print(" "+i.getScore());
-//        System.out.println();
                 
         this.king = this.poblacion.getIndividuos()[0];
     }
-    
-    /*
-    Funcion que prueba el individuo mejor de la poblacion
-    Retorno: Devuelve un array list con las predicciones del individuo mejor
-    *//*
-    public ArrayList<Integer> test(){
-        ArrayList<Integer> results = new ArrayList();
-        
-        this.scoring();
-        this.poblacion.sort();
-        
-        Individuo ganador = this.poblacion.getIndividuos()[0];
-        
-        int i = 0;
-        for(MuestraGenetica muestra : entornoTesteo){
-            results.add(i,ganador.evaluate(muestra.getArgs())[0]);
-            i++;
-        }
-        
-        return results;
-    }
-    
-    */
-    
     
     
     /*Metodos de acceso*/
@@ -244,4 +208,3 @@ public class Entorno {
 
     
 }
-

@@ -1,23 +1,18 @@
 package optimizador.genetico.recombinacion;
 
-import optimizador.genetico.UtilesGenetico;
-import optimizador.genetico.Individuo;
-
 import java.util.ArrayList;
 import optimizador.factory.Factory;
+import optimizador.genetico.Individuo;
 import weka.classifiers.functions.MultilayerPerceptron;
 import weka.classifiers.lazy.IBk;
 
 /**
- *
- * @author Andres Ruiz Carrasco
+ * Implementacion de la recombinacion Simple de los clasificadores IBK y MPL 
  * @author Adrian Lorenzo Mateo
- */
+ * @author Andres Ruiz Carrasco
+*/ 
 public class RecombinacionSimple implements Recombinacion {
     
-        /*Funcion que recombina dos individuos,
-    Salida: Una lista con los individuos nuevos.
-    */
     @Override
     public ArrayList<Individuo> recombina(Individuo a, Individuo b, Factory factory){
         

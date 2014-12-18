@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ensemble;
 
 import java.util.ArrayList;
@@ -13,19 +8,34 @@ import weka.core.Instance;
 import weka.core.Instances;
 
 /**
- *
- * @author pinwi
+ * Clase que contiene el modelo de Ensemble.
+ * @author Adrian Lorenzo Mateo
+ * @author Andres Ruiz Carrasco
  */
 public class Ensemble {
     
     private ArrayList<Classifier> clasificadores = new ArrayList<>();
     
     
-    
+    /**
+     * Añade un clasificador al Conjunto de clasificadores
+     * @author Adrian Lorenzo Mateo
+     * @author Andres Ruiz Carrasco
+     * @param c Clasificador a añadir
+    */
     public void addClassifier(Classifier c){
         clasificadores.add(c);
     }
     
+    /**
+     * Evalua obteniendo la clase mayoritaria segun los clasificadores que contiene
+     * @author Adrian Lorenzo Mateo
+     * @author Andres Ruiz Carrasco
+     * @param data conjunto de datos 
+     * @param nFolds numero de divisiones que se van a generar
+     * @return Error obtenido en la evaluacion
+     * @throws java.lang.Exception Excepcion generica no controlada
+    */ 
     public double eval(Instances data, int nFolds) throws Exception{
         
         Random rnd = new Random(System.currentTimeMillis());
@@ -71,7 +81,4 @@ public class Ensemble {
         }
         return (error / nFolds)/100;
     }
-    
-    
-    
 }

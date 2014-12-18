@@ -1,18 +1,24 @@
 package optimizador.genetico.recombinacion;
 
-import optimizador.genetico.Individuo;
 import java.util.ArrayList;
 import optimizador.factory.Factory;
+import optimizador.genetico.Individuo;
 
 /**
- *
- * @author Andres Ruiz Carrasco
+ * Interfaz que indica los metodos necesarios para implementar una Recombinacion
  * @author Adrian Lorenzo Mateo
- */
+ * @author Andres Ruiz Carrasco
+*/ 
 public interface Recombinacion {
-
-    /*Funcion que recombina dos individuos,
-    Salida: Una lista con los individuos nuevos.
-    */
+    
+    /**
+     * Recombina dos individuos
+     * @author Adrian Lorenzo Mateo
+     * @author Andres Ruiz Carrasco
+     * @param a Progenitor 
+     * @param b OtherProgenitor
+     * @param factory Factoria de clasificadores (MPL/IBK)
+     * @return lista con los nuevos individuos
+    */ 
     public ArrayList<Individuo> recombina(Individuo a, Individuo b, Factory factory);
 }

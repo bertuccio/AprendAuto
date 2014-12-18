@@ -1,6 +1,5 @@
 package optimizador.genetico.mutacion;
 
-import optimizador.genetico.UtilesGenetico;
 import optimizador.genetico.Individuo;
 import static optimizador.genetico.UtilesGenetico.coinDrop;
 import static optimizador.genetico.UtilesGenetico.randomRangedNumberDecimal;
@@ -8,12 +7,12 @@ import weka.classifiers.functions.MultilayerPerceptron;
 import weka.classifiers.lazy.IBk;
 
 /**
- *
- * @author Andres Ruiz Carrasco
+ * Implementacion de la mutacion de los clasificadores IBK y MPL 
  * @author Adrian Lorenzo Mateo
- */
+ * @author Andres Ruiz Carrasco
+*/ 
 public class MutacionGen implements Mutacion {
-
+    
     @Override
     public void muta(Individuo mutante) {
         

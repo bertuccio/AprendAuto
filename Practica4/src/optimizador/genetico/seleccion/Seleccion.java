@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import optimizador.genetico.Poblacion;
 
 /**
- *
- * @author Andres Ruiz Carrasco
+ * Interfaz que indica los metodos necesarios para implementar una Seleccion
  * @author Adrian Lorenzo Mateo
- */
+ * @author Andres Ruiz Carrasco
+*/ 
 public interface Seleccion {
 
     /**
@@ -16,7 +16,8 @@ public interface Seleccion {
      * 
      * Este metodo obtiene una poblacion y genera una lista de individuos de 
      * tamaño maxIndividuos seleccionados segun como se comporte en un entorno dado
-     * 
+     * @author Adrian Lorenzo Mateo
+     * @author Andres Ruiz Carrasco
      * @param poblacion
      * @param nIndividuos
      * @return Lista con los individuos seleccionados
